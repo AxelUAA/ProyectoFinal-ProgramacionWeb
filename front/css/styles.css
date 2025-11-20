@@ -1,0 +1,442 @@
+/* ====== RESET SENCILLO ====== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+/* ====== LAYOUT GENERAL ====== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ====== HEADER ====== */
+header {
+  background-color: #111;
+  color: #fff;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-area img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.logo-area h1 {
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+/* NAVBAR */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+
+nav a:hover {
+  border-bottom: 2px solid #fff;
+}
+
+/* Dropdown Categorías */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 28px;
+  left: 0;
+  background-color: #222;
+  min-width: 160px;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 8px 12px;
+  font-size: 13px;
+  text-transform: none;
+  border-bottom: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #333;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Área de usuario (login) */
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-login,
+.btn-logout {
+  background-color: #fff;
+  color: #111;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-login:hover,
+.btn-logout:hover {
+  background-color: #f1f1f1;
+}
+
+.user-name {
+  font-size: 13px;
+}
+
+/* ====== HERO / CONTENIDO ====== */
+.hero {
+  padding: 40px 20px 10px;
+  text-align: center;
+}
+
+.hero h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #555;
+}
+
+/* ====== GRID DE PRODUCTOS ====== */
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px 0 40px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 200px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.precio {
+  color: green;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+/* ====== PÁGINAS SECUNDARIAS ====== */
+.page-title {
+  text-align: center;
+  margin: 30px 0 10px;
+  font-size: 24px;
+}
+
+.page-content {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ====== LOGIN ====== */
+.login-wrapper {
+  max-width: 400px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.login-wrapper h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-wrapper label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.login-wrapper input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.login-wrapper button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #111;
+  color: #fff;
+}
+
+.login-wrapper button:hover {
+  background-color: #333;
+}
+
+.login-error {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* ====== FOOTER ====== */
+footer {
+  background-color: #111;
+  color: #ddd;
+  padding: 30px 20px;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.footer-col h4 {
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li {
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+.footer-col ul li a {
+  color: #ddd;
+  text-decoration: none;
+}
+
+.footer-col ul li a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  font-size: 12px;
+  text-align: center;
+  color: #888;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .user-area {
+    align-self: flex-end;
+  }
+
+  .footer-columns {
+    flex-direction: column;
+  }
+}
+/* BOTÓN FLOTANTE */
+#accesibilidad-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #111;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+}
+
+#accesibilidad-btn:hover {
+    background: #333;
+}
+
+/* PANEL DE ACCESIBILIDAD */
+#accesibilidad-panel {
+    position: fixed;
+    right: 20px;
+    bottom: 80px;
+    width: 250px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 999;
+}
+
+#accesibilidad-panel h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#accesibilidad-panel label {
+    display: block;
+    margin-top: 10px;
+}
+
+#accesibilidad-panel select,
+#accesibilidad-panel button {
+    width: 100%;
+    padding: 6px;
+    margin-top: 5px;
+}
+
+/* CONTRASTE OSCURO */
+body.dark-mode {
+    background: #121212 !important;
+    color: #f0f0f0 !important;
+}
+
+.dark-mode header {
+    background: #000 !important;
+}
+
+.dark-mode .card {
+    background: #1f1f1f !important;
+    color: white !important;
+}
+
+/* TIPOS DE LETRA */
+body.font-arial {
+    font-family: Arial, sans-serif !important;
+}
+
+body.font-serif {
+    font-family: "Times New Roman", serif !important;
+}
+
+body.font-dyslexic {
+    font-family: "OpenDyslexic", sans-serif !important;
+}
+
+/* Tamaños de fuente */
+body.font-small {
+    font-size: 14px !important;
+}
+
+body.font-medium {
+    font-size: 16px !important;
+}
+
+body.font-large {
+    font-size: 18px !important;
+}
+
+body.font-xlarge {
+    font-size: 20px !important;
+}
+.user-name.admin {
+    color: #d4af37;  /* dorado */
+    font-weight: bold;
+}
+
+.btn-login {
+    padding: 6px 12px;
+    background: black;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+

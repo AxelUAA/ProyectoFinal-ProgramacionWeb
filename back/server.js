@@ -1,32 +1,26 @@
-    const express = require('express');
-    const cors = require('cors');
-    const dotenv = require('dotenv');
-    const path = require('path');
 
-    //importar las rutas
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const path = require('path');
 
-    const routes = require('./routes/routes');
+const routes = require('./routes/routes');
+const usersRoutes = require('./routes/usersRoutes');
 
-    //cargar variables de entorno
-    dotenv.config();
+dotenv.config();
 
-    //crear la aplicacion de express
-    const app = express();
-    const PORT = process.env.PORT || 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-    //middlewares
-    app.use(cors());
-    app.use(express.json());
+app.use(cors());
+app.use(express.json());
 
-    /*configurar las rutas para decir que todo lo que venga del archivo 
-    de rutas tiene que comenzar con /api */
-    app.use('/api', routes);
+// Rutas principales de la API
+app.use('/api', routes);          // Productos
+app.use('/api/users', usersRoutes); // Login
 
-    //hacemos publica la carpeta front
-    //app.use(express.static(path.join(__dirname, '../front')));
-
-    //levantar el servidor
-    app.listen(PORT, ()=>{
-        console.log(`Servidor back corriendo en http://localhost:${PORT}`);
-        console.log(`El front vive en `);
-    });
+// Servidor encendido
+app.listen(PORT, () => {
+    console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
+     console.log(`El front vive en `);
+});
