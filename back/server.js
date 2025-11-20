@@ -1,11 +1,13 @@
-
+// lo de base 
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 
 const routes = require('./routes/routes');
-const usersRoutes = require('./routes/usersRoutes');
+
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -15,9 +17,15 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Rutas principales de la API
-app.use('/api', routes);          // Productos
-app.use('/api/users', usersRoutes); // Login
+// Rutas generales de la API (productos, carrito, etc.)
+app.use('/api', routes);
+
+// Rutas de autenticación (login y registro)
+app.use('/api/auth', authRoutes);
+
+// Rutas de usuario (protegidas con JWT/middleware)
+app.use('/api/users', usersRoutes);
+
 
 // Servidor encendido
 app.listen(PORT, () => {
