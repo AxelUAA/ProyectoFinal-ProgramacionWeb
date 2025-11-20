@@ -73,10 +73,35 @@
       </div>
     </section>
 
-    <section>
-      <h3 style="text-align:center; margin-top:40px; font-size: 32px; font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase;">Nuestros Productos</h3>
-      <div id="contenedor" class="grid-container">
-        <!-- Tarjetas de productos se inyectan aquí -->
+    <!-- CARRUSEL DE PRODUCTOS -->
+    <section class="carousel-section">
+      <div class="carousel-header">
+        <h3>Nuestros Productos Destacados</h3>
+        <a href="hombre.html" class="ver-mas">Ver más ›</a>
+      </div>
+      
+      <div class="carousel-container">
+        <button class="carousel-btn carousel-btn-prev" id="prevBtn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <div class="carousel-wrapper">
+          <div class="carousel-track" id="contenedor">
+            <!-- Tarjetas de productos se inyectan aquí -->
+          </div>
+        </div>
+        
+        <button class="carousel-btn carousel-btn-next" id="nextBtn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="carousel-dots" id="carouselDots">
+        <!-- Dots se generan dinámicamente -->
       </div>
     </section>
   </main>
@@ -120,6 +145,16 @@
   <script src="js/animations.js"></script>
   <script src="js/favoritos.js"></script>
   <script>
+    // Variables del carrusel
+    let currentIndex = 0;
+    let productsPerView = 4;
+    let totalProducts = 0;
+    let isDragging = false;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let animationID = 0;
+
     // Ocultar banner de personalización si el usuario está logueado
     document.addEventListener('DOMContentLoaded', () => {
       const userName = localStorage.getItem('currentUserName');
@@ -129,10 +164,14 @@
         banner.classList.add('hidden');
       }
 
+      // Calcular productos por vista según el ancho de pantalla
+      updateProductsPerView();
+      window.addEventListener('resize', updateProductsPerView);
+
       // Cargar productos
       fetch('http://localhost:3000/api/productos')
         .then(res => res.json())
-        .then(data => {
+        .then(async data => {
           const contenedor = document.getElementById('contenedor');
 
           if (!Array.isArray(data) || data.length === 0) {
@@ -140,7 +179,10 @@
             return;
           }
 
-          data.forEach(async producto => {
+          totalProducts = data.length;
+
+          // Cargar todos los productos
+          for (const producto of data) {
             const div = document.createElement('div');
             div.className = 'card';
 
@@ -174,7 +216,10 @@
             }
 
             contenedor.appendChild(div);
-          });
+          }
+
+          // Inicializar carrusel con drag
+          initDraggableCarousel();
         })
         .catch(error => {
           console.error('Error:', error);
@@ -182,6 +227,126 @@
             '<p style="color:red">Error al cargar productos. Revisa la consola.</p>';
         });
     });
+
+    function updateProductsPerView() {
+      const width = window.innerWidth;
+      if (width < 768) {
+        productsPerView = 1;
+      } else if (width < 1024) {
+        productsPerView = 2;
+      } else if (width < 1440) {
+        productsPerView = 3;
+      } else {
+        productsPerView = 4;
+      }
+    }
+
+    function initDraggableCarousel() {
+      const track = document.getElementById('contenedor');
+      const wrapper = track.parentElement;
+      const dotsContainer = document.getElementById('carouselDots');
+
+      // Crear dots
+      const totalPages = Math.ceil(totalProducts / productsPerView);
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < totalPages; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot';
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+      }
+
+      // Events para mouse
+      wrapper.addEventListener('mousedown', dragStart);
+      wrapper.addEventListener('mouseup', dragEnd);
+      wrapper.addEventListener('mouseleave', dragEnd);
+      wrapper.addEventListener('mousemove', drag);
+
+      // Events para touch
+      wrapper.addEventListener('touchstart', dragStart);
+      wrapper.addEventListener('touchend', dragEnd);
+      wrapper.addEventListener('touchmove', drag);
+
+      // Prevenir clicks accidentales al arrastrar
+      track.addEventListener('click', (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, true);
+    }
+
+    function dragStart(e) {
+      isDragging = true;
+      const track = document.getElementById('contenedor');
+      track.classList.add('dragging');
+      
+      startPos = getPositionX(e);
+      animationID = requestAnimationFrame(animation);
+      
+      track.style.cursor = 'grabbing';
+    }
+
+    function drag(e) {
+      if (isDragging) {
+        const currentPosition = getPositionX(e);
+        currentTranslate = prevTranslate + currentPosition - startPos;
+      }
+    }
+
+    function dragEnd() {
+      isDragging = false;
+      const track = document.getElementById('contenedor');
+      track.classList.remove('dragging');
+      track.style.cursor = 'grab';
+      
+      cancelAnimationFrame(animationID);
+
+      const movedBy = currentTranslate - prevTranslate;
+
+      // Si se movió más de 100px, cambiar de slide
+      if (movedBy < -100 && currentIndex < Math.ceil(totalProducts / productsPerView) - 1) {
+        currentIndex++;
+      }
+
+      if (movedBy > 100 && currentIndex > 0) {
+        currentIndex--;
+      }
+
+      setPositionByIndex();
+    }
+
+    function getPositionX(e) {
+      return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    }
+
+    function animation() {
+      const track = document.getElementById('contenedor');
+      track.style.transform = `translateX(${currentTranslate}px)`;
+      if (isDragging) requestAnimationFrame(animation);
+    }
+
+    function setPositionByIndex() {
+      const cardWidth = 320 + 30; // card width + gap
+      const offset = currentIndex * cardWidth * productsPerView;
+      currentTranslate = -offset;
+      prevTranslate = currentTranslate;
+
+      const track = document.getElementById('contenedor');
+      track.style.transform = `translateX(${currentTranslate}px)`;
+
+      // Actualizar dots
+      const dots = document.querySelectorAll('.carousel-dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function goToSlide(index) {
+      currentIndex = index;
+      setPositionByIndex();
+    }
   </script>
   <!-- BOTÓN DE ACCESIBILIDAD -->
 <div id="accesibilidad-btn">

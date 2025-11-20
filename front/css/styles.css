@@ -695,6 +695,166 @@ body.font-xlarge {
   font-size: 20px !important;
 }
 
+/* ====== CARRUSEL DE PRODUCTOS ====== */
+.carousel-section {
+  padding: 60px 0;
+  margin: 40px 0;
+  overflow: hidden;
+}
+
+.carousel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  margin-bottom: 40px;
+}
+
+.carousel-header h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ffffff 0%, #808080 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ver-mas {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.ver-mas:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+}
+
+.carousel-container {
+  position: relative;
+  padding: 0 80px;
+}
+
+.carousel-wrapper {
+  overflow: hidden;
+  border-radius: 20px;
+  cursor: grab;
+  user-select: none;
+}
+
+.carousel-wrapper:active {
+  cursor: grabbing;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 30px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 20px 10px;
+  will-change: transform;
+}
+
+.carousel-track.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.carousel-track .card {
+  min-width: 320px;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  margin-top: -25px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: none; /* Ocultar botones */
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  /* Prevenir cualquier movimiento */
+  transform: none !important;
+}
+
+.carousel-btn:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
+  color: #000;
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+}
+
+.carousel-btn:active {
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+}
+
+.carousel-btn:focus {
+  outline: none;
+}
+
+.carousel-btn svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.carousel-btn-prev {
+  left: 10px;
+}
+
+.carousel-btn-next {
+  right: 10px;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding: 0 40px;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.carousel-dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.2);
+}
+
+.carousel-dot.active {
+  background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
+  width: 30px;
+  border-radius: 6px;
+}
+
 /* ====== RESPONSIVE DESIGN ====== */
 @media (max-width: 1024px) {
   .grid-container {
@@ -704,6 +864,14 @@ body.font-xlarge {
   
   .hero h2 {
     font-size: 36px;
+  }
+  
+  .carousel-track .card {
+    min-width: 280px;
+  }
+  
+  .carousel-container {
+    padding: 0 60px;
   }
 }
 
@@ -738,6 +906,38 @@ body.font-xlarge {
   
   .hero {
     padding: 50px 20px;
+  }
+  
+  .carousel-header {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+  .carousel-header h3 {
+    font-size: 24px;
+  }
+  
+  .carousel-container {
+    padding: 0 50px;
+  }
+  
+  .carousel-track .card {
+    min-width: 260px;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .carousel-btn-prev {
+    left: 5px;
+  }
+  
+  .carousel-btn-next {
+    right: 5px;
   }
   
   .hero h2 {
