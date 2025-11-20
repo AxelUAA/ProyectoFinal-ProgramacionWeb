@@ -6,6 +6,7 @@ const path = require('path');
 
 const routes = require('./routes/routes');
 const usersRoutes = require('./routes/usersRoutes');
+const favoritosRoutes = require('./routes/favoritosRoutes');
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 // Rutas principales de la API
 app.use('/api', routes);          // Productos
 app.use('/api/users', usersRoutes); // Login
+app.use('/api/favoritos', favoritosRoutes); // Favoritos
 
 // Servidor encendido
 app.listen(PORT, () => {
