@@ -32,6 +32,7 @@
         <a href="nosotros.html">Nosotros</a>
         <a href="contacto.html">Contáctanos</a>
         <a href="faq.html">Preguntas frecuentes</a>
+        <a href="favoritos.html" id="favoritos-link" style="display:none;">Favoritos</a>
       </nav>
 
       <div class="user-area" id="user-area">
@@ -45,6 +46,31 @@
     <section class="hero">
       <h2>Descubre el Futuro del Estilo</h2>
       <p>Explora nuestra colección exclusiva de sneakers premium. Diseño, comodidad y tecnología en cada paso. Encuentra tu par perfecto en SNEAKERCLON5G.</p>
+    </section>
+
+    <!-- BANNER DE PERSONALIZACIÓN -->
+    <section class="personalization-banner" id="personalization-banner">
+      <div class="personalization-content">
+        <div class="personalization-illustration">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="30" width="120" height="140" rx="10" fill="#3a3a3a" opacity="0.6"/>
+            <rect x="30" y="40" width="100" height="8" rx="4" fill="#555"/>
+            <rect x="30" y="60" width="40" height="40" rx="5" fill="#666"/>
+            <rect x="80" y="60" width="40" height="40" rx="5" fill="#666"/>
+            <rect x="30" y="110" width="40" height="40" rx="5" fill="#666"/>
+            <rect x="80" y="110" width="40" height="40" rx="5" fill="#666"/>
+            <circle cx="160" cy="100" r="35" fill="#fff" opacity="0.9"/>
+            <path d="M 145 100 L 155 110 L 175 85" stroke="#000" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="personalization-text">
+          <h3>¡Tu experiencia ahora personalizada!</h3>
+          <p>Inicia sesión para recibir recomendaciones personalizadas, guardar tus productos favoritos y más.</p>
+        </div>
+        <div class="personalization-action">
+          <a href="login.html" class="btn-personalization">Iniciar sesión</a>
+        </div>
+      </div>
     </section>
 
     <section>
@@ -92,8 +118,18 @@
 
   <script src="js/auth.js"></script>
   <script src="js/animations.js"></script>
+  <script src="js/favoritos.js"></script>
   <script>
+    // Ocultar banner de personalización si el usuario está logueado
     document.addEventListener('DOMContentLoaded', () => {
+      const userName = localStorage.getItem('currentUserName');
+      const banner = document.getElementById('personalization-banner');
+      
+      if (userName && banner) {
+        banner.classList.add('hidden');
+      }
+
+      // Cargar productos
       fetch('http://localhost:3000/api/productos')
         .then(res => res.json())
         .then(data => {
@@ -104,17 +140,38 @@
             return;
           }
 
-          data.forEach(producto => {
+          data.forEach(async producto => {
             const div = document.createElement('div');
             div.className = 'card';
 
+            // Verificar si está en favoritos
+            const user = getLoggedUser();
+            let favoriteHTML = '';
+            
+            if (user) {
+              const isFav = await esFavorito(producto.id);
+              favoriteHTML = `<button class="favorite-btn ${isFav ? 'active' : ''}" data-producto-id="${producto.id}">
+                ${isFav ? '❤️' : '🤍'}
+              </button>`;
+            }
+
             div.innerHTML = `
+              ${favoriteHTML}
               <img src="img/${producto.imagen}" alt="${producto.nombre}"
                    onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
               <h3>${producto.nombre}</h3>
               <p class="precio">$${producto.precio}</p>
               <p>Stock: ${producto.stock}</p>
             `;
+
+            // Agregar evento al botón de favoritos
+            if (user) {
+              const favoriteBtn = div.querySelector('.favorite-btn');
+              favoriteBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                await toggleFavorito(producto.id, favoriteBtn);
+              });
+            }
 
             contenedor.appendChild(div);
           });

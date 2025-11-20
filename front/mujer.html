@@ -28,6 +28,7 @@
         <a href="nosotros.html">Nosotros</a>
         <a href="contacto.html">Contáctanos</a>
         <a href="faq.html">Preguntas frecuentes</a>
+        <a href="favoritos.html" id="favoritos-link" style="display:none;">Favoritos</a>
       </nav>
 
       <div class="user-area" id="user-area"></div>
@@ -117,6 +118,7 @@
 <script src="js/auth.js"></script>
 <script src="js/accesibilidad.js"></script>
 <script src="js/animations.js"></script>
+<script src="js/favoritos.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // Usar el nuevo endpoint que filtra por categoría 2 (Mujer)
@@ -130,16 +132,39 @@
           return;
         }
 
-        data.forEach(producto => {
+        data.forEach(async producto => {
           const div = document.createElement('div');
           div.className = 'card';
+
+          // Verificar si está en favoritos
+          const user = getLoggedUser();
+          let favoriteHTML = '';
+          
+          if (user) {
+            const isFav = await esFavorito(producto.id);
+            favoriteHTML = `<button class="favorite-btn ${isFav ? 'active' : ''}" data-producto-id="${producto.id}">
+              ${isFav ? '❤️' : '🤍'}
+            </button>`;
+          }
+
           div.innerHTML = `
+            ${favoriteHTML}
             <img src="img/${producto.imagen}" alt="${producto.nombre}"
                  onerror="this.src='https://via.placeholder.com/300x220/1a1a1a/ffffff?text=Sin+Imagen'">
             <h3>${producto.nombre}</h3>
             <p class="precio">$${producto.precio}</p>
             <p>Stock: ${producto.stock}</p>
           `;
+
+          // Agregar evento al botón de favoritos
+          if (user) {
+            const favoriteBtn = div.querySelector('.favorite-btn');
+            favoriteBtn.addEventListener('click', async (e) => {
+              e.stopPropagation();
+              await toggleFavorito(producto.id, favoriteBtn);
+            });
+          }
+
           contenedor.appendChild(div);
         });
       })

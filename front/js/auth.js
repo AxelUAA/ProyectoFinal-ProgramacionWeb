@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const userArea = document.getElementById("user-area");
+    const favoritosLink = document.getElementById("favoritos-link");
 
     const nombre = localStorage.getItem("currentUserName");
     const rol = localStorage.getItem("currentUserRol");
@@ -9,8 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
         userArea.innerHTML = `
             <a href="login.html" class="btn-login">Iniciar sesión</a>
         `;
+        // Ocultar link de favoritos
+        if (favoritosLink) favoritosLink.style.display = "none";
         return;
     }
+
+    // Mostrar link de favoritos si el usuario está logueado
+    if (favoritosLink) favoritosLink.style.display = "inline-block";
 
     // Si es admin → mostrarlo especial
     if (rol && rol.toLowerCase() === "admin") {
@@ -34,4 +40,3 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "login.html";
     });
 });
-
