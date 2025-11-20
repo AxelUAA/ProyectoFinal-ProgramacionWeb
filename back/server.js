@@ -28,5 +28,5 @@
     //levantar el servidor
     app.listen(PORT, ()=>{
         console.log(`Servidor back corriendo en http://localhost:${PORT}`);
-        console.log(`El front vive en http://localhost:5500/front/`);
+        console.log(`El front vive en `);
     });
