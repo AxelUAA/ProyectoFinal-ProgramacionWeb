@@ -22,5 +22,5 @@ app.use('/api/users', usersRoutes); // Login
 // Servidor encendido
 app.listen(PORT, () => {
     console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
-     console.log(`El front vive en `);
+     console.log(`El front vive en http://localhost:5500/front/index.html`);
 });
