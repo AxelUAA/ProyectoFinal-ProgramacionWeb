@@ -1,80 +1,165 @@
+<!-- front/index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba de Productos</title>
-    <style>
-        /* Un poco de CSS básico para que no se vea feo */
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
-        h1 { text-align: center; color: #333; }
-        .grid-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        .card {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            width: 200px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .card img {
-            width: 100%;
-            height: 150px;
-            object-fit: contain; /* Para que la imagen no se deforme */
-            margin-bottom: 10px;
-        }
-        .precio { color: green; font-weight: bold; font-size: 1.2em; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNEAKERCLON5G - Inicio</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner container">
+      <div class="logo-area">
+        <!-- Aquí va tu logo real -->
+        <img src="img/logo.jpg" alt="Logo SNEAKERCLON5G">
+        <h1>SNEAKERCLON5G</h1>
+      </div>
 
-    <h1>Mis Productos (Prueba de DB e Imágenes)</h1>
-    <div id="contenedor" class="grid-container">
+      <nav>
+        <a href="index.html">Inicio</a>
+
+        <div class="dropdown">
+          <button class="dropdown-btn">Categorías ▾</button>
+          <div class="dropdown-content">
+            <a href="hombre.html">Hombre</a>
+            <a href="mujer.html">Mujer</a>
+            <a href="ninos.html">Niños</a>
+          </div>
         </div>
 
-    <script>
-        // Al cargar la página, pedimos los datos
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('http://localhost:3000/api/productos')
-                .then(res => res.json())
-                .then(data => {
-                    const contenedor = document.getElementById('contenedor');
-                    
-                    // Si no hay datos o hubo error
-                    if(data.length === 0) {
-                        contenedor.innerHTML = '<p>No se encontraron productos.</p>';
-                        return;
-                    }
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contáctanos</a>
+        <a href="faq.html">Preguntas frecuentes</a>
+      </nav>
 
-                    // Recorremos cada producto y creamos su HTML
-                    data.forEach(producto => {
-                        const div = document.createElement('div');
-                        div.className = 'card';
-                        
-                        // NOTA IMPORTANTE:
-                        // Como declaramos 'front' como estático en server.js,
-                        // la ruta '/img/' busca directamente en 'front/img/'
-                        div.innerHTML = `
-                            <img src="img/${producto.imagen}" alt="${producto.nombre}" onerror="this.src='https://via.placeholder.com/150?text=No+Imagen'">
-                            <h3>${producto.nombre}</h3>
-                            <p class="precio">$${producto.precio}</p>
-                            <p>Stock: ${producto.stock}</p>
-                        `;
-                        
-                        contenedor.appendChild(div);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('contenedor').innerHTML = '<p style="color:red">Error al cargar productos. Revisa la consola.</p>';
-                });
+      <div class="user-area" id="user-area">
+        <!-- auth.js inyecta aquí login / usuario -->
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container">
+    <section class="hero">
+      <h2>Últimos lanzamientos de SNEAKERCLON5G</h2>
+      <p>Explora nuestros tenis para hombre, mujer y niños, conectados a tu base de datos.</p>
+    </section>
+
+    <section>
+      <h3 style="text-align:center; margin-top:20px;">Productos</h3>
+      <div id="contenedor" class="grid-container">
+        <!-- Tarjetas de productos se inyectan aquí -->
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>Acerca de</h4>
+          <ul>
+            <li><a href="nosotros.html">Nuestra historia</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="faq.html">Ayuda</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Atención al cliente</h4>
+          <ul>
+            <li>Envíos y devoluciones</li>
+            <li>Política de privacidad</li>
+            <li>Términos y condiciones</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <ul>
+            <li>Instagram</li>
+            <li>Facebook</li>
+            <li>X (Twitter)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 SNEAKERCLON5G. Proyecto de Programación de Sistemas Web. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('http://localhost:3000/api/productos')
+        .then(res => res.json())
+        .then(data => {
+          const contenedor = document.getElementById('contenedor');
+
+          if (!Array.isArray(data) || data.length === 0) {
+            contenedor.innerHTML = '<p>No se encontraron productos.</p>';
+            return;
+          }
+
+          data.forEach(producto => {
+            const div = document.createElement('div');
+            div.className = 'card';
+
+            div.innerHTML = `
+              <img src="img/${producto.imagen}" alt="${producto.nombre}"
+                   onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+              <h3>${producto.nombre}</h3>
+              <p class="precio">$${producto.precio}</p>
+              <p>Stock: ${producto.stock}</p>
+            `;
+
+            contenedor.appendChild(div);
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('contenedor').innerHTML =
+            '<p style="color:red">Error al cargar productos. Revisa la consola.</p>';
         });
-    </script>
+    });
+  </script>
+  <!-- BOTÓN DE ACCESIBILIDAD -->
+<div id="accesibilidad-btn">
+   ☰
+</div>
+
+<!-- PANEL DE ACCESIBILIDAD -->
+<div id="accesibilidad-panel">
+    <h3>Accesibilidad</h3>
+
+    <label>Tamaño de letra:</label>
+    <select id="acc-font-size">
+        <option value="small">Pequeña</option>
+        <option value="medium">Normal</option>
+        <option value="large">Grande</option>
+        <option value="xlarge">Extra grande</option>
+    </select>
+
+    <label>Contraste:</label>
+    <select id="acc-contrast">
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+    </select>
+
+    <label>Tipo de letra:</label>
+    <select id="acc-font-family">
+        <option value="arial">Arial</option>
+        <option value="serif">Serif</option>
+        <option value="dyslexic">OpenDyslexic</option>
+    </select>
+
+    <button id="acc-save">Guardar Preferencias</button>
+</div>
+
+
+<script src="js/accesibilidad.js"></script>
+
 </body>
 </html>
