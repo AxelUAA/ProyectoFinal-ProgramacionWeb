@@ -439,4 +439,41 @@ body.font-xlarge {
     border-radius: 6px;
     text-decoration: none;
 }
+.user-area {
+    width: 220px;   /* ← FIJO, ESTABLE, NO CAMBIA */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: visible;
+}
+.btn-secundario {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 20px;
+  border: 1px solid #111;
+  color: #111;
+  background-color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
 
+.btn-secundario:hover {
+  background-color: #f2f2f2;
+}
+
+.btn-secundario {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 20px;
+  border: 1px solid #111;
+  color: #111;
+  background-color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-secundario:hover {
+  background-color: #f2f2f2;
+}

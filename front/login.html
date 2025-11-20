@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar sesión - SNEAKERCLON5G</title>
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -49,6 +52,20 @@
         <input type="password" id="password" placeholder="********" required>
 
         <button type="submit">Entrar</button>
+
+        <!-- Cambiar contraseña con SweetAlert -->
+        <button type="button" class="btn-secundario" onclick="Swal.fire({
+          icon: 'info',
+          title: 'Próximamente',
+          text: 'Esta función aún no está disponible.'
+        })">
+          Cambiar contraseña
+        </button>
+
+        <!-- Registrar -->
+        <button type="button" class="btn-secundario" onclick="window.location.href='registrar.html'">
+          Registrar
+        </button>
       </form>
     </div>
   </main>
@@ -75,10 +92,10 @@
 
   <script src="js/auth.js"></script>
 
+  <!-- SCRIPT DE LOGIN CON SWEETALERT -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('loginForm');
-      const errorDiv = document.getElementById('loginError');
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -96,7 +113,11 @@
           const data = await res.json();
 
           if (!data.ok) {
-            errorDiv.textContent = data.msg;
+            Swal.fire({
+              icon: 'error',
+              title: 'Credenciales incorrectas',
+              text: data.msg
+            });
             return;
           }
 
@@ -105,21 +126,31 @@
           localStorage.setItem('currentUserEmail', data.correo);
           localStorage.setItem('currentUserRol', data.rol);
 
-          window.location.href = 'index.html';
+          Swal.fire({
+            icon: 'success',
+            title: 'Bienvenido',
+            text: 'Inicio de sesión exitoso',
+            timer: 1500,
+            showConfirmButton: false
+          }).then(() => {
+            window.location.href = 'index.html';
+          });
 
         } catch (error) {
-          errorDiv.textContent = "No se pudo conectar al servidor (backend apagado).";
+          Swal.fire({
+            icon: 'error',
+            title: 'Servidor apagado',
+            text: 'No se pudo conectar al backend.'
+          });
         }
       });
     });
   </script>
-  <!-- BOTÓN DE ACCESIBILIDAD -->
-<div id="accesibilidad-btn">
-    ☰
-</div>
 
-<!-- PANEL DE ACCESIBILIDAD -->
-<div id="accesibilidad-panel">
+  <!-- ACCESIBILIDAD -->
+  <div id="accesibilidad-btn">☰</div>
+
+  <div id="accesibilidad-panel">
     <h3>Accesibilidad</h3>
 
     <label>Tamaño de letra:</label>
@@ -144,9 +175,9 @@
     </select>
 
     <button id="acc-save">Guardar Preferencias</button>
-</div>
+  </div>
 
-<script src="js/auth.js"></script>
-<script src="js/accesibilidad.js"></script>
+  <script src="js/accesibilidad.js"></script>
+
 </body>
 </html>

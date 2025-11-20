@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
   <header>
     <div class="header-inner container">
       <div class="logo-area">
@@ -36,6 +37,7 @@
   <main class="container">
     <h2 class="page-title">Preguntas frecuentes</h2>
     <div class="page-content">
+
       <p><strong>¿Esta tienda es real?</strong></p>
       <p>No, SNEAKERCLON5G es un proyecto académico de Programación de Sistemas Web.</p>
 
@@ -44,9 +46,9 @@
 
       <p><strong>¿El inicio de sesión es real?</strong></p>
       <p>
-        El inicio de sesión es simulado usando <code>localStorage</code>, pensado para practicar
-        autenticación en el frontend. Más adelante se puede conectar a un backend real.
+        El inicio de sesión es conectado a un backend real mediante Node.js, Express y MySQL.
       </p>
+
     </div>
   </main>
 
@@ -61,6 +63,7 @@
             <li><a href="faq.html">Ayuda</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
           <h4>Atención al cliente</h4>
           <ul>
@@ -69,56 +72,55 @@
             <li>Términos y condiciones</li>
           </ul>
         </div>
+
         <div class="footer-col">
           <h4>Síguenos</h4>
           <ul>
-            <li>Instagram</li>
-            <li>Facebook</li>
-            <li>X (Twitter)</li>
+          <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
           </ul>
         </div>
       </div>
+
       <div class="footer-bottom">
         © 2025 SNEAKERCLON5G. Proyecto de Programación de Sistemas Web.
       </div>
     </div>
   </footer>
 
- <!-- BOTÓN DE ACCESIBILIDAD -->
-<div id="accesibilidad-btn">
-    ☰
-</div>
+  <!-- BOTÓN DE ACCESIBILIDAD -->
+  <div id="accesibilidad-btn">☰</div>
 
-<!-- PANEL DE ACCESIBILIDAD -->
-<div id="accesibilidad-panel">
-    <h3>Accesibilidad</h3>
+  <!-- PANEL DE ACCESIBILIDAD -->
+  <div id="accesibilidad-panel">
+      <h3>Accesibilidad</h3>
 
-    <label>Tamaño de letra:</label>
-    <select id="acc-font-size">
-        <option value="small">Pequeña</option>
-        <option value="medium">Normal</option>
-        <option value="large">Grande</option>
-        <option value="xlarge">Extra grande</option>
-    </select>
+      <label>Tamaño de letra:</label>
+      <select id="acc-font-size">
+          <option value="small">Pequeña</option>
+          <option value="medium">Normal</option>
+          <option value="large">Grande</option>
+          <option value="xlarge">Extra grande</option>
+      </select>
 
-    <label>Contraste:</label>
-    <select id="acc-contrast">
-        <option value="light">Claro</option>
-        <option value="dark">Oscuro</option>
-    </select>
+      <label>Contraste:</label>
+      <select id="acc-contrast">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+      </select>
 
-    <label>Tipo de letra:</label>
-    <select id="acc-font-family">
-        <option value="arial">Arial</option>
-        <option value="serif">Serif</option>
-        <option value="dyslexic">OpenDyslexic</option>
-    </select>
+      <label>Tipo de letra:</label>
+      <select id="acc-font-family">
+          <option value="arial">Arial</option>
+          <option value="serif">Serif</option>
+          <option value="dyslexic">OpenDyslexic</option>
+      </select>
 
-    <button id="acc-save">Guardar Preferencias</button>
-</div>
+      <button id="acc-save">Guardar Preferencias</button>
+  </div>
 
-<script src="js/auth.js"></script>
-<script src="js/accesibilidad.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 </html>

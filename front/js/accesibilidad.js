@@ -2,20 +2,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btn = document.getElementById("accesibilidad-btn");
     const panel = document.getElementById("accesibilidad-panel");
-    const user = localStorage.getItem("currentUserEmail");  // clave por usuario logueado
+    const user = localStorage.getItem("currentUserEmail");
 
     // Mostrar/Ocultar panel
     btn.addEventListener("click", () => {
         panel.style.display = panel.style.display === "none" ? "block" : "none";
     });
 
-    // Obtener elementos
+    // Obtener elementos del panel
     const fontSize = document.getElementById("acc-font-size");
     const contrast = document.getElementById("acc-contrast");
     const fontFamily = document.getElementById("acc-font-family");
     const saveBtn = document.getElementById("acc-save");
 
-    // Cargar preferencias del usuario
+    // ---------------------------------------------------------
+    // Cargar preferencias almacenadas por usuario
+    // ---------------------------------------------------------
     function cargarPreferencias() {
         if (!user) return;
 
@@ -23,19 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!prefs) return;
 
-        // Aplicar preferencias al DOM
         aplicarPreferencias(prefs);
 
-        // Poner valores en los selects
         fontSize.value = prefs.fontSize;
         contrast.value = prefs.contrast;
         fontFamily.value = prefs.fontFamily;
     }
 
-    // Guardar preferencias
+    // ---------------------------------------------------------
+    // Guardar preferencias con SweetAlert2
+    // ---------------------------------------------------------
     saveBtn.addEventListener("click", () => {
+
         if (!user) {
-            alert("Debes iniciar sesión para guardar preferencias.");
+            Swal.fire({
+                icon: "error",
+                title: "Inicia sesión",
+                text: "Debes iniciar sesión para guardar preferencias."
+            });
             return;
         }
 
@@ -45,17 +52,25 @@ document.addEventListener("DOMContentLoaded", () => {
             fontFamily: fontFamily.value
         };
 
-        // Guardar por usuario
         localStorage.setItem(`prefs_${user}`, JSON.stringify(prefs));
 
         aplicarPreferencias(prefs);
 
-        alert("Preferencias guardadas.");
+        Swal.fire({
+            icon: "success",
+            title: "Preferencias guardadas",
+            text: "Tus ajustes se han aplicado correctamente",
+            timer: 1500,
+            showConfirmButton: false
+        });
     });
 
-    // Función que aplica preferencias al body
+    // ---------------------------------------------------------
+    // Aplicar preferencias al DOM
+    // ---------------------------------------------------------
     function aplicarPreferencias(prefs) {
-        document.body.className = ""; // limpiar
+
+        document.body.className = ""; // limpio clases anteriores
 
         document.body.classList.add(`font-${prefs.fontSize}`);
         document.body.classList.add(`font-${prefs.fontFamily}`);
@@ -65,6 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Cargar preferencias al iniciar
+    // Iniciar
     cargarPreferencias();
 });
