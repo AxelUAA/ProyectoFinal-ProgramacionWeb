@@ -38,9 +38,12 @@
     <h2 class="page-title">Tenis para Mujer</h2>
     <div class="page-content">
       <p>
-        Aquí podrías mostrar solo los productos de la categoría "Mujer" filtrando desde la base de datos.
-        Por ahora es una página de ejemplo.
+        Explora nuestra selección de sneakers para mujer. Diseños únicos que combinan moda y funcionalidad.
       </p>
+    </div>
+    
+    <div id="contenedor" class="grid-container">
+      <!-- Productos se cargan aquí -->
     </div>
   </main>
 
@@ -113,6 +116,40 @@
 
 <script src="js/auth.js"></script>
 <script src="js/accesibilidad.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Usar el nuevo endpoint que filtra por categoría 2 (Mujer)
+    fetch('http://localhost:3000/api/productos/categoria/2')
+      .then(res => res.json())
+      .then(data => {
+        const contenedor = document.getElementById('contenedor');
+
+        if (!Array.isArray(data) || data.length === 0) {
+          contenedor.innerHTML = '<p style="text-align:center; color:#888;">No hay productos disponibles en esta categoría.</p>';
+          return;
+        }
+
+        data.forEach(producto => {
+          const div = document.createElement('div');
+          div.className = 'card';
+          div.innerHTML = `
+            <img src="img/${producto.imagen}" alt="${producto.nombre}"
+                 onerror="this.src='https://via.placeholder.com/300x220/1a1a1a/ffffff?text=Sin+Imagen'">
+            <h3>${producto.nombre}</h3>
+            <p class="precio">$${producto.precio}</p>
+            <p>Stock: ${producto.stock}</p>
+          `;
+          contenedor.appendChild(div);
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('contenedor').innerHTML =
+          '<p style="color:#ff5252; text-align:center;">Error al cargar productos.</p>';
+      });
+  });
+</script>
 
 </body>
 </html>
