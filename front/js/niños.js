@@ -1,4 +1,4 @@
-// Archivo: js/productos-categoria.js
+// ===== CARGA DE PRODUCTOS DE CATEGORÍA (NIÑOS) =====
 
 function cargarProductos(idCategoria) {
     const url = `http://localhost:3000/api/productos/categoria/${idCategoria}`;
@@ -8,7 +8,6 @@ function cargarProductos(idCategoria) {
         .then(data => {
             const contenedor = document.getElementById('contenedor');
 
-            // Limpiamos el contenedor por si acaso
             contenedor.innerHTML = '';
 
             if (!Array.isArray(data) || data.length === 0) {
@@ -28,6 +27,9 @@ function cargarProductos(idCategoria) {
                     <p>Stock: ${producto.stock}</p>
                 `;
 
+                // 👉 ABRIR MODAL
+                div.addEventListener("click", () => mostrarModal(producto));
+
                 contenedor.appendChild(div);
             });
         })
@@ -39,5 +41,6 @@ function cargarProductos(idCategoria) {
             }
         });
 }
-// Cargar productos de la categoría "Hombre" (idCategoria = 1)
+
+// Cargar categoría niños (id = 3)
 cargarProductos(3);

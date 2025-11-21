@@ -1,34 +1,34 @@
 // js/auth.js
 
-// ================== CONFIG / HELPERS JWT (NUEVO) ==================
+// ================== CONFIG / HELPERS JWT ==================
 
 const API_BASE = 'http://localhost:3000/api';
 let tokenTimeoutId = null;
 
-// Leer token y expiración desde localStorage
+// Leer token desde localStorage
 function getToken() {
     return localStorage.getItem('token');
 }
 
+// Leer expiración
 function getTokenExp() {
     const exp = localStorage.getItem('token_exp');
     return exp ? Number(exp) : null;
 }
 
+// Verificar expiración
 function tokenEstaExpirado() {
     const exp = getTokenExp();
     if (!exp) return true;
     return Date.now() > exp;
 }
 
-// Programa el SweetAlert cuando se acabe el token
+// Programar aviso cuando caduque el token
 function programarExpiracion(segundos) {
-    if (tokenTimeoutId) {
-        clearTimeout(tokenTimeoutId);
-    }
+    if (tokenTimeoutId) clearTimeout(tokenTimeoutId);
 
     tokenTimeoutId = setTimeout(() => {
-        // Limpiamos todo pero sin alerta extra (la disparamos aquí)
+
         limpiarSesion(false);
 
         Swal.fire({
@@ -38,17 +38,18 @@ function programarExpiracion(segundos) {
         }).then(() => {
             window.location.href = 'login.html';
         });
+
     }, segundos * 1000);
 }
 
-// Guarda token + expiración + datos de usuario
+// Guardar token, expiración y usuario
 function guardarSesionJWT(token, expiresIn, user) {
     if (!token || !expiresIn) return;
 
     const expTimestamp = Date.now() + expiresIn * 1000;
 
     localStorage.setItem('token', token);
-    localStorage.setItem('token_exp', String(expTimestamp));
+    localStorage.setItem('token_exp', expTimestamp.toString());
 
     if (user?.nombre) localStorage.setItem('currentUserName', user.nombre);
     if (user?.correo) localStorage.setItem('currentUserEmail', user.correo);
@@ -57,7 +58,7 @@ function guardarSesionJWT(token, expiresIn, user) {
     programarExpiracion(expiresIn);
 }
 
-// Limpia solo almacenamiento de sesión
+// Borrar datos de sesión
 function limpiarSesionStorage() {
     localStorage.removeItem('token');
     localStorage.removeItem('token_exp');
@@ -66,7 +67,7 @@ function limpiarSesionStorage() {
     localStorage.removeItem('currentUserRol');
 }
 
-// Limpia sesión completa (y opcionalmente muestra alerta genérica)
+// Limpiar sesión (con o sin alerta)
 function limpiarSesion(mostrarAlerta = true) {
     limpiarSesionStorage();
 
@@ -84,32 +85,33 @@ function limpiarSesion(mostrarAlerta = true) {
     }
 }
 
-// Exponer helpers al resto de scripts (login.js, etc.)
+// Exponer para otros scripts
 window.API_BASE = API_BASE;
 window.guardarSesionJWT = guardarSesionJWT;
 window.tokenEstaExpirado = tokenEstaExpirado;
 window.getToken = getToken;
 window.limpiarSesion = limpiarSesion;
 
-// ================== CÓDIGO ORIGINAL (AJUSTADO) ==================
+
+// ================== UI / CONTROL DE SESIÓN ==================
 
 document.addEventListener("DOMContentLoaded", () => {
 
     const userArea = document.getElementById("user-area");
 
-    // --- Revisar expiración al cargar la página ---
+    // Revisar expiración al abrir página
     const exp = getTokenExp();
     if (exp) {
         if (Date.now() >= exp) {
-            // Ya venció mientras el usuario estaba fuera
             limpiarSesion(false);
+
             Swal.fire({
                 icon: "info",
                 title: "Sesión expirada",
                 text: "Tu sesión ha expirado. Por favor, inicia sesión de nuevo."
             });
+
         } else {
-            // Aún es válida, reprogramamos el temporizador con el tiempo restante
             const restante = Math.floor((exp - Date.now()) / 1000);
             programarExpiracion(restante);
         }
@@ -118,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const nombre = localStorage.getItem("currentUserName");
     const rol = localStorage.getItem("currentUserRol");
 
-    // ---- SI NO ESTÁ LOGUEADO ----
+    // Usuario NO logueado
     if (!nombre) {
         userArea.innerHTML = `
             <a href="login.html" class="btn-login">Iniciar sesión</a>
@@ -126,20 +128,21 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // ---- SI ES ADMIN ----
+    // Usuario ADMIN
     if (rol && rol.toLowerCase() === "admin") {
         userArea.innerHTML = `
             <span class="user-name admin">👑 Admin: ${nombre}</span>
             <button id="logoutBtn">Cerrar sesión</button>
         `;
     } else {
+        // Usuario normal
         userArea.innerHTML = `
             <span class="user-name">Hola, ${nombre}</span>
             <button id="logoutBtn">Cerrar sesión</button>
         `;
     }
 
-    // ---- CERRAR SESIÓN CON SWEETALERT ----
+    // Cerrar sesión con SweetAlert
     const logoutBtn = document.getElementById("logoutBtn");
 
     if (logoutBtn) {
@@ -157,7 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    // ⬇️ Antes solo limpiabas currentUser..., ahora usamos nuestra función
                     limpiarSesion(false);
 
                     Swal.fire({

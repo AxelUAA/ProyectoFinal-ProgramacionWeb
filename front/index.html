@@ -7,6 +7,7 @@
   <title>SNEAKERCLON5G - Inicio</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
   <!-- HEADER -->
   <header>
@@ -39,10 +40,18 @@
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="container">
+
+    <!-- PANEL ADMIN -->
+    <div id="admin-panel" style="display:none; text-align:center; margin:20px 0;">
+      <h2>Panel de administración</h2>
+
+      <button onclick="window.location.href='agregar.html'" class="btn-admin">➕ Agregar producto</button>
+      <button onclick="window.location.href='modificar.html'" class="btn-admin">✏️ Modificar producto</button>
+      <button onclick="window.location.href='eliminar.html'" class="btn-admin">🗑️ Eliminar producto</button>
+    </div>
+
     <section class="hero">
       <h2>Últimos lanzamientos de SNEAKERCLON5G</h2>
-      <p>Explora nuestros tenis para hombre, mujer y niños, conectados a tu base de datos.</p>
-      <p>Explora nuestros tenis para hombre, mujer y niños, conectados a tu base de datos.</p>
       <p>Explora nuestros tenis para hombre, mujer y niños, conectados a tu base de datos.</p>
     </section>
 
@@ -79,55 +88,98 @@
           </ul>
         </div>
       </div>
+
       <div class="footer-bottom">
-        © 2025 SNEAKERCLON5G. Proyecto de Programación de Sistemas Web. Todos los derechos reservados.
+        © 2025 SNEAKERCLON5G. Proyecto de Programación de Sistemas Web.
       </div>
     </div>
   </footer>
 
+  <!-- MODAL -->
+  <div id="modal-producto">
+    <div class="modal-content">
+      <img id="modal-img">
+      <h2 id="modal-nombre"></h2>
+      <p id="modal-precio" style="font-size:22px; font-weight:bold; color:#2e8b57;"></p>
+      <p id="modal-stock"></p>
+      <p id="modal-desc" style="margin-top:10px; color:#555;"></p>
+
+      <button id="modal-close">Cerrar</button>
+        <button id="modal-cart-btn" class="btn-cart">🛒 Agregar al carrito</button>
+
+    </div>
+  </div>
+
   <script src="js/auth.js"></script>
+
+  <!-- CARGA PRODUCTOS + MODAL -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+
+      // Mostrar panel admin
+      const rol = localStorage.getItem("currentUserRol");
+      const email = localStorage.getItem("currentUserEmail");
+
+      if (rol === "admin" || email === "jan.puentes06@gmail.com") {
+        document.getElementById("admin-panel").style.display = "block";
+      }
+
+      // Cargar productos
       fetch('http://localhost:3000/api/productos')
         .then(res => res.json())
         .then(data => {
           const contenedor = document.getElementById('contenedor');
 
           if (!Array.isArray(data) || data.length === 0) {
-            contenedor.innerHTML = '<p>No se encontraron productos.</p>';
+            contenedor.innerHTML = "<p>No se encontraron productos.</p>";
             return;
           }
 
           data.forEach(producto => {
-            const div = document.createElement('div');
-            div.className = 'card';
+            const div = document.createElement("div");
+            div.className = "card";
 
             div.innerHTML = `
-              <img src="img/${producto.imagen}" alt="${producto.nombre}"
-                   onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+              <img src="img/${producto.imagen}">
               <h3>${producto.nombre}</h3>
               <p class="precio">$${producto.precio}</p>
               <p>Stock: ${producto.stock}</p>
             `;
 
+            div.addEventListener("click", () => {
+              document.getElementById("modal-img").src = "img/" + producto.imagen;
+              document.getElementById("modal-nombre").textContent = producto.nombre;
+              document.getElementById("modal-precio").textContent = "$" + producto.precio;
+              document.getElementById("modal-stock").textContent = "Stock disponible: " + producto.stock;
+
+              // Descripción agregada
+              document.getElementById("modal-desc").textContent = producto.descripcion || "No hay descripción disponible.";
+
+              document.getElementById("modal-producto").style.display = "flex";
+            });
+
             contenedor.appendChild(div);
           });
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          document.getElementById('contenedor').innerHTML =
-            '<p style="color:red">Error al cargar productos. Revisa la consola.</p>';
         });
+
+      // Cerrar modal
+      document.getElementById("modal-close").onclick = () => {
+        document.getElementById("modal-producto").style.display = "none";
+      };
+
+      document.getElementById("modal-producto").onclick = (e) => {
+        if (e.target.id === "modal-producto") {
+          document.getElementById("modal-producto").style.display = "none";
+        }
+      };
     });
   </script>
 
-  <!-- BOTÓN DE ACCESIBILIDAD -->
+  <!-- ACCESIBILIDAD -->
   <div id="accesibilidad-btn">☰</div>
 
-  <!-- PANEL DE ACCESIBILIDAD -->
   <div id="accesibilidad-panel">
       <h3>Accesibilidad</h3>
-
       <label>Tamaño de letra:</label>
       <select id="acc-font-size">
           <option value="small">Pequeña</option>
@@ -153,10 +205,7 @@
   </div>
 
   <script src="js/accesibilidad.js"></script>
-
-  <!-- SWEETALERT2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 </html>
-
