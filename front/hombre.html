@@ -6,7 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tenis para Hombre - SNEAKERCLON5G</title>
   <link rel="stylesheet" href="css/styles.css">
+
+  
 </head>
+
 <body>
   <header>
     <div class="header-inner container">
@@ -39,7 +42,7 @@
 
     <section>
       <div id="contenedor" class="grid-container">
-        <!-- Productos se cargan dinámicamente -->
+        <!-- Productos dinámicos -->
       </div>
     </section>
   </main>
@@ -66,7 +69,7 @@
         <div class="footer-col">
           <h4>Síguenos</h4>
           <ul>
-           <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
+            <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
           </ul>
         </div>
       </div>
@@ -76,42 +79,31 @@
     </div>
   </footer>
 
-  <!-- BOTÓN DE ACCESIBILIDAD -->
-  <div id="accesibilidad-btn">☰</div>
+<!-- MODAL UNIVERSAL PARA PRODUCTOS -->
+<div id="modal-producto">
+  <div class="modal-content">
+    <img id="modal-img">
+    <h2 id="modal-nombre"></h2>
+    <p id="modal-precio"></p>
+    <p id="modal-stock"></p>
+    <p id="modal-desc" style="margin-top:10px; color:#555"></p>
 
-  <!-- PANEL DE ACCESIBILIDAD -->
-  <div id="accesibilidad-panel">
-      <h3>Accesibilidad</h3>
+    <button id="modal-close">Cerrar</button>
+   <button id="modal-cart-btn" class="btn-cart">🛒 Agregar al carrito</button>
 
-      <label>Tamaño de letra:</label>
-      <select id="acc-font-size">
-          <option value="small">Pequeña</option>
-          <option value="medium">Normal</option>
-          <option value="large">Grande</option>
-          <option value="xlarge">Extra grande</option>
-      </select>
-
-      <label>Contraste:</label>
-      <select id="acc-contrast">
-          <option value="light">Claro</option>
-          <option value="dark">Oscuro</option>
-      </select>
-
-      <label>Tipo de letra:</label>
-      <select id="acc-font-family">
-          <option value="arial">Arial</option>
-          <option value="serif">Serif</option>
-          <option value="dyslexic">OpenDyslexic</option>
-      </select>
-
-      <button id="acc-save">Guardar Preferencias</button>
   </div>
+</div>
 
+
+
+  <!-- JS -->
   <script src="js/auth.js"></script>
   <script src="js/accesibilidad.js"></script>
+
+  <!-- IMPORTANTE: modal.js ANTES de hombre.js -->
+  <script src="js/modal.js"></script>
   <script src="js/hombre.js"></script>
 
-  <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
