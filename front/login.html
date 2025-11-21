@@ -53,17 +53,13 @@
 
         <button type="submit">Entrar</button>
 
-        <!-- Cambiar contraseña con SweetAlert -->
-        <button type="button" class="btn-secundario" onclick="Swal.fire({
-          icon: 'info',
-          title: 'Próximamente',
-          text: 'Esta función aún no está disponible.'
-        })">
+        <!-- Botón Cambiar contraseña -->
+        <button type="button" class="btn-secundario" id="btnCambiarPass">
           Cambiar contraseña
         </button>
 
-        <!-- Registrar -->
-        <button type="button" class="btn-secundario" onclick="window.location.href='registrar.html'">
+        <!-- Botón Registrar -->
+        <button type="button" class="btn-secundario" id="btnRegistrar">
           Registrar
         </button>
       </form>
@@ -90,62 +86,11 @@
     </div>
   </footer>
 
+  <!-- Scripts de autenticación / sesión general (si ya lo usas en tu proyecto) -->
   <script src="js/auth.js"></script>
 
-  <!-- SCRIPT DE LOGIN CON SWEETALERT -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('loginForm');
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const correo = document.getElementById('correo').value.trim();
-        const password = document.getElementById('password').value.trim();
-
-        try {
-          const res = await fetch('http://localhost:3000/api/users/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ correo, password })
-          });
-
-          const data = await res.json();
-
-          if (!data.ok) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Credenciales incorrectas',
-              text: data.msg
-            });
-            return;
-          }
-
-          // Guardamos usuario real en localStorage
-          localStorage.setItem('currentUserName', data.nombre);
-          localStorage.setItem('currentUserEmail', data.correo);
-          localStorage.setItem('currentUserRol', data.rol);
-
-          Swal.fire({
-            icon: 'success',
-            title: 'Bienvenido',
-            text: 'Inicio de sesión exitoso',
-            timer: 1500,
-            showConfirmButton: false
-          }).then(() => {
-            window.location.href = 'index.html';
-          });
-
-        } catch (error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Servidor apagado',
-            text: 'No se pudo conectar al backend.'
-          });
-        }
-      });
-    });
-  </script>
+  <!-- Nuevo script específico de la página de login -->
+  <script src="js/login.js"></script>
 
   <!-- ACCESIBILIDAD -->
   <div id="accesibilidad-btn">☰</div>
@@ -155,23 +100,23 @@
 
     <label>Tamaño de letra:</label>
     <select id="acc-font-size">
-        <option value="small">Pequeña</option>
-        <option value="medium">Normal</option>
-        <option value="large">Grande</option>
-        <option value="xlarge">Extra grande</option>
+      <option value="small">Pequeña</option>
+      <option value="medium">Normal</option>
+      <option value="large">Grande</option>
+      <option value="xlarge">Extra grande</option>
     </select>
 
     <label>Contraste:</label>
     <select id="acc-contrast">
-        <option value="light">Claro</option>
-        <option value="dark">Oscuro</option>
+      <option value="light">Claro</option>
+      <option value="dark">Oscuro</option>
     </select>
 
     <label>Tipo de letra:</label>
     <select id="acc-font-family">
-        <option value="arial">Arial</option>
-        <option value="serif">Serif</option>
-        <option value="dyslexic">OpenDyslexic</option>
+      <option value="arial">Arial</option>
+      <option value="serif">Serif</option>
+      <option value="dyslexic">OpenDyslexic</option>
     </select>
 
     <button id="acc-save">Guardar Preferencias</button>

@@ -1,14 +1,14 @@
-// lo de base 
+// server.js
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 
-const routes = require('./routes/routes');
-
+const routes = require('./routes/routes');      // productos, etc.
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 
+// variables de entorno
 dotenv.config();
 
 const app = express();
@@ -24,11 +24,12 @@ app.use('/api', routes);
 app.use('/api/auth', authRoutes);
 
 // Rutas de usuario (protegidas con JWT/middleware)
-app.use('/api/users', usersRoutes);
-
+app.use('/api/users', userRoutes);
 
 // Servidor encendido
 app.listen(PORT, () => {
-    console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
-     console.log(`El front vive en http://localhost:5500/front/index.html`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🔑 Login:  POST http://localhost:${PORT}/api/auth/login`);
+  console.log(`🛡 Perfil: GET  http://localhost:${PORT}/api/users/perfil (requiere Bearer token)`);
+  console.log(`El front vive en http://localhost:5500/front/index.html`);
 });
