@@ -1,73 +1,85 @@
+// controllers/authController.js
 const jwt = require('jsonwebtoken');
+const db = require('../db/conexion');
 
-// Credenciales válidas (en producción, estas deberían estar en una base de datos)
-const VALID_USER = {
-  username: 'isc',
-  password: '1234'
-};
+const JWT_SECRET = process.env.JWT_SECRET || 'clave_por_defecto';
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '60'; // segundos
 
-// Clave secreta para JWT - IMPORTANTE:
-// Esta clave se usa para FIRMAR y VERIFICAR los tokens JWT.
-// Sin esta clave, cualquiera podría crear tokens falsos.
-// La firma del token = HMAC-SHA256(header.payload, JWT_SECRET)
-// Por eso es CRÍTICA para la seguridad del sistema.
-// En producción, debe estar en variables de entorno (no en el código).
-const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_secreta_super_segura_2025';
-
-/**
- * Controlador para el login
- * Valida las credenciales y genera un token JWT
- */
-const login = async (req, res) => {
+// POST /api/auth/login
+exports.login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { correo, password } = req.body || {};
 
-    // Validar que se envíen los datos necesarios
-    if (!username || !password) {
+    if (!correo || !password) {
       return res.status(400).json({
-        success: false,
-        message: 'Usuario y contraseña son requeridos'
+        ok: false,
+        message: "Faltan campos 'correo' y 'password'."
       });
     }
 
-    // Validar credenciales
-    if (username === VALID_USER.username && password === VALID_USER.password) {
-      // Generar token JWT
-      const token = jwt.sign(
-        { 
-          username: username,
-          userId: 1 // En producción, esto vendría de la base de datos
-        },
-        JWT_SECRET,
-        { 
-          expiresIn: '24h' // El token expira en 24 horas
-        }
-      );
+    // Buscar usuario en la BD por correo
+    const [rows] = await db.promise().query(
+      `
+        SELECT 
+          ID,
+          Nombre,
+          Correo,
+          Rol,
+          \`Contraseña\` AS Contrasena
+        FROM usuarios
+        WHERE Correo = ?
+        LIMIT 1
+      `,
+      [correo]
+    );
 
-      return res.status(200).json({
-        success: true,
-        message: 'Login exitoso Jean Puentes',
-        token: token,
-        user: {
-          username: username
-        }
-      });
-    } else {
+    if (rows.length === 0) {
       return res.status(401).json({
-        success: false,
-        message: 'Credenciales inválidas'
+        ok: false,
+        message: 'Credenciales inválidas (correo no encontrado).'
       });
     }
+
+    const user = rows[0];
+
+    // Comparar contraseña (aquí texto plano; en producción usar bcrypt)
+    if (user.Contrasena !== password) {
+      return res.status(401).json({
+        ok: false,
+        message: 'Credenciales inválidas (contraseña incorrecta).'
+      });
+    }
+
+    // Payload del token
+    const payload = {
+      userId: user.ID,
+      nombre: user.Nombre,
+      correo: user.Correo,
+      rol: user.Rol
+    };
+
+    // Crear token con expiración de 1 minuto
+    const token = jwt.sign(payload, JWT_SECRET, {
+      expiresIn: `${JWT_EXPIRES_IN}s`  // "60s"
+    });
+
+    return res.status(200).json({
+      ok: true,
+      message: 'Login correcto',
+      token,
+      expiresIn: Number(JWT_EXPIRES_IN),
+      user: {
+        id: user.ID,
+        nombre: user.Nombre,
+        correo: user.Correo,
+        rol: user.Rol
+      }
+    });
   } catch (error) {
     console.error('Error en login:', error);
     return res.status(500).json({
-      success: false,
+      ok: false,
       message: 'Error interno del servidor'
     });
   }
 };
-
-module.exports = {
-  login
-};
-

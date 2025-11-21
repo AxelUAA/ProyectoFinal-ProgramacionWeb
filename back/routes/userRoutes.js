@@ -1,10 +1,17 @@
+// routes/userRoutes.js
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+
 const { verifyToken } = require('../middleware/authMiddleware');
 
-// Ruta protegida - requiere token JWT válido
-// El middleware verifyToken se ejecuta ANTES del controlador
-router.get('/profile', verifyToken, userController.getProfile);
+// GET /api/users/perfil  (ruta protegida)
+router.get('/perfil', verifyToken, (req, res) => {
+  // req.user viene del token
+  res.json({
+    ok: true,
+    message: 'Accediste a tu perfil con un token válido',
+    user: req.user
+  });
+});
 
 module.exports = router;
