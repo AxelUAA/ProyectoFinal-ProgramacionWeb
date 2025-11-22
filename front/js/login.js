@@ -21,6 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       return;
     }
+      //  Obtener respuesta del CAPTCHA
+      const captcha = grecaptcha.getResponse();
+
+      if (!captcha) {
+           Swal.fire({
+          icon: 'warning',
+          title: 'Captcha requerido',
+           text: 'Por favor confirma que no eres un robot.'
+          });
+       return;
+    }
 
     try {
       const base = window.API_BASE || 'http://localhost:3000/api';
@@ -28,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch(`${base}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ correo, password })
+        body: JSON.stringify({ correo, password, captcha })
       });
 
       const data = await res.json();
