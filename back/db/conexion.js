@@ -16,6 +16,7 @@ db.connect((err) => {
         return;
     }
     console.log(' Conexión a la base de datos exitosa (desde módulo db)');
+    console.log("🔌 Conectando a la base de datos:", db.config.database);
 });
 
 module.exports = db;
