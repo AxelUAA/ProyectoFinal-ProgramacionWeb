@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Rutas generales de la API (productos, carrito, etc.)
 app.use('/api', routes);
 

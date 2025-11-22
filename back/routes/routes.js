@@ -35,5 +35,134 @@ router.get('/productos/categoria/:id', (req, res) => {
         res.json(results);
     });
 });
-//aqui se pueden agregar mas rutas como post o asi
+
+// API para dar de alta un nuevo producto
+router.post("/agregarProducto", (req, res) => {
+    const { id, nombre, descripcion, precio, stock, imagen, categoria } = req.body;
+
+    // Validación: Todos los campos son obligatorios
+    if (!id || !nombre || !descripcion || !precio || !stock || !imagen || !categoria) {
+        return res.status(400).json({ message: "Todos los campos son obligatorios" });
+    }
+
+    const sql = `
+        INSERT INTO productos (id, nombre, descripcion, precio, stock, imagen, categoria)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(
+        sql,
+        [id, nombre, descripcion, precio, stock, imagen, categoria],
+        (err, result) => {
+            if (err) {
+                console.error("Error al agregar el producto:", err);
+
+                if (err.code === "ER_DUP_ENTRY") {
+                    return res.status(409).json({ message: "El ID ya existe, usa otro" });
+                }
+
+                return res.status(500).json({ message: "Error del servidor" });
+            }
+
+            return res.json({
+                message: "Producto agregado correctamente",
+                result
+            });
+        }
+    );
+});
+
+//api para dar de baja un producto
+router.delete('/eliminarProducto/:id', (req, res) => {
+    const { id } = req.params;
+
+    const sql = 'DELETE FROM productos WHERE id = ?';
+
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error("Error al eliminar el producto:", err);
+            return res.status(500).json({ message: "Error del servidor al eliminar" });
+        }
+
+        // Verificar si se eliminó alguna fila
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Producto no encontrado" });
+        }
+
+        res.json({ message: "Producto eliminado correctamente" });
+    });
+});
+
+//api para modificar un producto
+router.put('/modificarProducto/:id', (req, res) => {
+    const { id } = req.params; // El ID viene de la URL
+    const { nombre, descripcion, precio, stock, imagen, categoria } = req.body; // Los datos nuevos vienen del cuerpo
+
+    // Validación: Asegurarnos que envíen datos
+    if (!nombre || !descripcion || !precio || !stock || !imagen || !categoria) {
+        return res.status(400).json({ message: "Todos los campos son obligatorios para modificar" });
+    }
+
+    const sql = `
+        UPDATE productos 
+        SET nombre = ?, descripcion = ?, precio = ?, stock = ?, imagen = ?, categoria = ?
+        WHERE id = ?
+    `;
+
+    db.query(
+        sql, 
+        [nombre, descripcion, precio, stock, imagen, categoria, id], 
+        (err, result) => {
+            if (err) {
+                console.error("Error al modificar el producto:", err);
+                return res.status(500).json({ message: "Error del servidor al modificar" });
+            }
+
+            // Verificar si se encontró el producto para modificarlo
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: "Producto no encontrado (revisa el ID)" });
+            }
+
+            res.json({ message: "Producto modificado correctamente" });
+        }
+    );
+});
+
+// API para registrar a un usuario
+router.post('/registrarUsuario', (req, res) => {
+    
+    // 1. Recibir datos (Todo en 'password')
+    const { nombre, correo, id, password } = req.body;
+
+    // 2. Validación
+    if (!nombre || !correo || !id || !password) {
+        return res.status(400).json({ message: "Todos los campos son obligatorios" });
+    }
+
+    // 3. SQL (Insertar en columna 'password')
+    const sql = `
+        INSERT INTO usuarios (nombre, correo, id, password, rol) 
+        VALUES (?, ?, ?, ?, 'cliente')
+    `;
+
+    db.query(
+        sql,
+        [nombre, correo, id, password, 'cliente'],
+        (err, result) => {
+            if (err) {
+                console.error("Error al registrar el usuario:", err);
+
+                if (err.code === "ER_DUP_ENTRY" || err.code === "ERR_DUP_ENTRY") {
+                    return res.status(409).json({ message: "El ID ya existe, usa otro" });
+                }
+                return res.status(500).json({ message: "Error del servidor" });
+            }
+            
+            return res.json({
+                message: "Usuario registrado correctamente",
+                result
+            });
+        }
+    );
+});
 module.exports = router;
