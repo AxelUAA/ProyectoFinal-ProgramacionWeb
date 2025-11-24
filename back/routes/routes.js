@@ -2,6 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/conexion');
+const nodemailer = require('nodemailer');
+const path = require('path');
+
+//ruta para obtener todos los productos
 
 router.get('/productos', (req, res) =>{
     const query = 'SELECT * FROM productos';
@@ -128,18 +132,15 @@ router.put('/modificarProducto/:id', (req, res) => {
     );
 });
 
-// API para registrar a un usuario
+// API para registrar un nuevo usuario y enviar correo de bienvenida
 router.post('/registrarUsuario', (req, res) => {
     
-    // 1. Recibir datos (Todo en 'password')
     const { nombre, correo, id, password } = req.body;
 
-    // 2. Validación
     if (!nombre || !correo || !id || !password) {
         return res.status(400).json({ message: "Todos los campos son obligatorios" });
     }
 
-    // 3. SQL (Insertar en columna 'password')
     const sql = `
         INSERT INTO usuarios (nombre, correo, id, password, rol) 
         VALUES (?, ?, ?, ?, 'cliente')
@@ -147,22 +148,75 @@ router.post('/registrarUsuario', (req, res) => {
 
     db.query(
         sql,
-        [nombre, correo, id, password, 'cliente'],
-        (err, result) => {
+        [nombre, correo, id, password],
+        async (err, result) => {
             if (err) {
                 console.error("Error al registrar el usuario:", err);
 
-                if (err.code === "ER_DUP_ENTRY" || err.code === "ERR_DUP_ENTRY") {
+                if (err.code === "ER_DUP_ENTRY") {
                     return res.status(409).json({ message: "El ID ya existe, usa otro" });
                 }
                 return res.status(500).json({ message: "Error del servidor" });
             }
-            
+
+            // ===========================
+            // 1) CONFIGURAR TRANSPORTER
+            // ===========================
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "alejandro.cuabe@gmail.com",
+                    pass: "xhdd ufyb amol xbbs"
+                }
+            });
+
+            // ===========================
+            // 2) RUTA DEL CUPÓN
+            // ===========================
+            const cuponPath = path.join(__dirname, "../public/img/cupon.png");
+
+            // ===========================
+            // 3) OPCIONES DEL CORREO
+            // ===========================
+            const mailOptions = {
+                from: '"Sneakers Clon 5G" <alejandro.cuabe@gmail.com>',
+                to: correo,
+                subject: "¡Bienvenido a SNEAKERS CLON 5G!",
+                html: `
+                    <h2>Hola ${nombre} 👋</h2>
+                    <p>Gracias por registrarte en <b>Sneakers Clon 5G</b>.</p>
+                    <p>Aquí tienes un cupón especial de bienvenida:</p>
+                    <p><b>🎁 CUPÓN DE DESCUENTO ESPECIAL</b></p>
+                    <p>Utilízalo en tu próxima compra.</p>
+                    <p>¡Gracias por confiar en nosotros!</p>
+                `,
+                attachments: [
+                    {
+                        filename: "cupon.png",
+                        path: cuponPath,
+                    }
+                ]
+            };
+
+            // ===========================
+            // 4) ENVIAR CORREO
+            // ===========================
+            try {
+                await transporter.sendMail(mailOptions);
+                console.log("Correo enviado a:", correo);
+            } catch (mailErr) {
+                console.error("Error al enviar correo:", mailErr);
+            }
+
+            // ===========================
+            // 5) RESPUESTA AL FRONT
+            // ===========================
             return res.json({
-                message: "Usuario registrado correctamente",
+                message: "Usuario registrado correctamente y correo enviado",
                 result
             });
         }
     );
 });
+
 module.exports = router;

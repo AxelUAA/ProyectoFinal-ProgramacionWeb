@@ -1,5 +1,7 @@
 // Cargar productos de la categoría Hombre (1)
 function cargarProductosHombre() {
+    //cargar las imagenes desde la carpeta public desde el backend
+
     fetch("http://localhost:3000/api/productos/categoria/1")
         .then(res => res.json())
         .then(data => {
@@ -16,7 +18,7 @@ function cargarProductosHombre() {
                 div.className = "card";
 
                 div.innerHTML = `
-                    <img src="img/${producto.imagen}" alt="${producto.nombre}">
+                    <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}">
                     <h3>${producto.nombre}</h3>
                     <p class="precio">$${producto.precio}</p>
                     <p>Stock: ${producto.stock}</p>

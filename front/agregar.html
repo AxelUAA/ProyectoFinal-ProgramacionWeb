@@ -10,31 +10,33 @@
 <h2 class="page-title">Agregar Producto</h2>
 
 <div class="form-container">
-  <form>
+  <form id="formAgregar">
     <label>ID:</label>
-    <input type="number">
+    <input type="number" name="id">
 
     <label>Nombre:</label>
-    <input type="text">
+    <input type="text" name="nombre">
 
     <label>Descripción:</label>
-    <textarea></textarea>
+    <textarea name="descripcion"></textarea>
 
     <label>Precio:</label>
-    <input type="number">
+    <input type="number" name="precio">
 
     <label>Stock:</label>
-    <input type="number">
+    <input type="number" name="stock">
 
     <label>Imagen (nombre archivo):</label>
-    <input type="text">
+    <input type="text" name="imagen">
 
     <label>Categoría (1,2,3):</label>
-    <input type="number">
+    <input type="number" name="categoria">
 
-    <button type="button">Guardar (pendiente backend)</button>
+    <button type="Submit">Guardar Producto</button>
+    <button type="button" id="back">Regresar</button>
   </form>
 </div>
 
 </body>
+<script src="js/agregar.js"></script>
 </html>

@@ -10,16 +10,15 @@
 <h2 class="page-title">Eliminar Producto</h2>
 
 <div class="form-container">
-  <form>
+  <form id="formEliminar">
     <label>ID del producto:</label>
-    <input type="number">
+    <input type="number" name="id" required>
 
-    <label>Nombre del producto:</label>
-    <input type="text">
-
-    <button type="button">Eliminar (pendiente backend)</button>
+    <button type="submit">Eliminar producto</button>
+    <button type="button" id="back">Regresar</button>
   </form>
 </div>
 
 </body>
+<script src="js/eliminar.js"></script>
 </html>
