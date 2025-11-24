@@ -18,7 +18,7 @@ function cargarProductos(idCategoria) {
                 div.className = 'card';
 
                 div.innerHTML = `
-                    <img src="img/${producto.imagen}" alt="${producto.nombre}">
+                    <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}">
                     <h3>${producto.nombre}</h3>
                     <p class="precio">$${producto.precio}</p>
                     <p>Stock: ${producto.stock}</p>

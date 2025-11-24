@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
           Nombre,
           Correo,
           Rol,
-          \`Contraseña\` AS Contrasena
+          \`Password\` AS Contrasena
         FROM usuarios
         WHERE Correo = ?
         LIMIT 1
