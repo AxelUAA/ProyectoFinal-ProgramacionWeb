@@ -1,5 +1,6 @@
 // controllers/authController.js
 const jwt = require('jsonwebtoken');
+const fetch = require('node-fetch');
 const db = require('../db/conexion');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'clave_por_defecto';
@@ -8,6 +9,42 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '60'; // segundos
 // POST /api/auth/login
 exports.login = async (req, res) => {
   try {
+    
+    // -------------------- VALIDAR reCAPTCHA --------------------
+    const recaptchaToken =
+    req.body.captcha || req.body["g-recaptcha-response"];
+
+
+    if (!recaptchaToken) {
+      return res.status(400).json({
+        ok: false,
+        message: "Falta el token de reCAPTCHA"
+      });
+    }
+
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+
+    if (!secretKey) {
+      return res.status(500).json({
+        ok: false,
+        message: "Falta la clave secreta de reCAPTCHA en el servidor (.env)"
+      });
+    }
+
+    const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
+
+    const googleRes = await fetch(verifyURL, { method: 'POST' });
+    const googleData = await googleRes.json();
+
+    if (!googleData.success) {
+      return res.status(400).json({
+        ok: false,
+        message: "Falló la verificación de reCAPTCHA"
+      });
+    }
+    // -------------------- FIN VALIDACIÓN ------------------------
+
+
     const { correo, password } = req.body || {};
 
     if (!correo || !password) {
