@@ -11,7 +11,7 @@
   <header>
     <div class="header-inner container">
       <div class="logo-area">
-        <img src="img/logo.jpg" alt="Logo SNEAKERCLON5G">
+        <img src="http://localhost:3000/public/img/logo.jpg" alt="Logo SNEAKERCLON5G">
         <h1>SNEAKERCLON5G</h1>
       </div>
 
@@ -36,19 +36,173 @@
   </header>
 
   <main class="container">
-    <h2 class="page-title">Preguntas frecuentes</h2>
-    <div class="page-content">
+    <h2 class="page-title">Preguntas Frecuentes</h2>
+    <div class="faq-container">
 
-      <p><strong>¿Esta tienda es real?</strong></p>
-      <p>No, SNEAKERCLON5G es un proyecto académico de Programación de Sistemas Web.</p>
+      <!-- Categoría: Información General -->
+      <div class="faq-category">
+        <h3 class="faq-category-title">📋 Información General</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Esta tienda es real?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>No, SNEAKERCLON5G es un proyecto académico desarrollado para la materia de Programación de Sistemas Web. Los productos y funcionalidades son simulados con fines educativos.</p>
+          </div>
+        </div>
 
-      <p><strong>¿Los productos se conectan a una base de datos?</strong></p>
-      <p>Sí, los productos mostrados en el inicio se obtienen mediante una API en Node.js y MySQL.</p>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Los productos se conectan a una base de datos?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Sí, todos los productos mostrados en el sitio se obtienen de una base de datos MySQL mediante una API REST desarrollada en Node.js y Express.</p>
+          </div>
+        </div>
 
-      <p><strong>¿El inicio de sesión es real?</strong></p>
-      <p>
-        El inicio de sesión es conectado a un backend real mediante Node.js, Express y MySQL.
-      </p>
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿El sistema de login es funcional?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Sí, el sistema de autenticación está conectado a un backend real con Node.js, Express y MySQL. Los usuarios se almacenan en la base de datos y las sesiones se gestionan mediante localStorage.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoría: Compras y Pagos -->
+      <div class="faq-category">
+        <h3 class="faq-category-title">💳 Compras y Pagos</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Qué métodos de pago aceptan?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Este es un proyecto académico, por lo que no se procesan pagos reales. En un entorno real, aceptaríamos tarjetas de crédito, débito, PayPal y transferencias bancarias.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Cómo funciona el carrito de compras?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>El carrito de compras almacena los productos seleccionados en el localStorage del navegador. Puedes agregar, eliminar y modificar cantidades antes de proceder al checkout.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Hay ofertas y descuentos?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Sí, contamos con una sección de ofertas especiales en la página principal. Los productos en oferta muestran el porcentaje de descuento, precio original tachado y el ahorro que obtienes.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoría: Productos y Stock -->
+      <div class="faq-category">
+        <h3 class="faq-category-title">👟 Productos y Stock</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Cómo puedo filtrar productos por precio?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>En las páginas de categorías (Hombre, Mujer, Niños) encontrarás un filtro de precios con sliders que te permiten establecer un rango de precio mínimo y máximo.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Qué hago si un producto no tiene stock?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Los productos sin stock aparecen en la base de datos con Stock: 0. En un sistema real, estos productos no estarían disponibles para compra y tendrían una opción de "Notificarme cuando esté disponible".</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Cómo veo los detalles de un producto?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Haz clic en cualquier tarjeta de producto para abrir un modal con información detallada: imagen ampliada, nombre, precio, stock disponible y descripción completa.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoría: Cuenta y Administración -->
+      <div class="faq-category">
+        <h3 class="faq-category-title">👤 Cuenta y Administración</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Cómo creo una cuenta?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Haz clic en "Registrarse" en el área de usuario del header. Completa el formulario con tu email, contraseña y confirma tu contraseña. Tu cuenta se creará automáticamente en la base de datos.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Qué es el panel de administración?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Los usuarios con rol de administrador tienen acceso a un panel especial en la página principal donde pueden agregar, modificar y eliminar productos de la base de datos.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Cómo cierro sesión?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Una vez iniciada sesión, verás tu email en el header junto a un botón de "Cerrar sesión". Al hacer clic, se eliminará tu sesión del localStorage.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoría: Accesibilidad -->
+      <div class="faq-category">
+        <h3 class="faq-category-title">♿ Accesibilidad</h3>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Qué opciones de accesibilidad ofrece el sitio?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Haz clic en el botón "☰" en la esquina inferior derecha para acceder al panel de accesibilidad. Puedes ajustar el tamaño de letra, contraste y tipo de fuente (incluyendo OpenDyslexic).</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Las preferencias de accesibilidad se guardan?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Sí, al hacer clic en "Guardar Preferencias", tus ajustes se almacenan en localStorage y se aplicarán automáticamente en tus próximas visitas.</p>
+          </div>
+        </div>
+      </div>
 
     </div>
   </main>
@@ -122,6 +276,30 @@
   <script src="js/auth.js"></script>
   <script src="js/accesibilidad.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Script para acordeones FAQ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+          const faqItem = question.parentElement;
+          const isActive = faqItem.classList.contains('active');
+          
+          // Cerrar todos los demás items
+          document.querySelectorAll('.faq-item').forEach(item => {
+            item.classList.remove('active');
+          });
+          
+          // Toggle del item clickeado
+          if (!isActive) {
+            faqItem.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>

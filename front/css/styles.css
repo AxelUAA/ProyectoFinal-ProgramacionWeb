@@ -284,6 +284,91 @@ nav a:hover {
   font-size: 15px;
 }
 
+/* ====== FAQ ACORDEONES ====== */
+.faq-container {
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+
+.faq-category {
+  margin-bottom: 40px;
+}
+
+.faq-category-title {
+  font-size: 24px;
+  color: #111;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #111;
+}
+
+.faq-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.faq-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  cursor: pointer;
+  background: #f8f8f8;
+  transition: background 0.3s;
+  user-select: none;
+}
+
+.faq-question:hover {
+  background: #f0f0f0;
+}
+
+.faq-question span:first-child {
+  font-weight: 600;
+  font-size: 16px;
+  color: #111;
+  flex: 1;
+}
+
+.faq-icon {
+  font-size: 24px;
+  font-weight: bold;
+  color: #111;
+  transition: transform 0.3s;
+  min-width: 30px;
+  text-align: center;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+  background: #fff;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 500px;
+  padding: 20px;
+}
+
+.faq-answer p {
+  margin: 0;
+  line-height: 1.8;
+  color: #555;
+  font-size: 15px;
+}
+
 /* ====== FILTRO DE PRECIOS ====== */
 .filtro-precios {
   background: #fff;
