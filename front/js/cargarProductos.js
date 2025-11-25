@@ -30,16 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>Stock: ${producto.stock}</p>
         `;
 
-        div.addEventListener("click", () => {
-          document.getElementById("modal-img").src = "http://localhost:3000/public/img/" + producto.imagen;
-          document.getElementById("modal-nombre").textContent = producto.nombre;
-          document.getElementById("modal-precio").textContent = "$" + producto.precio;
-          document.getElementById("modal-stock").textContent = "Stock disponible: " + producto.stock;
-
-          document.getElementById("modal-desc").textContent = producto.descripcion || "No hay descripción disponible.";
-
-          document.getElementById("modal-producto").style.display = "flex";
-        });
+      div.addEventListener("click", () => {
+       mostrarModal(producto);
+      });
 
         contenedor.appendChild(div);
       });

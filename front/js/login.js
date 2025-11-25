@@ -21,16 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       return;
     }
-      //  Obtener respuesta del CAPTCHA
-      const captcha = grecaptcha.getResponse();
 
-      if (!captcha) {
-           Swal.fire({
-          icon: 'warning',
-          title: 'Captcha requerido',
-           text: 'Por favor confirma que no eres un robot.'
-          });
-       return;
+    //  Obtener respuesta del CAPTCHA
+    const captcha = grecaptcha.getResponse();
+
+    if (!captcha) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Captcha requerido',
+        text: 'Por favor confirma que no eres un robot.'
+      });
+      return;
     }
 
     try {
@@ -44,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await res.json();
 
-      // Si el backend responde error
       if (!res.ok || data.ok === false) {
         Swal.fire({
           icon: 'error',
@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // data.user debe venir del backend (id, nombre, correo, rol)
       const token     = data.token;
       const expiresIn = data.expiresIn || 60;
       const user      = data.user || {
@@ -63,11 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
         rol: data.rol
       };
 
-      // Guardar JWT + expiración + datos de usuario usando helpers globales
       if (window.guardarSesionJWT) {
         window.guardarSesionJWT(token, expiresIn, user);
       } else {
-        // Fallback mínimo
         if (user.nombre) localStorage.setItem('currentUserName', user.nombre);
         if (user.correo) localStorage.setItem('currentUserEmail', user.correo);
         if (user.rol)    localStorage.setItem('currentUserRol', user.rol);
@@ -93,14 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Botón "Cambiar contraseña"
+  // 🔥 Botón "Cambiar contraseña" — AHORA REDIRIGE A cambiar.html
   if (btnCambiarPass) {
     btnCambiarPass.addEventListener('click', () => {
-      Swal.fire({
-        icon: 'info',
-        title: 'Próximamente',
-        text: 'Esta función aún no está disponible.'
-      });
+      window.location.href = "cambiar.html";
     });
   }
 
