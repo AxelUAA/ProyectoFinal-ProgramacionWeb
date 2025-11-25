@@ -25,7 +25,7 @@ function cargarProductos(idCategoria) {
         });
 }
 
-// Mostrar productos en el DOM
+// Mostrar productos en el DOM (con soporte de ofertas)
 function mostrarProductos(productos) {
     const contenedor = document.getElementById('contenedor');
     contenedor.innerHTML = '';
@@ -37,15 +37,36 @@ function mostrarProductos(productos) {
 
     productos.forEach(producto => {
         const div = document.createElement('div');
-        div.className = 'card';
+        
+        // Verificar si está en oferta
+        if (estaEnOferta(producto.id)) {
+            div.className = 'card card-oferta';
+            
+            const descuento = obtenerDescuento(producto.id);
+            const precioOferta = calcularPrecioOferta(producto.precio, producto.id);
+            const ahorro = producto.precio - precioOferta;
 
-        div.innerHTML = `
-            <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}"
-                 onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-            <h3>${producto.nombre}</h3>
-            <p class="precio">$${producto.precio}</p>
-            <p>Stock: ${producto.stock}</p>
-        `;
+            div.innerHTML = `
+                <span class="badge-oferta">-${descuento}% OFF</span>
+                <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}"
+                     onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3>${producto.nombre}</h3>
+                <p class="precio-original">Antes: $${producto.precio}</p>
+                <p class="precio-oferta">$${precioOferta.toFixed(2)}</p>
+                <p class="ahorro">¡Ahorras $${ahorro.toFixed(2)}!</p>
+                <p>Stock: ${producto.stock}</p>
+            `;
+        } else {
+            div.className = 'card';
+            
+            div.innerHTML = `
+                <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}"
+                     onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3>${producto.nombre}</h3>
+                <p class="precio">$${producto.precio}</p>
+                <p>Stock: ${producto.stock}</p>
+            `;
+        }
 
         div.addEventListener("click", () => mostrarModal(producto));
 
