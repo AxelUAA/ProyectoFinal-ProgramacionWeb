@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagar - SNEAKERCLON5G</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner container">
+      <div class="logo-area">
+        <img src="http://localhost:3000/public/img/logo.jpg" alt="Logo SNEAKERCLON5G">
+        <h1>SNEAKERCLON5G</h1>
+      </div>
+
+      <nav>
+        <a href="index.html">Inicio</a>
+        <div class="dropdown">
+          <button class="dropdown-btn">Categorías ▾</button>
+          <div class="dropdown-content">
+            <a href="hombre.html">Hombre</a>
+            <a href="mujer.html">Mujer</a>
+            <a href="niños.html">Niños</a>
+          </div>
+        </div>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contáctanos</a>
+        <a href="faq.html">Preguntas frecuentes</a>
+      </nav>
+
+      <div class="user-area" id="user-area"></div>
+      <button id="btnVerCarrito" class="btn-carrito">🛒</button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container pagar-container">
+
+    <h2>Carrito de compras</h2>
+
+    <!-- CARRITO -->
+    <div class="carrito-box">
+
+      <div class="carrito-productos">
+        <h3>Tu carrito</h3>
+
+        <ul id="carritoLista"></ul>
+
+        <p class="total">Total: $<span id="carritoTotal">0</span></p>
+
+        <button id="btnVaciarCarrito" class="btn-peligro">Vaciar carrito</button>
+
+        <button id="btnFinalizar" class="btn-principal">Finalizar compra</button>
+
+      </div>
+
+    </div>
+
+
+    <!-- SECCIÓN QUE APARECE DESPUÉS DE FINALIZAR COMPRA -->
+    <div id="seccionFinalizar" class="hidden">
+
+      <h2>Finalizar compra</h2>
+
+      <div class="pagar-box">
+
+        <!-- RESUMEN -->
+        <div class="pagar-productos">
+          <h3>Resumen del pedido</h3>
+          <ul id="listaProductos"></ul>
+          <p class="total">Total: $<span id="totalPago">0</span></p>
+        </div>
+
+        <!-- FORMULARIOS Y MÉTODOS -->
+        <div class="pagar-form">
+
+          <h3>Selecciona tu forma de pago</h3>
+
+          <!-- BOTONES DE MÉTODO -->
+          <div class="metodos-pago">
+
+              <button class="metodo-btn" data-metodo="tarjeta">
+                  Tarjeta
+              </button>
+
+              <button class="metodo-btn" data-metodo="transferencia">
+                  Transferencia
+              </button>
+
+              <button class="metodo-btn" data-metodo="oxxo">
+                  OXXO
+              </button>
+
+          </div>
+
+          <!-- FORMULARIO ENVÍO -->
+          <div id="formEnvio" class="hidden">
+              <h3>Datos de envío</h3>
+
+              <label>Nombre completo:</label>
+              <input type="text" id="envNombre">
+
+              <label>Dirección:</label>
+              <input type="text" id="envDireccion">
+
+              <label>Ciudad:</label>
+              <input type="text" id="envCiudad">
+
+              <label>Código Postal:</label>
+              <input type="text" id="envCP">
+
+              <label>Teléfono:</label>
+              <input type="text" id="envTel">
+          </div>
+
+          <!-- FORM TARJETA -->
+          <div id="formTarjeta" class="hidden">
+              <h3>Datos de tarjeta</h3>
+
+              <label>Nombre en la tarjeta:</label>
+              <input type="text" id="nombreTarjeta">
+
+              <label>Número de tarjeta:</label>
+              <input type="text" id="numeroTarjeta" maxlength="16">
+
+              <label>Fecha de expiración:</label>
+              <input type="month" id="expiracion">
+
+              <label>CVV:</label>
+              <input type="text" id="cvv" maxlength="3">
+          </div>
+
+          <!-- INFO TRANSFERENCIA -->
+          <div id="infoTransferencia" class="hidden">
+              <h3>Transferencia Bancaria</h3>
+
+              <p><strong>Banco:</strong> Santander</p>
+              <p><strong>Titular:</strong> SNEAKERCLON5G</p>
+              <p><strong>Número de cuenta:</strong> 0123456789</p>
+              <p><strong>CLABE:</strong> 123456789012345678</p>
+
+              <p class="nota-transfer">
+                Una vez realizado el pago, envía tu comprobante a:  
+                <strong>sneakerclon5g@gmail.com</strong>
+              </p>
+          </div>
+
+          <!-- INFO OXXO -->
+          <div id="infoOxxo" class="hidden">
+              <h3>Pago en OXXO</h3>
+
+              <p><strong>Número de referencia:</strong> 1122 3344 5566 7788</p>
+
+              <p class="nota-oxxo">
+                  El pago puede tardar de 24 a 48 horas en procesarse.
+              </p>
+          </div>
+
+          <button id="btnPagar" class="hidden">Pagar ahora</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>Acerca de</h4>
+          <ul>
+            <li><a href="nosotros.html">Nuestra historia</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="faq.html">Ayuda</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Atención al cliente</h4>
+          <ul>
+            <li>Envíos y devoluciones</li>
+            <li>Política de privacidad</li>
+            <li>Términos y condiciones</li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <ul>
+            <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2025 SNEAKERCLON5G. Proyecto de Programación de Sistemas Web.
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- BOTÓN DE ACCESIBILIDAD -->
+  <div id="accesibilidad-btn">☰</div>
+
+  <!-- PANEL DE ACCESIBILIDAD -->
+  <div id="accesibilidad-panel">
+      <h3>Accesibilidad</h3>
+
+      <label>Tamaño de letra:</label>
+      <select id="acc-font-size">
+          <option value="small">Pequeña</option>
+          <option value="medium">Normal</option>
+          <option value="large">Grande</option>
+          <option value="xlarge">Extra grande</option>
+      </select>
+
+      <label>Contraste:</label>
+      <select id="acc-contrast">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+      </select>
+
+      <label>Tipo de letra:</label>
+      <select id="acc-font-family">
+          <option value="arial">Arial</option>
+          <option value="serif">Serif</option>
+          <option value="dyslexic">OpenDyslexic</option>
+      </select>
+
+      <button id="acc-save">Guardar Preferencias</button>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/pagar.js"></script>
+
+</body>
+</html>
