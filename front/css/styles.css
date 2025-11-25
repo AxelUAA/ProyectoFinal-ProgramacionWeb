@@ -781,3 +781,25 @@ body.dark #modal-close:hover {
   background: #e08600;
   transform: scale(1.03);
 }
+
+.btn-carrito {
+  background: #ff9500;
+  padding: 8px 12px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+}
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;   /* 🔥 CENTRA botones */
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  width: auto;
+  margin: 0 auto;        /* 🔥 Asegura centrado */
+}

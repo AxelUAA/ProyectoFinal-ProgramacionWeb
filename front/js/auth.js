@@ -98,8 +98,11 @@ window.limpiarSesion = limpiarSesion;
 document.addEventListener("DOMContentLoaded", () => {
 
     const userArea = document.getElementById("user-area");
+    const btnCarrito = document.getElementById("btnVerCarrito"); // 🛒 CARRITO
+    const nombre = localStorage.getItem("currentUserName");
+    const rol = localStorage.getItem("currentUserRol");
 
-    // Revisar expiración al abrir página
+    // ----------------- VERIFICAR EXPIRACIÓN -----------------
     const exp = getTokenExp();
     if (exp) {
         if (Date.now() >= exp) {
@@ -109,6 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 icon: "info",
                 title: "Sesión expirada",
                 text: "Tu sesión ha expirado. Por favor, inicia sesión de nuevo."
+            }).then(() => {
+                window.location.href = "login.html";
             });
 
         } else {
@@ -117,32 +122,44 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    const nombre = localStorage.getItem("currentUserName");
-    const rol = localStorage.getItem("currentUserRol");
-
-    // Usuario NO logueado
+    // ----------------- USUARIO NO LOGUEADO -----------------
     if (!nombre) {
-        userArea.innerHTML = `
-            <a href="login.html" class="btn-login">Iniciar sesión</a>
-        `;
+
+        // Mostrar botón de login
+        if (userArea) {
+            userArea.innerHTML = `
+                <a href="login.html" class="btn-login">Iniciar sesión</a>
+            `;
+        }
+
+        // Ocultar botón del carrito
+        if (btnCarrito) btnCarrito.style.display = "none";
+
         return;
     }
 
-    // Usuario ADMIN
+    // ----------------- USUARIO LOGUEADO -----------------
     if (rol && rol.toLowerCase() === "admin") {
+
         userArea.innerHTML = `
             <span class="user-name admin">👑 Admin: ${nombre}</span>
             <button id="logoutBtn">Cerrar sesión</button>
         `;
+
     } else {
-        // Usuario normal
+
         userArea.innerHTML = `
             <span class="user-name">Hola, ${nombre}</span>
             <button id="logoutBtn">Cerrar sesión</button>
         `;
     }
 
-    // Cerrar sesión con SweetAlert
+    // Mostrar botón del carrito 🛒 SOLO si hay sesión
+    if (btnCarrito) {
+        btnCarrito.style.display = "inline-block";
+    }
+
+    // ----------------- CERRAR SESIÓN -----------------
     const logoutBtn = document.getElementById("logoutBtn");
 
     if (logoutBtn) {
