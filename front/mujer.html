@@ -42,6 +42,23 @@
   <main class="container">
     <h2 class="page-title">Tenis para Mujer</h2>
 
+    <!-- FILTRO DE PRECIOS -->
+    <div class="filtro-precios">
+      <h4>Filtrar por precio</h4>
+      <div class="filtro-inputs">
+        <div class="input-group">
+          <label for="precioMin">Mínimo: $<span id="valorMin">0</span></label>
+          <input type="range" id="precioMin" min="0" max="10000" step="100" value="0">
+        </div>
+        <div class="input-group">
+          <label for="precioMax">Máximo: $<span id="valorMax">10000</span></label>
+          <input type="range" id="precioMax" min="0" max="10000" step="100" value="10000">
+        </div>
+        <button id="btnFiltrar" class="btn-filtrar">Aplicar filtro</button>
+        <button id="btnLimpiar" class="btn-limpiar">Limpiar filtro</button>
+      </div>
+    </div>
+
     <section>
       <div id="contenedor" class="grid-container"></div>
     </section>
