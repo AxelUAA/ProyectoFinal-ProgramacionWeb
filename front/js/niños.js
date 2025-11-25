@@ -1,37 +1,20 @@
-// ===== CARGA DE PRODUCTOS DE CATEGORÍA (NIÑOS) =====
+// Variable global para almacenar todos los productos
+let productosNiños = [];
 
+// ===== CARGA DE PRODUCTOS DE CATEGORÍA (NIÑOS) =====
 function cargarProductos(idCategoria) {
     const url = `http://localhost:3000/api/productos/categoria/${idCategoria}`;
     
     fetch(url)
         .then(res => res.json())
         .then(data => {
-            const contenedor = document.getElementById('contenedor');
-
-            contenedor.innerHTML = '';
-
             if (!Array.isArray(data) || data.length === 0) {
-                contenedor.innerHTML = '<p>No se encontraron productos en esta categoría.</p>';
+                document.getElementById('contenedor').innerHTML = '<p>No se encontraron productos en esta categoría.</p>';
                 return;
             }
 
-            data.forEach(producto => {
-                const div = document.createElement('div');
-                div.className = 'card';
-
-                div.innerHTML = `
-                    <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}"
-                         onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                    <h3>${producto.nombre}</h3>
-                    <p class="precio">$${producto.precio}</p>
-                    <p>Stock: ${producto.stock}</p>
-                `;
-
-                // 👉 ABRIR MODAL
-                div.addEventListener("click", () => mostrarModal(producto));
-
-                contenedor.appendChild(div);
-            });
+            productosNiños = data;
+            mostrarProductos(productosNiños);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -42,5 +25,77 @@ function cargarProductos(idCategoria) {
         });
 }
 
+// Mostrar productos en el DOM
+function mostrarProductos(productos) {
+    const contenedor = document.getElementById('contenedor');
+    contenedor.innerHTML = '';
+
+    if (productos.length === 0) {
+        contenedor.innerHTML = '<p>No se encontraron productos en este rango de precio.</p>';
+        return;
+    }
+
+    productos.forEach(producto => {
+        const div = document.createElement('div');
+        div.className = 'card';
+
+        div.innerHTML = `
+            <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}"
+                 onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+            <h3>${producto.nombre}</h3>
+            <p class="precio">$${producto.precio}</p>
+            <p>Stock: ${producto.stock}</p>
+        `;
+
+        div.addEventListener("click", () => mostrarModal(producto));
+
+        contenedor.appendChild(div);
+    });
+}
+
+// Inicializar filtros de precio
+function inicializarFiltros() {
+    const precioMin = document.getElementById("precioMin");
+    const precioMax = document.getElementById("precioMax");
+    const valorMin = document.getElementById("valorMin");
+    const valorMax = document.getElementById("valorMax");
+    const btnFiltrar = document.getElementById("btnFiltrar");
+    const btnLimpiar = document.getElementById("btnLimpiar");
+
+    precioMin.addEventListener("input", () => {
+        valorMin.textContent = precioMin.value;
+    });
+
+    precioMax.addEventListener("input", () => {
+        valorMax.textContent = precioMax.value;
+    });
+
+    btnFiltrar.addEventListener("click", () => {
+        const min = parseInt(precioMin.value);
+        const max = parseInt(precioMax.value);
+
+        if (min > max) {
+            alert("El precio mínimo no puede ser mayor que el máximo");
+            return;
+        }
+
+        const productosFiltrados = productosNiños.filter(p => 
+            p.precio >= min && p.precio <= max
+        );
+
+        mostrarProductos(productosFiltrados);
+    });
+
+    btnLimpiar.addEventListener("click", () => {
+        precioMin.value = 0;
+        precioMax.value = 10000;
+        valorMin.textContent = "0";
+        valorMax.textContent = "10000";
+        mostrarProductos(productosNiños);
+    });
+}
+
 // Cargar categoría niños (id = 3)
 cargarProductos(3);
+inicializarFiltros();
+
