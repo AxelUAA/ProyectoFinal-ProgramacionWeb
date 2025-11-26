@@ -7,7 +7,8 @@ const path = require('path');
 const routes = require('./routes/routes');      // productos, etc.
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
-
+const salesRoutes = require('./routes/salesRoutes');
+const salesRoutes2 = require('./routes/salesRoutes2');
 // variables de entorno
 dotenv.config();
 
@@ -29,6 +30,10 @@ app.use('/api/auth', authRoutes);
 
 // Rutas de usuario (protegidas con JWT/middleware)
 app.use('/api/users', userRoutes);
+
+app.use('/api/graficas', salesRoutes); // Gráficas de ventas
+
+app.use("/api/sales", salesRoutes2); // Rutas de ventas: verificar stock y pagar
 
 // Servidor encendido
 app.listen(PORT, () => {
