@@ -35,35 +35,104 @@
     </div>
   </header>
 
-  <main class="container">
-    <h2 class="page-title">Contáctanos</h2>
-    <div class="page-content">
-      <p>
-        Si tienes dudas sobre el proyecto, te gustaría reportar un problema o hacer una sugerencia,
-        puedes escribirnos al correo:
-      </p>
-      <p><strong>soporte@sneakerclon5g.com</strong> (correo ficticio para el proyecto).</p>
+  <main>
+    <!-- HERO SECTION -->
+    <section class="contacto-hero">
+      <div class="contacto-hero-content">
+        <h1>Contáctanos</h1>
+        <p>Estamos aquí para ayudarte</p>
+      </div>
+    </section>
 
-      <!-- FORMULARIO DE COMENTARIOS -->
-      <form id="contactForm">
-        <!-- Campo para correo -->
-        <label for="correo">Tu correo:</label><br>
-        <input type="email" id="correo" name="correo" placeholder="tu@correo.com" 
-               style="padding:8px; width:250px; margin-bottom:10px;" required><br>
+    <!-- CONTENIDO PRINCIPAL -->
+    <section class="contacto-section container">
+      <div class="contacto-grid">
+        
+        <!-- INFORMACIÓN DE CONTACTO -->
+        <div class="contacto-info">
+          <h2>¿Cómo podemos ayudarte?</h2>
+          <p class="contacto-desc">
+            Si tienes dudas sobre el proyecto, te gustaría reportar un problema o hacer una sugerencia,
+            estamos disponibles para atenderte.
+          </p>
+          
+          <div class="info-items">
+            <div class="info-item">
+              <div class="info-icon">📧</div>
+              <div class="info-text">
+                <h4>Email</h4>
+                <p>soporte@sneakerclon5g.com</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <div class="info-icon">📱</div>
+              <div class="info-text">
+                <h4>Redes Sociales</h4>
+                <p>@sneakerclon5g</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <div class="info-icon">⏰</div>
+              <div class="info-text">
+                <h4>Horario</h4>
+                <p>Lun - Vie: 9:00 AM - 6:00 PM</p>
+              </div>
+            </div>
 
-        <!-- Caja de comentarios -->
-        <label for="comentario">Déjanos tu comentario:</label><br>
-        <textarea id="comentario" name="comentario" rows="4" cols="50" 
-                  placeholder="Escribe aquí tu comentario..." required></textarea><br><br>
+            <div class="info-item">
+              <div class="info-icon">🎓</div>
+              <div class="info-text">
+                <h4>Universidad</h4>
+                <p>Universidad Autónoma de Aguascalientes</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <!-- Botón -->
-        <button type="submit" 
-          style="background-color:#4CAF50; color:white; border:none; padding:10px 20px; 
-                 border-radius:5px; cursor:pointer; font-size:14px; transition:0.3s;">
-          Enviar
-        </button>
-      </form>
-    </div>
+        <!-- FORMULARIO -->
+        <div class="contacto-form-container">
+          <h3>Envíanos un mensaje</h3>
+          <form id="contactForm" class="contacto-form">
+            
+            <div class="form-group">
+              <label for="correo">
+                <span class="label-icon">✉️</span>
+                Tu correo electrónico
+              </label>
+              <input 
+                type="email" 
+                id="correo" 
+                name="correo" 
+                placeholder="tucorreo@ejemplo.com" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="comentario">
+                <span class="label-icon">💬</span>
+                Mensaje
+              </label>
+              <textarea 
+                id="comentario" 
+                name="comentario" 
+                rows="6" 
+                placeholder="Cuéntanos en qué podemos ayudarte..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <span>Enviar Mensaje</span>
+              <span class="btn-icon">→</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </section>
   </main>
 
   <footer>
