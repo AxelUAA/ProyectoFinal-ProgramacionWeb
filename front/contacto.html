@@ -11,7 +11,7 @@
   <header>
     <div class="header-inner container">
       <div class="logo-area">
-        <img src="img/logo.jpg" alt="Logo SNEAKERCLON5G">
+        <img src="http://localhost:3000/public/img/logo.jpg" alt="Logo SNEAKERCLON5G">
         <h1>SNEAKERCLON5G</h1>
       </div>
 
@@ -31,7 +31,7 @@
       </nav>
 
       <div class="user-area" id="user-area"></div>
-       <button id="btnVerCarrito" class="btn-carrito">🛒</button>
+      <button id="btnVerCarrito" class="btn-carrito">🛒</button>
     </div>
   </header>
 
@@ -43,10 +43,26 @@
         puedes escribirnos al correo:
       </p>
       <p><strong>soporte@sneakerclon5g.com</strong> (correo ficticio para el proyecto).</p>
-      <p>
-        También puedes incluir un pequeño formulario de contacto aquí más adelante, si lo requiere
-        tu práctica.
-      </p>
+
+      <!-- FORMULARIO DE COMENTARIOS -->
+      <form id="contactForm">
+        <!-- Campo para correo -->
+        <label for="correo">Tu correo:</label><br>
+        <input type="email" id="correo" name="correo" placeholder="tu@correo.com" 
+               style="padding:8px; width:250px; margin-bottom:10px;" required><br>
+
+        <!-- Caja de comentarios -->
+        <label for="comentario">Déjanos tu comentario:</label><br>
+        <textarea id="comentario" name="comentario" rows="4" cols="50" 
+                  placeholder="Escribe aquí tu comentario..." required></textarea><br><br>
+
+        <!-- Botón -->
+        <button type="submit" 
+          style="background-color:#4CAF50; color:white; border:none; padding:10px 20px; 
+                 border-radius:5px; cursor:pointer; font-size:14px; transition:0.3s;">
+          Enviar
+        </button>
+      </form>
     </div>
   </main>
 
@@ -72,7 +88,7 @@
         <div class="footer-col">
           <h4>Síguenos</h4>
           <ul>
-           <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
+            <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
           </ul>
         </div>
       </div>
@@ -116,7 +132,6 @@
   <script src="js/auth.js"></script>
   <script src="js/accesibilidad.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <script src="js/contacto.js"></script>
 </body>
 </html>
-

@@ -67,7 +67,6 @@ function mostrarProductos(productos, contenedorId) {
 function crearTarjetaProducto(producto) {
   const div = document.createElement("div");
   
-  // Si está en oferta, agregar clase especial
   if (estaEnOferta(producto.id)) {
     div.className = "card card-oferta";
     
@@ -82,7 +81,9 @@ function crearTarjetaProducto(producto) {
       <p class="precio-original">Antes: $${producto.precio}</p>
       <p class="precio-oferta">$${precioOferta.toFixed(2)}</p>
       <p class="ahorro">¡Ahorras $${ahorro.toFixed(2)}!</p>
-      <p>Stock: ${producto.stock}</p>
+      <p ${producto.stock === 0 ? 'style="color:red;"' : ''}>
+        ${producto.stock > 0 ? "Stock: " + producto.stock : "Artículo no disponible"}
+      </p>
     `;
   } else {
     div.className = "card";
@@ -91,7 +92,9 @@ function crearTarjetaProducto(producto) {
       <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}">
       <h3>${producto.nombre}</h3>
       <p class="precio">$${producto.precio}</p>
-      <p>Stock: ${producto.stock}</p>
+      <p ${producto.stock === 0 ? 'style="color:red;"' : ''}>
+        ${producto.stock > 0 ? "Stock: " + producto.stock : "Artículo no disponible"}
+      </p>
     `;
   }
 
@@ -102,4 +105,3 @@ function crearTarjetaProducto(producto) {
 
   return div;
 }
-
