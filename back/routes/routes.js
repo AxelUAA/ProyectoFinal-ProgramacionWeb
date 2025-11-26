@@ -174,6 +174,7 @@ router.post('/registrarUsuario', (req, res) => {
             // 2) RUTA DEL CUPÓN
             // ===========================
             const cuponPath = path.join(__dirname, "../public/img/cupon.png");
+            const logoPath = path.join(__dirname, "../public/img/logo.jpg");
 
             // ===========================
             // 3) OPCIONES DEL CORREO
@@ -183,8 +184,12 @@ router.post('/registrarUsuario', (req, res) => {
                 to: correo,
                 subject: "¡Bienvenido a SNEAKERS CLON 5G!",
                 html: `
+                    <div style="text-align:left;">
+                    <img src="cid:logoSneakers" alt="Logo" style="width:150px; margin-bottom:20px;" />
+                    </div>
                     <h2>Hola ${nombre} 👋</h2>
                     <p>Gracias por registrarte en <b>Sneakers Clon 5G</b>.</p>
+                    <p>EL ORIGINAL ERES TÚ</p>
                     <p>Aquí tienes un cupón especial de bienvenida:</p>
                     <p><b>🎁 CUPÓN DE DESCUENTO ESPECIAL</b></p>
                     <p>Utilízalo en tu próxima compra.</p>
@@ -194,6 +199,11 @@ router.post('/registrarUsuario', (req, res) => {
                     {
                         filename: "cupon.png",
                         path: cuponPath,
+                    },
+                    {
+                        filename: "logo.jpg",
+                        path: logoPath,
+                        cid: "logoSneakers"
                     }
                 ]
             };
@@ -217,6 +227,67 @@ router.post('/registrarUsuario', (req, res) => {
             });
         }
     );
+});
+
+// API para responder un comentario y enviar correo
+router.post('/responderComentario', async (req, res) => {
+    const { correo, respuesta } = req.body;
+
+    // Validación
+    if (!correo || !respuesta) {
+        return res.status(400).json({ message: "El correo y la respuesta son obligatorios" });
+    }
+
+    // 1) CONFIGURAR TRANSPORTER
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "alejandro.cuabe@gmail.com",
+            pass: "xhdd ufyb amol xbbs"
+        }
+    });
+
+    // 2) RUTA DEL LOGO
+    const logoPath = path.join(__dirname, "../public/img/logo.jpg");
+
+    // 3) OPCIONES DEL CORREO
+    const mailOptions = {
+        from: '"Sneakers Clon 5G" <alejandro.cuabe@gmail.com>',
+        to: correo,
+        subject: "Respuesta a tu comentario - SNEAKERS CLON 5G",
+        html: `
+            <div style="text-align:left;">
+                <img src="cid:logoSneakers" alt="Logo" style="width:150px; margin-bottom:20px;" />
+            </div>
+            <h2>Hola 👋</h2>
+            <p>Gracias por ponerte en contacto con <b>Sneakers Clon 5G</b>.</p>
+            <p>¡EL ORIGINAL ERES TÚ!</p>
+            <p>Hemos recibido tu comentario</p>
+            <h1>En breve será atendido</h1>
+            <blockquote style="border-left:3px solid #4CAF50; padding-left:10px; color:#333;">
+            
+            </blockquote>
+            <p>Nos alegra que formes parte de nuestra comunidad.</p>
+            <p>¡Gracias por confiar en nosotros!</p>
+        `,
+        attachments: [
+            {
+                filename: "logo.jpg",
+                path: logoPath,
+                cid: "logoSneakers" // Content-ID para usar inline
+            }
+        ]
+    };
+
+    // 4) ENVIAR CORREO
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log("Respuesta enviada a:", correo);
+        return res.json({ message: "Respuesta enviada correctamente" });
+    } catch (mailErr) {
+        console.error("Error al enviar correo:", mailErr);
+        return res.status(500).json({ message: "Error al enviar la respuesta" });
+    }
 });
 
 module.exports = router;
