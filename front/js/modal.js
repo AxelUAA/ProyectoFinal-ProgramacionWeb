@@ -1,5 +1,10 @@
 // ===== FUNCION PARA MOSTRAR MODAL =====
 function mostrarModal(producto) {
+
+    // Guardar producto actual para el botón "Agregar al carrito"
+    window.productoActual = producto;
+
+
     document.getElementById("modal-img").src = "http://localhost:3000/public/img/" + producto.imagen;
     document.getElementById("modal-nombre").textContent = producto.nombre;
     document.getElementById("modal-precio").textContent = "$" + producto.precio;
@@ -44,4 +49,25 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.style.display = "none";
         }
     });
+
+    // ===== AGREGAR PRODUCTO AL CARRITO =====
+    document.getElementById("modal-cart-btn").addEventListener("click", () => {
+        if (!window.productoActual) return;
+
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+        carrito.push({
+            id: window.productoActual.id,
+            nombre: window.productoActual.nombre,
+            precio: window.productoActual.precio,
+            imagen: window.productoActual.imagen,
+            cantidad: 1
+        });
+
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+
+        Swal.fire("Agregado", "Producto añadido al carrito", "success");
+    });
+
+
 });
