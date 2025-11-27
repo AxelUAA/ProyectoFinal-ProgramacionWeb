@@ -2748,3 +2748,29 @@ body.dark #modal-close:hover {
     padding: 25px 20px;
   }
 }
+
+
+/* ================================
+   INPUT CANTIDAD para carrito
+   ================================ */
+
+.input-cantidad {
+    width: 60px;
+    padding: 6px 8px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.input-cantidad:focus {
+    outline: none;
+    border-color: #1e90ff;
+    box-shadow: 0 0 6px rgba(30,144,255,0.5);
+}
+
+.input-cantidad::-webkit-inner-spin-button {
+    opacity: 1;
+}
