@@ -6,6 +6,10 @@ const db = require('../db/conexion');
 const JWT_SECRET = process.env.JWT_SECRET || 'clave_por_defecto';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '60'; // segundos
 
+// parámetros del sistema de bloqueo
+const MAX_ATTEMPTS = 3;     // después de 3 intentos fallidos
+const LOCK_MINUTES = 5;     // bloquear 5 minutos
+
 // POST /api/auth/login
 exports.login = async (req, res) => {
   try {
@@ -62,6 +66,7 @@ exports.login = async (req, res) => {
           Nombre,
           Correo,
           Rol,
+          failed_attempts, locked_until,
           \`Password\` AS Contrasena
         FROM usuarios
         WHERE Correo = ?
@@ -78,13 +83,64 @@ exports.login = async (req, res) => {
     }
 
     const user = rows[0];
+    const now = new Date(); // para los 5 minutos fuera 
+    
+    //Revisar si la cuenta está bloqueada actualmente
+    if (user.locked_until && now < user.locked_until) {
+      const msRestantes = user.locked_until - now;
+      const minutosRestantes = Math.ceil(msRestantes / 60000);
+
+      return res.status(423).json({
+        ok: false,
+        message: `Tu cuenta está bloqueada por intentos fallidos. Intenta de nuevo en aproximadamente ${minutosRestantes} minuto(s).`
+      });
+    }
+    //Si la cuenta tenía lock pero ya pasó el tiempo -> resetear contador y lock
+    if (user.locked_until && now >= user.locked_until) {
+      await db.promise().query( 
+        'UPDATE usuarios SET failed_attempts = 0, locked_until = NULL WHERE id = ?',
+        [user.ID]
+      );
+      user.failed_attempts = 0;
+      user.locked_until = null;
+    }
 
     // Comparar contraseña (aquí texto plano; en producción usar bcrypt)
     if (user.Contrasena !== password) {
+      const newAttempts = (user.failed_attempts || 0) + 1; // Incrementar intentos fallidos
+
+      //  Si alcanzó el límite de intentos -> bloqueamos
+      if (newAttempts >= MAX_ATTEMPTS) {
+        await db.promise().query(
+          'UPDATE usuarios SET failed_attempts = ?, locked_until = DATE_ADD(NOW(), INTERVAL ? MINUTE) WHERE id = ?',
+          [newAttempts, LOCK_MINUTES, user.ID]
+        );
+
+        return res.status(423).json({
+          ok: false,
+          message: `Has alcanzado el máximo de ${MAX_ATTEMPTS} intentos fallidos. Tu cuenta estará bloqueada por ${LOCK_MINUTES} minutos.`
+        });
+      }
+
+      // Todavía no alcanza el límite -> solo actualizamos el contador
+      await db.promise().query(
+        'UPDATE usuarios SET failed_attempts = ? WHERE id = ?',
+        [newAttempts, user.ID]
+      );
+
       return res.status(401).json({
         ok: false,
-        message: 'Credenciales inválidas (contraseña incorrecta).'
+        message: `Credenciales inválidas. Intentos fallidos: ${newAttempts}/${MAX_ATTEMPTS}.`
       });
+    }
+
+    //  Si la contraseña es correcta:
+    //    resetear intentos y lock
+    if (user.failed_attempts !== 0 || user.locked_until !== null) {
+      await db.promise().query(
+        'UPDATE usuarios SET failed_attempts = 0, locked_until = NULL WHERE id = ?',
+        [user.ID]
+      );
     }
 
     // Payload del token

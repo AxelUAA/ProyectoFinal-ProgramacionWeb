@@ -54,19 +54,35 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("modal-cart-btn").addEventListener("click", () => {
         if (!window.productoActual) return;
 
-        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+       let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-        carrito.push({
-            id: window.productoActual.id,
-            nombre: window.productoActual.nombre,
-            precio: window.productoActual.precio,
-            imagen: window.productoActual.imagen,
-            cantidad: 1
-        });
+let productoEnCarrito = carrito.find(p => p.id === window.productoActual.id);
 
-        localStorage.setItem("carrito", JSON.stringify(carrito));
+// 1️⃣ Si el producto ya existe, validar stock
+if (productoEnCarrito) {
+    if (productoEnCarrito.cantidad + 1 > window.productoActual.stock) {
+        return Swal.fire("Sin stock", "No puedes agregar más unidades.", "warning");
+    }
+    productoEnCarrito.cantidad++;
+} else {
+    // 2️⃣ Si no existe, validar stock
+    if (window.productoActual.stock < 1) {
+        return Swal.fire("Sin stock", "Producto agotado.", "warning");
+    }
 
-        Swal.fire("Agregado", "Producto añadido al carrito", "success");
+    carrito.push({
+        id: window.productoActual.id,
+        nombre: window.productoActual.nombre,
+        precio: window.productoActual.precio,
+        imagen: window.productoActual.imagen,
+        cantidad: 1
+    });
+}
+
+localStorage.setItem("carrito", JSON.stringify(carrito));
+
+Swal.fire("Agregado", "Producto añadido al carrito", "success");
+
     });
 
 

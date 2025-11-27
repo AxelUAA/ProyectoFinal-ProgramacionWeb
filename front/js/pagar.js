@@ -5,12 +5,15 @@
 // Referencias del carrito (parte superior)
 const carritoLista = document.getElementById("carritoLista");
 const carritoTotal = document.getElementById("carritoTotal");
+const itemsCount = document.getElementById("itemsCount");
+const carritoEmpty = document.getElementById("carritoEmpty");
 const btnVaciar = document.getElementById("btnVaciarCarrito");
 const btnFinalizar = document.getElementById("btnFinalizar");
 
 // Referencias del resumen final
 const listaProductos = document.getElementById("listaProductos");
 const totalPago = document.getElementById("totalPago");
+const totalPagoFinal = document.getElementById("totalPagoFinal");
 
 
 // ============================
@@ -22,17 +25,28 @@ function cargarCarrito() {
 
     carritoLista.innerHTML = "";
     let total = 0;
+    let totalItems = 0;
 
-    carrito.forEach((item, index) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            ${item.nombre} - $${item.precio} x ${item.cantidad}
-            <button class="btn-eliminar" data-index="${index}">X</button>
-        `;
-        carritoLista.appendChild(li);
+    if (carrito.length === 0) {
+        carritoEmpty.classList.add("show");
+        itemsCount.textContent = "0 items";
+    } else {
+        carritoEmpty.classList.remove("show");
+        
+        carrito.forEach((item, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <span>${item.nombre} - $${item.precio} x ${item.cantidad}</span>
+                <button class="btn-eliminar" data-index="${index}">🗑️ Eliminar</button>
+            `;
+            carritoLista.appendChild(li);
 
-        total += item.precio * item.cantidad;
-    });
+            total += item.precio * item.cantidad;
+            totalItems += item.cantidad;
+        });
+
+        itemsCount.textContent = `${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
+    }
 
     carritoTotal.textContent = total;
 
@@ -131,6 +145,7 @@ function cargarResumenCarrito() {
     });
 
     totalPago.textContent = total;
+    if (totalPagoFinal) totalPagoFinal.textContent = total;
 }
 
 
@@ -188,52 +203,86 @@ metodoBtns.forEach(btn => {
 // ====================== Pagar =========================
 // ======================================================
 
-btnPagar.addEventListener("click", () => {
+btnPagar.addEventListener("click", async () => {
 
     if (!metodoSeleccionado) {
-        Swal.fire({
-            icon: "warning",
-            title: "Selecciona un método de pago"
-        });
-        return;
+        return Swal.fire({ icon: "warning", title: "Selecciona un método de pago" });
     }
 
     // Validar envío
     const camposEnvio = ["envNombre", "envDireccion", "envCiudad", "envCP", "envTel"];
-
     for (const id of camposEnvio) {
         if (document.getElementById(id).value.trim() === "") {
-            Swal.fire({
+            return Swal.fire({
                 icon: "warning",
-                title: "Faltan datos de envío",
-                text: "Completa todos los campos"
+                title: "Datos incompletos",
+                text: "Llena todos los campos."
             });
-            return;
         }
     }
 
-    // Validar tarjeta
+    // Validación de tarjeta
     if (metodoSeleccionado === "tarjeta") {
-        const nombre = document.getElementById("nombreTarjeta").value.trim();
         const numero = document.getElementById("numeroTarjeta").value.trim();
         const cvv = document.getElementById("cvv").value.trim();
 
-        if (nombre === "" || numero.length !== 16 || cvv.length !== 3) {
-            Swal.fire({
-                icon: "error",
-                title: "Datos de tarjeta inválidos"
-            });
-            return;
+        if (numero.length !== 16 || cvv.length !== 3) {
+            return Swal.fire({ icon: "error", title: "Tarjeta inválida" });
         }
     }
 
-    // Pago final
+    // Obtener carrito
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    // 1️⃣ Verificar stock en servidor
+    const verificar = await fetch("http://localhost:3000/api/sales/verificar-stock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ carrito })
+    });
+
+    const respuesta = await verificar.json();
+
+    if (!respuesta.ok) {
+        return Swal.fire("Stock insuficiente", respuesta.message, "error");
+    }
+
+    // 2️⃣ Procesar pago
+    const pagar = await fetch("http://localhost:3000/api/sales/pagar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            carrito,
+            metodo: metodoSeleccionado,
+            envio: {
+                nombre: document.getElementById("envNombre").value,
+                direccion: document.getElementById("envDireccion").value,
+                ciudad: document.getElementById("envCiudad").value,
+                cp: document.getElementById("envCP").value,
+                tel: document.getElementById("envTel").value
+            }
+        })
+    });
+
+    const pagoFinal = await pagar.json();
+
+    if (!pagoFinal.ok) {
+        return Swal.fire("Error", pagoFinal.message, "error");
+    }
+
+    // 3️⃣ Limpiar carrito
+    localStorage.removeItem("carrito");
+
     Swal.fire({
         icon: "success",
-        title: "Pago procesado",
-        text: "Método: " + metodoSeleccionado.toUpperCase(),
+        title: "Compra completada",
+        text: "Gracias por tu compra!"
+    }).then(() => {
+        window.location.href = "index.html";
     });
+
 });
+
 
 
 
