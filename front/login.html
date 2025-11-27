@@ -39,34 +39,56 @@
   </header>
 
   <!-- LOGIN -->
-  <main class="container">
-    <div class="login-wrapper">
-      <h2>Iniciar sesión</h2>
+  <main class="login-page">
+    <div class="login-container">
+      
+      <div class="login-header">
+        <h2>Bienvenido</h2>
+        <p>Inicia sesión para continuar</p>
+      </div>
+
       <div class="login-error" id="loginError"></div>
 
-      <form id="loginForm">
-        <label for="correo">Correo electrónico</label>
-        <input type="email" id="correo" placeholder="tu@correo.com" required>
+      <form id="loginForm" class="login-form">
+        
+        <div class="form-group">
+          <label for="correo">
+            <span class="label-icon">📧</span>
+            Correo electrónico
+          </label>
+          <input type="email" id="correo" placeholder="tucorreo@ejemplo.com" required>
+        </div>
 
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" placeholder="********" required>
+        <div class="form-group">
+          <label for="password">
+            <span class="label-icon">🔒</span>
+            Contraseña
+          </label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
 
-          <!-- CAPTCHA No soy un robot -->
-    <div class="g-recaptcha" 
-         data-sitekey="6LcBohQsAAAAAMk6ZBVfQd_sOhxd-kP7bBGLBtI9"
-         name="g-recaptcha-response">
-    </div>
-        <button type="submit">Entrar</button>
+        <!-- CAPTCHA -->
+        <div class="captcha-container">
+          <div class="g-recaptcha" 
+               data-sitekey="6LcBohQsAAAAAMk6ZBVfQd_sOhxd-kP7bBGLBtI9"
+               name="g-recaptcha-response">
+          </div>
+        </div>
 
-        <!-- Botón Cambiar contraseña -->
-        <button type="button" class="btn-secundario" id="btnCambiarPass">
-          Cambiar contraseña
+        <button type="submit" class="btn-primary">
+          <span>Iniciar Sesión</span>
+          <span class="btn-arrow">→</span>
         </button>
 
-        <!-- Botón Registrar -->
-        <button type="button" class="btn-secundario" id="btnRegistrar">
-          Registrar
-        </button>
+        <div class="login-actions">
+          <button type="button" class="btn-link" id="btnCambiarPass">
+            Cambiar contraseña
+          </button>
+          <button type="button" class="btn-link" id="btnRegistrar">
+            Crear cuenta nueva
+          </button>
+        </div>
+
       </form>
     </div>
   </main>
