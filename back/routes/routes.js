@@ -1,4 +1,4 @@
-//archivo de rutas
+//archivo de rutasww
 const express = require('express');
 const router = express.Router();
 const db = require('../db/conexion');
