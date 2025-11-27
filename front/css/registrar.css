@@ -1,0 +1,92 @@
+/* ======== ESTILOS PARA REGISTRO ======== */
+
+.login-wrapper {
+    max-width: 420px;
+    margin: 50px auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    text-align: center;
+}
+
+.login-wrapper h2 {
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: #222;
+    font-weight: bold;
+}
+
+/* FORMULARIO */
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* LABELS */
+#registerForm label {
+    text-align: left;
+    font-weight: bold;
+    color: #444;
+}
+
+/* INPUTS */
+#registerForm input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    font-size: 15px;
+    transition: 0.3s ease;
+}
+
+#registerForm input:focus {
+    border-color: #2e8b57;
+    outline: none;
+    box-shadow: 0 0 6px rgba(46, 139, 87, 0.4);
+}
+
+/* BOTÓN PRINCIPAL */
+#registerForm button[type="submit"] {
+    margin-top: 10px;
+    padding: 12px;
+    background: #2e8b57;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#registerForm button[type="submit"]:hover {
+    background: #246b44;
+    transform: scale(1.03);
+}
+
+/* BOTÓN SECUNDARIO */
+.btn-secundario {
+    margin-top: 5px;
+    padding: 10px;
+    background: #444;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    width: 100%;
+}
+
+.btn-secundario:hover {
+    background: #222;
+    transform: scale(1.02);
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+    .login-wrapper {
+        margin: 30px 15px;
+        padding: 25px;
+    }
+}
