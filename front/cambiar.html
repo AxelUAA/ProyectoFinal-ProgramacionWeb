@@ -3,27 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cambiar Contraseña</title>
+  <title>Recuperar Acceso</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <body>
 
   <main class="container">
     <div class="login-wrapper">
-      <h2>Cambiar contraseña</h2>
+      <h2>Recuperar acceso</h2>
 
       <form id="changePassForm">
 
         <label for="correo">Correo electrónico</label>
         <input type="email" id="correo" placeholder="tu@correo.com" required>
 
-        <label for="passwordNueva">Nueva contraseña</label>
-        <input type="password" id="passwordNueva" placeholder="********" required>
+        <button type="submit">Enviar enlace de recuperación</button>
 
-        <label for="passwordNueva2">Confirmar nueva contraseña</label>
-        <input type="password" id="passwordNueva2" placeholder="********" required>
-
-        <button type="submit">Actualizar contraseña</button>
         <button type="button" class="btn-secundario" onclick="window.location.href='login.html'">
           Volver al login
         </button>
@@ -31,6 +28,8 @@
       </form>
     </div>
   </main>
+
+  <script src="js/recuperarAcceso.js"></script>
 
   <script>
   document.getElementById("btnVerCarrito").addEventListener("click", () => {

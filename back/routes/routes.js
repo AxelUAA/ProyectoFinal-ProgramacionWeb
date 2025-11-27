@@ -1,4 +1,4 @@
-//archivo de rutas
+//archivo de rutasww
 const express = require('express');
 const router = express.Router();
 const db = require('../db/conexion');
@@ -288,6 +288,170 @@ router.post('/responderComentario', async (req, res) => {
         console.error("Error al enviar correo:", mailErr);
         return res.status(500).json({ message: "Error al enviar la respuesta" });
     }
+});
+//api para verificar si el correo existe en la base de datos
+/*router.get('/verificarCorreo/:correo', (req, res) => {
+    const correo = req.params.correo;
+    const sql = 'SELECT * FROM usuarios WHERE correo = ?';
+
+    db.query(sql, [correo], (err, results) => {
+        if (err) {
+            console.error('Error al verificar el correo:', err);
+            return res.status(500).json({ message: 'Error del servidor' });
+        }
+
+        if (results.length > 0) {
+            return res.json({ exists: true });
+        } else {
+            return res.json({ exists: false });
+        }
+    });
+});
+*/
+router.get('/verificarCorreo/:correo', async (req, res) => {
+    const correo = req.params.correo;
+    const sql = 'SELECT * FROM usuarios WHERE correo = ?';
+
+    db.query(sql, [correo], async (err, results) => {
+        if (err) {
+            console.error('Error al verificar el correo:', err);
+            return res.status(500).json({ message: 'Error del servidor' });
+        }
+
+        // SI EL CORREO NO EXISTE
+        if (results.length === 0) {
+            return res.json({ exists: false });
+        }
+
+        // ================================
+        //  1) GENERAR CLAVE ALEATORIA
+        // ================================
+        const codigo = Math.floor(100000 + Math.random() * 900000); // Ej: 348192
+
+        // ================================
+        // 2) Guardar el código en la base de datos
+        const sqlUpdate = "UPDATE usuarios SET codigo = ? WHERE correo = ?";
+
+        db.query(sqlUpdate, [codigo, correo], async (updateErr) => {
+            if (updateErr) {
+                console.error("Error al guardar el código:", updateErr);
+                return res.status(500).json({ message: "Error al guardar el código" });
+            }
+        });
+
+        // ================================
+        //  2) CONFIGURAR TRANSPORTER
+        // ================================
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: "alejandro.cuabe@gmail.com",
+                pass: "xhdd ufyb amol xbbs"
+            }
+        });
+
+        // ================================
+        //  3) RUTA DEL LOGO
+        // ================================
+        const logoPath = path.join(__dirname, "../public/img/logo.jpg");
+
+        // ================================
+        //  4) OPCIONES DEL CORREO
+        // ================================
+        const mailOptions = {
+            from: '"Sneakers Clon 5G" <alejandro.cuabe@gmail.com>',
+            to: correo,
+            subject: "Código de recuperación - SNEAKERS CLON 5G",
+            html: `
+                <div style="text-align:left;">
+                    <img src="cid:logoSneakers" alt="Logo" style="width:150px; margin-bottom:20px;" />
+                </div>
+                <h2>Recuperación de acceso</h2>
+                <p>Hola, hemos recibido una solicitud para recuperar tu acceso.</p>
+                <p>Tu código de verificación es:</p>
+
+                <h1 style="color:#4CAF50; letter-spacing:5px;">${codigo}</h1>
+
+                <p>Ingresa este código en la página de verificación.</p>
+                <p>Si tú no solicitaste esto, simplemente ignora este mensaje.</p>
+                <br>
+                <p><b>Sneakers Clon 5G</b></p>
+                <p>¡EL ORIGINAL ERES TÚ!</p>
+            `,
+            attachments: [
+                {
+                    filename: "logo.jpg",
+                    path: logoPath,
+                    cid: "logoSneakers"
+                }
+            ]
+        };
+
+        // ================================
+        //  5) ENVIAR CORREO
+        // ================================
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log("Código enviado a:", correo);
+
+            return res.json({
+                exists: true,
+                codigo: codigo // opcional por si quieres usarlo en frontend
+            });
+
+        } catch (mailErr) {
+            console.error("Error al enviar código:", mailErr);
+            return res.status(500).json({ message: "Error al enviar el correo" });
+        }
+    });
+});
+
+//api que verifica el codigo que llega al correo con el de 
+router.post('/verificarCodigo', (req, res) => {
+    const {codigo } = req.body;
+    const sql = 'SELECT * FROM usuarios WHERE codigo = ?';
+    db.query(sql, [codigo], (err, results) => {
+        if (err) {
+            console.error('Error al verificar el código:', err);
+            return res.status(500).json({ message: 'Error del servidor' });
+        }
+        if (results.length > 0) {
+            return res.json({ valid: true });
+        } else {
+            return res.json({ valid: false });
+        }
+    });
+});
+
+
+router.put('/actualizarPassword', (req, res) => {
+    console.log('✅ Entró a /actualizarPassword');
+    const { codigo, newPassword, newPassword2 } = req.body;
+
+    // Mostrar en consola lo que llega del front
+    console.log('Datos recibidos del frontend:', { codigo, newPassword, newPassword2 });
+
+    if (newPassword !== newPassword2) {
+        return res.status(400).json({ message: 'Las contraseñas no coinciden' });
+    }
+
+    if (newPassword.length < 8) {
+        return res.status(400).json({ message: 'La contraseña debe tener al menos 8 caracteres' });
+    }
+
+    const sql = 'UPDATE usuarios SET password = ? WHERE codigo = ?';
+    db.query(sql, [newPassword, codigo], (err, result) => {
+        if (err) {
+            console.error('Error al actualizar la contraseña:', err);
+            return res.status(500).json({ message: 'Error del servidor' });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        return res.json({ message: 'Contraseña actualizada correctamente' });
+    });
 });
 
 module.exports = router;
