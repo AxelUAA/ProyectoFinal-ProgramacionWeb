@@ -40,21 +40,49 @@
   <!-- CONTENIDO PRINCIPAL -->
   <main class="container pagar-container">
 
-    <h2>Carrito de compras</h2>
+    <!-- HERO TÍTULO -->
+    <div class="pagar-hero">
+      <div class="hero-icon">🛒</div>
+      <h1>Carrito de Compras</h1>
+      <p>Completa tu pedido en pocos pasos</p>
+    </div>
 
     <!-- CARRITO -->
     <div class="carrito-box">
 
       <div class="carrito-productos">
-        <h3>Tu carrito</h3>
+        <div class="carrito-header">
+          <h3>🛍️ Tu Carrito</h3>
+          <span class="items-count" id="itemsCount">0 items</span>
+        </div>
 
-        <ul id="carritoLista"></ul>
+        <div class="carrito-lista-wrapper">
+          <ul id="carritoLista"></ul>
+          <div class="carrito-empty" id="carritoEmpty">
+            <div class="empty-icon">🛒</div>
+            <p>Tu carrito está vacío</p>
+            <a href="index.html" class="btn-continuar-comprando">Ver Productos</a>
+          </div>
+        </div>
 
-        <p class="total">Total: $<span id="carritoTotal">0</span></p>
+        <div class="carrito-footer">
+          <div class="total-wrapper">
+            <span class="total-label">Total</span>
+            <span class="total-price">$<span id="carritoTotal">0</span></span>
+          </div>
 
-        <button id="btnVaciarCarrito" class="btn-peligro">Vaciar carrito</button>
+          <div class="carrito-actions">
+            <button id="btnVaciarCarrito" class="btn-peligro">
+              <span class="btn-icon">🗑️</span>
+              <span>Vaciar carrito</span>
+            </button>
 
-        <button id="btnFinalizar" class="btn-principal">Finalizar compra</button>
+            <button id="btnFinalizar" class="btn-principal">
+              <span>Finalizar compra</span>
+              <span class="btn-icon">→</span>
+            </button>
+          </div>
+        </div>
 
       </div>
 
@@ -64,35 +92,57 @@
     <!-- SECCIÓN QUE APARECE DESPUÉS DE FINALIZAR COMPRA -->
     <div id="seccionFinalizar" class="hidden">
 
-      <h2>Finalizar compra</h2>
+      <div class="checkout-title">
+        <h2>💳 Checkout</h2>
+        <p>Completa la información para finalizar tu pedido</p>
+      </div>
 
       <div class="pagar-box">
 
         <!-- RESUMEN -->
         <div class="pagar-productos">
-          <h3>Resumen del pedido</h3>
+          <div class="resumen-header">
+            <h3>📋 Resumen del Pedido</h3>
+          </div>
           <ul id="listaProductos"></ul>
-          <p class="total">Total: $<span id="totalPago">0</span></p>
+          
+          <div class="total-breakdown">
+            <div class="breakdown-row">
+              <span>Subtotal</span>
+              <span>$<span id="totalPago">0</span></span>
+            </div>
+            <div class="breakdown-row">
+              <span>Envío</span>
+              <span class="envio-gratis">GRATIS</span>
+            </div>
+            <div class="breakdown-row total-final">
+              <span>Total</span>
+              <span>$<span id="totalPagoFinal">0</span></span>
+            </div>
+          </div>
         </div>
 
         <!-- FORMULARIOS Y MÉTODOS -->
         <div class="pagar-form">
 
-          <h3>Selecciona tu forma de pago</h3>
+          <h3>💰 Selecciona tu forma de pago</h3>
 
           <!-- BOTONES DE MÉTODO -->
           <div class="metodos-pago">
 
               <button class="metodo-btn" data-metodo="tarjeta">
-                  Tarjeta
+                  <span class="metodo-icon">💳</span>
+                  <span>Tarjeta</span>
               </button>
 
               <button class="metodo-btn" data-metodo="transferencia">
-                  Transferencia
+                  <span class="metodo-icon">🏦</span>
+                  <span>Transferencia</span>
               </button>
 
               <button class="metodo-btn" data-metodo="oxxo">
-                  OXXO
+                  <span class="metodo-icon">🏪</span>
+                  <span>OXXO</span>
               </button>
 
           </div>

@@ -5,12 +5,15 @@
 // Referencias del carrito (parte superior)
 const carritoLista = document.getElementById("carritoLista");
 const carritoTotal = document.getElementById("carritoTotal");
+const itemsCount = document.getElementById("itemsCount");
+const carritoEmpty = document.getElementById("carritoEmpty");
 const btnVaciar = document.getElementById("btnVaciarCarrito");
 const btnFinalizar = document.getElementById("btnFinalizar");
 
 // Referencias del resumen final
 const listaProductos = document.getElementById("listaProductos");
 const totalPago = document.getElementById("totalPago");
+const totalPagoFinal = document.getElementById("totalPagoFinal");
 
 
 // ============================
@@ -22,17 +25,28 @@ function cargarCarrito() {
 
     carritoLista.innerHTML = "";
     let total = 0;
+    let totalItems = 0;
 
-    carrito.forEach((item, index) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            ${item.nombre} - $${item.precio} x ${item.cantidad}
-            <button class="btn-eliminar" data-index="${index}">X</button>
-        `;
-        carritoLista.appendChild(li);
+    if (carrito.length === 0) {
+        carritoEmpty.classList.add("show");
+        itemsCount.textContent = "0 items";
+    } else {
+        carritoEmpty.classList.remove("show");
+        
+        carrito.forEach((item, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <span>${item.nombre} - $${item.precio} x ${item.cantidad}</span>
+                <button class="btn-eliminar" data-index="${index}">🗑️ Eliminar</button>
+            `;
+            carritoLista.appendChild(li);
 
-        total += item.precio * item.cantidad;
-    });
+            total += item.precio * item.cantidad;
+            totalItems += item.cantidad;
+        });
+
+        itemsCount.textContent = `${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
+    }
 
     carritoTotal.textContent = total;
 
@@ -131,6 +145,7 @@ function cargarResumenCarrito() {
     });
 
     totalPago.textContent = total;
+    if (totalPagoFinal) totalPagoFinal.textContent = total;
 }
 
 
