@@ -1,0 +1,833 @@
+/* ==========================
+   CARRITO - PÁGINA COMPLETA
+   ========================== */
+
+/* Hero del Carrito */
+.pagar-hero {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #111 0%, #2c3e50 100%);
+  border-radius: 20px;
+  margin-bottom: 40px;
+  color: white;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.hero-icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.pagar-hero h1 {
+  font-size: 42px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  letter-spacing: -1px;
+}
+
+.pagar-hero p {
+  font-size: 18px;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+/* Contenedor General */
+.pagar-container h2 {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -1px;
+}
+
+.pagar-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* ==========================
+   CAJA PRINCIPAL DEL CARRITO
+   ========================== */
+.carrito-box {
+  background: white;
+  padding: 0;
+  border-radius: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.12);
+  border: 2px solid #e9ecef;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.carrito-box:hover {
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.18);
+  transform: translateY(-3px);
+}
+
+/* Header del Carrito */
+.carrito-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 3px solid #111;
+}
+
+.carrito-header h3 {
+  font-size: 26px;
+  font-weight: 900;
+  color: #111;
+  margin: 0;
+}
+
+.items-count {
+  background: #111;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Wrapper de Lista */
+.carrito-lista-wrapper {
+  padding: 25px 30px;
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* Scrollbar personalizada */
+.carrito-lista-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.carrito-lista-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.carrito-lista-wrapper::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.carrito-lista-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#carritoLista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#carritoLista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 16px;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 12px;
+  border-left: 5px solid #111;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+#carritoLista li:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateX(8px) scale(1.02);
+  border-left-color: #2ecc71;
+}
+
+/* Carrito Vacío */
+.carrito-empty {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.carrito-empty.show {
+  display: block;
+}
+
+.empty-icon {
+  font-size: 80px;
+  opacity: 0.3;
+  margin-bottom: 20px;
+}
+
+.carrito-empty p {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.btn-continuar-comprando {
+  display: inline-block;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, #111 0%, #333 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-continuar-comprando:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón Eliminar */
+.btn-eliminar {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(238, 90, 111, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-eliminar:hover {
+  background: linear-gradient(135deg, #ee5a6f 0%, #c92a2a 100%);
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(201, 42, 42, 0.5);
+}
+
+.btn-eliminar:active {
+  transform: scale(0.95);
+}
+
+/* Footer del Carrito */
+.carrito-footer {
+  padding: 25px 30px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-top: 2px solid #dee2e6;
+}
+
+.total-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  background: linear-gradient(135deg, #111 0%, #2c3e50 100%);
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+}
+
+.total-label {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.total-price {
+  font-size: 36px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -1px;
+}
+
+/* Acciones del Carrito */
+.carrito-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-peligro {
+  flex: 1;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-peligro:hover {
+  background: linear-gradient(135deg, #ee5a6f 0%, #c92a2a 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(201, 42, 42, 0.5);
+}
+
+.btn-peligro:active {
+  transform: translateY(-1px);
+}
+
+.btn-principal {
+  flex: 2;
+  background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(55, 178, 77, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-principal:hover {
+  background: linear-gradient(135deg, #37b24d 0%, #2b8a3e 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(43, 138, 62, 0.5);
+}
+
+.btn-principal:active {
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.btn-principal:hover .btn-icon {
+  transform: translateX(5px);
+}
+
+/* ==========================
+   CHECKOUT SECTION
+   ========================== */
+.checkout-title {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.checkout-title h2 {
+  font-size: 36px;
+  font-weight: 900;
+  color: #111;
+  margin-bottom: 10px;
+  letter-spacing: -1px;
+}
+
+.checkout-title p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* ==========================
+   RESUMEN DEL PEDIDO
+   ========================== */
+.pagar-productos {
+  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12);
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.pagar-productos:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+  transform: translateY(-3px);
+}
+
+.resumen-header {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #111;
+}
+
+.resumen-header h3 {
+  font-size: 24px;
+  font-weight: 900;
+  color: #111;
+  margin: 0;
+}
+
+.pagar-productos ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.pagar-productos li {
+  padding: 16px 14px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  border-left: 4px solid #51cf66;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.pagar-productos li:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  border-left-color: #37b24d;
+}
+
+/* Desglose del Total */
+.total-breakdown {
+  margin-top: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 16px;
+  color: #495057;
+  font-weight: 600;
+}
+
+.breakdown-row.total-final {
+  margin-top: 15px;
+  padding-top: 20px;
+  border-top: 3px solid #111;
+  font-size: 22px;
+  font-weight: 900;
+  color: #111;
+}
+
+.envio-gratis {
+  color: #51cf66;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================
+   FORMULARIO DE PAGO
+   ========================== */
+.pagar-form {
+  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12);
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.pagar-form:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+}
+
+.pagar-form h3 {
+  margin-bottom: 25px;
+  font-size: 22px;
+  font-weight: 900;
+  color: #111;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #111;
+}
+/* ==========================
+   MÉTODOS DE PAGO
+   ========================== */
+.metodos-pago {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.metodo-btn {
+  padding: 18px 20px;
+  border: 3px solid #e9ecef;
+  background: white;
+  color: #495057;
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.metodo-icon {
+  font-size: 32px;
+}
+
+.metodo-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  border-color: #111;
+}
+
+.metodo-btn.activo {
+  background: linear-gradient(135deg, #111 0%, #2c3e50 100%);
+  color: white;
+  border-color: #111;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+  transform: scale(1.05);
+}
+
+.metodo-btn.activo .metodo-icon {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ==========================
+   FORMULARIOS
+   ========================== */
+.pagar-form label {
+  margin-top: 15px;
+  display: block;
+  font-weight: 700;
+  color: #111;
+  font-size: 14px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pagar-form input {
+  width: 100%;
+  padding: 12px 16px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 2px solid #e9ecef;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.pagar-form input:focus {
+  outline: none;
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.1);
+  transform: translateY(-1px);
+}
+
+.pagar-form input:hover {
+  border-color: #ccc;
+}
+
+/* ==========================
+   BOTÓN PAGAR
+   ========================== */
+#btnPagar {
+  margin-top: 25px;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #111 0%, #333 100%);
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#btnPagar:hover {
+  background: linear-gradient(135deg, #000 0%, #222 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+#btnPagar:active {
+  transform: translateY(0);
+}
+
+/* ==========================
+   MÉTODOS DE PAGO
+   ========================== */
+.metodos-pago {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.metodo-btn {
+  padding: 14px 20px;
+  border: 2px solid #111;
+  background: white;
+  color: #111;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metodo-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.metodo-btn.activo {
+  background: linear-gradient(135deg, #111 0%, #333 100%);
+  color: white;
+  border-color: #111;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+/* ==========================
+   ELEMENTOS OCULTOS
+   ========================== */
+.hidden {
+  display: none;
+}
+
+/* ==========================
+   FORMULARIOS DINÁMICOS
+   ========================== */
+#formEnvio,
+#formTarjeta,
+#infoTransferencia,
+#infoOxxo {
+  margin-top: 25px;
+  padding: 25px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e9ecef;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================
+   TRANSFERENCIA
+   ========================== */
+#infoTransferencia {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-left: 5px solid #1976d2;
+  border-color: #1976d2;
+}
+
+#infoTransferencia p {
+  margin: 8px 0;
+  color: #0d47a1;
+  font-weight: 600;
+}
+
+#infoTransferencia strong {
+  color: #01579b;
+  font-weight: 800;
+}
+
+.nota-transfer {
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 14px;
+  color: #01579b;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border-left: 3px solid #1976d2;
+}
+
+/* ==========================
+   OXXO
+   ========================== */
+#infoOxxo {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  border-left: 5px solid #f57c00;
+  border-color: #f57c00;
+}
+
+#infoOxxo p {
+  margin: 8px 0;
+  color: #e65100;
+  font-weight: 600;
+}
+
+#infoOxxo strong {
+  color: #bf360c;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.nota-oxxo {
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 14px;
+  color: #e65100;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border-left: 3px solid #f57c00;
+}
+
+/* ==========================
+   CARRITO - RESPONSIVE
+   ========================== */
+@media (max-width: 768px) {
+  .pagar-hero h1 {
+    font-size: 32px;
+  }
+
+  .pagar-box {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .carrito-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .items-count {
+    align-self: flex-start;
+  }
+
+  .carrito-actions {
+    flex-direction: column;
+  }
+
+  .btn-peligro,
+  .btn-principal {
+    width: 100%;
+  }
+
+  .metodos-pago {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-icon {
+    font-size: 50px;
+  }
+
+  .pagar-hero h1 {
+    font-size: 28px;
+  }
+
+  .carrito-box {
+    border-radius: 16px;
+  }
+
+  .carrito-header,
+  .carrito-footer {
+    padding: 20px;
+  }
+
+  .carrito-lista-wrapper {
+    padding: 20px;
+  }
+
+  #carritoLista li {
+    padding: 14px 12px;
+    font-size: 14px;
+  }
+
+  .total-price {
+    font-size: 28px;
+  }
+
+  .checkout-title h2 {
+    font-size: 28px;
+  }
+
+  .pagar-productos,
+  .pagar-form {
+    padding: 20px;
+  }
+}
+
+
+
+/* ================================
+   INPUT CANTIDAD para carrito
+   ================================ */
+
+.input-cantidad {
+    width: 60px;
+    padding: 6px 8px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.input-cantidad:focus {
+    outline: none;
+    border-color: #1e90ff;
+    box-shadow: 0 0 6px rgba(30,144,255,0.5);
+}
+
+.input-cantidad::-webkit-inner-spin-button {
+    opacity: 1;
+}
