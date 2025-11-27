@@ -35,10 +35,18 @@ function cargarCarrito() {
         
         carrito.forEach((item, index) => {
             const li = document.createElement("li");
-            li.innerHTML = `
-                <span>${item.nombre} - $${item.precio} x ${item.cantidad}</span>
-                <button class="btn-eliminar" data-index="${index}">🗑️ Eliminar</button>
-            `;
+           li.innerHTML = `
+    <span>${item.nombre} - $${item.precio}</span>
+
+    <input type="number" 
+           class="input-cantidad" 
+           data-index="${index}" 
+           min="1" 
+           value="${item.cantidad}">
+
+    <button class="btn-eliminar" data-index="${index}">🗑️</button>
+`;
+
             carritoLista.appendChild(li);
 
             total += item.precio * item.cantidad;
@@ -54,6 +62,10 @@ function cargarCarrito() {
     document.querySelectorAll(".btn-eliminar").forEach(btn => {
         btn.addEventListener("click", () => eliminarProducto(btn.dataset.index));
     });
+    document.querySelectorAll(".input-cantidad").forEach(input => {
+    input.addEventListener("change", () => actualizarCantidad(input.dataset.index, input.value));
+});
+
 }
 
 
@@ -71,6 +83,23 @@ function eliminarProducto(index) {
     cargarCarrito();
     cargarResumenCarrito();
 }
+
+// Actualizar cantidad
+function actualizarCantidad(index, nuevaCantidad) {
+    nuevaCantidad = parseInt(nuevaCantidad);
+
+    if (nuevaCantidad <= 0) return;
+
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    carrito[index].cantidad = nuevaCantidad;
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    cargarCarrito();
+    cargarResumenCarrito();
+}
+
 
 
 
