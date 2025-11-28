@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { getProductsByCategory } = require("../controllers/salesController");
+const {
+    getProductsByCategory,
+    getTotalSales,
+    getStockByProduct
+} = require("../controllers/salesController");
 
-// /api/graficas/products-by-category
 router.get("/products-by-category", getProductsByCategory);
+router.get("/total-sales", getTotalSales);
+router.get("/stock-by-product", getStockByProduct);
 
 module.exports = router;
