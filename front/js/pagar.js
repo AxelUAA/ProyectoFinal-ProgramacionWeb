@@ -14,6 +14,9 @@ const btnFinalizar = document.getElementById("btnFinalizar");
 const listaProductos = document.getElementById("listaProductos");
 const totalPago = document.getElementById("totalPago");
 const totalPagoFinal = document.getElementById("totalPagoFinal");
+const envioSpan = document.getElementById("envio");
+const impuestoSpan = document.getElementById("impuesto");
+const descuentoSpan = document.getElementById("descuento");
 
 
 // ============================
@@ -173,8 +176,29 @@ function cargarResumenCarrito() {
         total += item.precio * item.cantidad;
     });
 
+    // calcular impuestos, envío y descuento según país y cupón
+    const pais = document.getElementById('envPais') ? document.getElementById('envPais').value : 'Mexico';
+    const cupon = localStorage.getItem('cuponAplicado') || null;
+
+    // reglas (puedes ajustarlas):
+    const taxRates = { Mexico: 0.16, USA: 0.08, Spain: 0.21, Other: 0.10 };
+    const shippingFees = { Mexico: 100, USA: 400, Spain: 800, Other: 500 };
+
+    const taxRate = taxRates[pais] ?? taxRates['Other'];
+    const shipping = shippingFees[pais] ?? shippingFees['Other'];
+
+    let descuento = 0;
+    if (cupon === 'promo2025') descuento = 100;
+    if (descuento > total) descuento = total;
+
+    const impuesto = Math.round(((total - descuento) * taxRate));
+    const totalFinal = Math.round(total - descuento + impuesto + shipping);
+
     totalPago.textContent = total;
-    if (totalPagoFinal) totalPagoFinal.textContent = total;
+    if (envioSpan) envioSpan.textContent = shipping;
+    if (impuestoSpan) impuestoSpan.textContent = impuesto;
+    if (descuentoSpan) descuentoSpan.textContent = descuento;
+    if (totalPagoFinal) totalPagoFinal.textContent = totalFinal;
 }
 
 
@@ -239,7 +263,7 @@ btnPagar.addEventListener("click", async () => {
     }
 
     // Validar envío
-    const camposEnvio = ["envNombre", "envDireccion", "envCiudad", "envCP", "envTel"];
+        const camposEnvio = ["envNombre", "envDireccion", "envCiudad", "envCP", "envTel", "envPais"];
     for (const id of camposEnvio) {
         if (document.getElementById(id).value.trim() === "") {
             return Swal.fire({
@@ -288,8 +312,11 @@ btnPagar.addEventListener("click", async () => {
                 direccion: document.getElementById("envDireccion").value,
                 ciudad: document.getElementById("envCiudad").value,
                 cp: document.getElementById("envCP").value,
-                tel: document.getElementById("envTel").value
+                tel: document.getElementById("envTel").value,
+                pais: document.getElementById("envPais").value
             }
+            ,
+            coupon: localStorage.getItem('cuponAplicado') || null
         })
     });
 
@@ -301,6 +328,7 @@ btnPagar.addEventListener("click", async () => {
 
     // 3️⃣ Limpiar carrito
     localStorage.removeItem("carrito");
+    localStorage.removeItem('cuponAplicado');
 
     Swal.fire({
         icon: "success",
@@ -320,3 +348,26 @@ btnPagar.addEventListener("click", async () => {
 // ============================
 
 cargarCarrito();
+
+// Manejo de cupón y país para recalcular totales
+const btnAplicarCupon = document.getElementById('btnAplicarCupon');
+const inputCupon = document.getElementById('inputCupon');
+const selectPais = document.getElementById('envPais');
+
+if (btnAplicarCupon && inputCupon) {
+    btnAplicarCupon.addEventListener('click', () => {
+        const code = inputCupon.value.trim();
+        if (code === 'promo2025') {
+            localStorage.setItem('cuponAplicado', code);
+            Swal.fire('Cupón aplicado', 'Se aplicó un descuento de $100', 'success');
+        } else {
+            localStorage.removeItem('cuponAplicado');
+            Swal.fire('Cupón inválido', 'El código no es válido', 'warning');
+        }
+        cargarResumenCarrito();
+    });
+}
+
+if (selectPais) {
+    selectPais.addEventListener('change', () => cargarResumenCarrito());
+}
