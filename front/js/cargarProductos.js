@@ -75,26 +75,41 @@ function crearTarjetaProducto(producto) {
     const ahorro = producto.precio - precioOferta;
 
     div.innerHTML = `
-      <span class="badge-oferta">-${descuento}% OFF</span>
-      <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}">
-      <h3>${producto.nombre}</h3>
-      <p class="precio-original">Antes: $${producto.precio}</p>
-      <p class="precio-oferta">$${precioOferta.toFixed(2)}</p>
-      <p class="ahorro">¡Ahorras $${ahorro.toFixed(2)}!</p>
-      <p ${producto.stock === 0 ? 'style="color:red;"' : ''}>
-        ${producto.stock > 0 ? "Stock: " + producto.stock : "Artículo no disponible"}
-      </p>
+      <div class="card-image-wrapper">
+        <span class="badge-oferta">-${descuento}% OFF</span>
+        <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}">
+        <button class="quick-view-btn" onclick="event.stopPropagation();">👁</button>
+      </div>
+      <div class="card-content">
+        <span class="card-category">SNEAKERCLON5G</span>
+        <h3>${producto.nombre}</h3>
+        <p class="precio-original">Antes: $${producto.precio}</p>
+        <p class="precio-oferta">$${precioOferta.toFixed(2)}</p>
+        <span class="ahorro">¡Ahorras $${ahorro.toFixed(2)}!</span>
+        <span class="stock-badge ${producto.stock < 5 && producto.stock > 0 ? 'bajo-stock' : ''}">
+          ${producto.stock > 0 ? `Stock: ${producto.stock}` : "Sin Stock"}
+        </span>
+      </div>
+      ${producto.stock === 0 ? '<div class="sin-stock-overlay"><span class="sin-stock-text">Agotado</span></div>' : ''}
     `;
   } else {
     div.className = "card";
     
     div.innerHTML = `
-      <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}">
-      <h3>${producto.nombre}</h3>
-      <p class="precio">$${producto.precio}</p>
-      <p ${producto.stock === 0 ? 'style="color:red;"' : ''}>
-        ${producto.stock > 0 ? "Stock: " + producto.stock : "Artículo no disponible"}
-      </p>
+      <div class="card-image-wrapper">
+        <span class="card-badge">NEW</span>
+        <img src="http://localhost:3000/public/img/${producto.imagen}" alt="${producto.nombre}">
+        <button class="quick-view-btn" onclick="event.stopPropagation();">👁</button>
+      </div>
+      <div class="card-content">
+        <span class="card-category">SNEAKERCLON5G</span>
+        <h3>${producto.nombre}</h3>
+        <p class="precio">$${producto.precio}</p>
+        <span class="stock-badge ${producto.stock < 5 && producto.stock > 0 ? 'bajo-stock' : ''}">
+          ${producto.stock > 0 ? `Stock: ${producto.stock}` : "Sin Stock"}
+        </span>
+      </div>
+      ${producto.stock === 0 ? '<div class="sin-stock-overlay"><span class="sin-stock-text">Agotado</span></div>' : ''}
     `;
   }
 
