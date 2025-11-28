@@ -145,15 +145,102 @@
   border-left: 5px solid #111;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  font-size: 16px;
-  color: #333;
-  font-weight: 500;
+  gap: 15px;
 }
 
 #carritoLista li:hover {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   transform: translateX(8px) scale(1.02);
   border-left-color: #2ecc71;
+}
+
+/* Información del Producto */
+.producto-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+
+.producto-nombre {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.producto-precio {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2ecc71;
+}
+
+/* Controles de Cantidad */
+.cantidad-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 6px;
+  border-radius: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e9ecef;
+}
+
+.btn-cantidad {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: linear-gradient(135deg, #111 0%, #333 100%);
+  color: white;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  line-height: 1;
+  padding: 0;
+}
+
+.btn-cantidad:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.btn-cantidad:active {
+  transform: scale(0.95);
+}
+
+.btn-mas {
+  background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+}
+
+.btn-mas:hover {
+  background: linear-gradient(135deg, #37b24d 0%, #2b8a3e 100%);
+}
+
+.btn-menos {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+}
+
+.btn-menos:hover {
+  background: linear-gradient(135deg, #ee5a6f 0%, #c92a2a 100%);
+}
+
+.cantidad-display {
+  min-width: 30px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111;
+  padding: 0 8px;
 }
 
 /* Carrito Vacío */
@@ -762,6 +849,19 @@
   .metodos-pago {
     grid-template-columns: 1fr;
   }
+
+  #carritoLista li {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .producto-info {
+    flex-basis: 100%;
+  }
+
+  .cantidad-controls {
+    margin-right: auto;
+  }
 }
 
 @media (max-width: 480px) {
@@ -789,6 +889,30 @@
   #carritoLista li {
     padding: 14px 12px;
     font-size: 14px;
+    flex-wrap: wrap;
+  }
+
+  .producto-nombre {
+    font-size: 14px;
+  }
+
+  .producto-precio {
+    font-size: 13px;
+  }
+
+  .producto-info {
+    flex-basis: 100%;
+  }
+
+  .btn-cantidad {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  .cantidad-display {
+    font-size: 14px;
+    min-width: 25px;
   }
 
   .total-price {
@@ -803,31 +927,4 @@
   .pagar-form {
     padding: 20px;
   }
-}
-
-
-
-/* ================================
-   INPUT CANTIDAD para carrito
-   ================================ */
-
-.input-cantidad {
-    width: 60px;
-    padding: 6px 8px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: bold;
-    text-align: center;
-    transition: 0.2s ease;
-}
-
-.input-cantidad:focus {
-    outline: none;
-    border-color: #1e90ff;
-    box-shadow: 0 0 6px rgba(30,144,255,0.5);
-}
-
-.input-cantidad::-webkit-inner-spin-button {
-    opacity: 1;
 }
