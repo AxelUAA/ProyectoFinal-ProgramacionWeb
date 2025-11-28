@@ -108,18 +108,34 @@
           <ul id="listaProductos"></ul>
           
           <div class="total-breakdown">
+
+
             <div class="breakdown-row">
               <span>Subtotal</span>
               <span>$<span id="totalPago">0</span></span>
             </div>
+
             <div class="breakdown-row">
               <span>Envío</span>
-              <span class="envio-gratis">GRATIS</span>
+              <span>$<span id="envio">0</span></span>
             </div>
+
+            <div class="breakdown-row">
+              <span>Descuento</span>
+              <span>$<span id="descuento">0</span></span>
+            </div>
+
+            <div class="breakdown-row">
+              <span>Impuesto</span>
+              <span>$<span id="impuesto">0</span></span>
+            </div>
+
             <div class="breakdown-row total-final">
               <span>Total</span>
               <span>$<span id="totalPagoFinal">0</span></span>
             </div>
+
+
           </div>
         </div>
 
@@ -160,6 +176,20 @@
 
               <label>Ciudad:</label>
               <input type="text" id="envCiudad">
+
+              <label>País:</label>
+              <select id="envPais">
+                <option value="Mexico">México</option>
+                <option value="USA">USA</option>
+                <option value="Spain">España</option>
+                <option value="Other">Otro</option>
+              </select>
+
+              <label>¿Tienes un cupón?</label>
+              <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
+                <input type="text" id="inputCupon" placeholder="Código de cupón">
+                <button type="button" id="btnAplicarCupon" class="btn-secundario">Aplicar</button>
+              </div>
 
               <label>Código Postal:</label>
               <input type="text" id="envCP">

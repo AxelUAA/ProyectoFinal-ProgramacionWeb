@@ -51,39 +51,43 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ===== AGREGAR PRODUCTO AL CARRITO =====
-    document.getElementById("modal-cart-btn").addEventListener("click", () => {
-        if (!window.productoActual) return;
+    const modalCartBtn = document.getElementById("modal-cart-btn");
+    if (modalCartBtn) {
+        modalCartBtn.addEventListener("click", () => {
+            if (!window.productoActual) return;
 
-       let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-let productoEnCarrito = carrito.find(p => p.id === window.productoActual.id);
+            let productoEnCarrito = carrito.find(p => p.id === window.productoActual.id);
 
-// 1️⃣ Si el producto ya existe, validar stock
-if (productoEnCarrito) {
-    if (productoEnCarrito.cantidad + 1 > window.productoActual.stock) {
-        return Swal.fire("Sin stock", "No puedes agregar más unidades.", "warning");
+            // 1️⃣ Si el producto ya existe, validar stock
+            if (productoEnCarrito) {
+                if (productoEnCarrito.cantidad + 1 > window.productoActual.stock) {
+                    return Swal.fire("Sin stock", "No puedes agregar más unidades.", "warning");
+                }
+                productoEnCarrito.cantidad++;
+            } else {
+                // 2️⃣ Si no existe, validar stock
+                if (window.productoActual.stock < 1) {
+                    return Swal.fire("Sin stock", "Producto agotado.", "warning");
+                }
+
+                carrito.push({
+                    id: window.productoActual.id,
+                    nombre: window.productoActual.nombre,
+                    precio: window.productoActual.precio,
+                    imagen: window.productoActual.imagen,
+                    cantidad: 1
+                });
+            }
+
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+
+            Swal.fire("Agregado", "Producto añadido al carrito", "success");
+        });
+    } else {
+        console.warn('Botón #modal-cart-btn no encontrado en el DOM. Si el modal aparece sin el botón, añade el HTML del botón o incluye el modal desde una plantilla común.');
     }
-    productoEnCarrito.cantidad++;
-} else {
-    // 2️⃣ Si no existe, validar stock
-    if (window.productoActual.stock < 1) {
-        return Swal.fire("Sin stock", "Producto agotado.", "warning");
-    }
-
-    carrito.push({
-        id: window.productoActual.id,
-        nombre: window.productoActual.nombre,
-        precio: window.productoActual.precio,
-        imagen: window.productoActual.imagen,
-        cantidad: 1
-    });
-}
-
-localStorage.setItem("carrito", JSON.stringify(carrito));
-
-Swal.fire("Agregado", "Producto añadido al carrito", "success");
-
-    });
 
 
 });
