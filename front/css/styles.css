@@ -313,6 +313,13 @@ nav a:hover {
 }
 
 /* ====== GRID DE PRODUCTOS ====== */
+/* 
+  ⚠️ ESTILOS MOVIDOS A productos.css 
+  Estos estilos están comentados para evitar conflictos.
+  El nuevo diseño dinámico está en /front/css/productos.css
+*/
+
+/*
 .grid-container {
   display: flex;
   flex-wrap: wrap;
@@ -350,8 +357,14 @@ nav a:hover {
   font-size: 1.1em;
   margin-bottom: 5px;
 }
+*/
 
 /* ====== ESTILOS PARA OFERTAS ====== */
+/*
+  ⚠️ ESTILOS MOVIDOS A productos.css
+*/
+
+/*
 .card-oferta {
   border: 2px solid #ff4444;
 }
@@ -388,8 +401,14 @@ nav a:hover {
   font-size: 0.85em;
   font-weight: 600;
 }
+*/
 
 /* Sección de ofertas destacada */
+/*
+  ⚠️ ESTILOS MOVIDOS A productos.css
+*/
+
+/*
 .seccion-ofertas {
   background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
   padding: 40px 20px;
@@ -409,6 +428,7 @@ nav a:hover {
   color: #666;
   margin-bottom: 30px;
 }
+*/
 
 /* ====== PÁGINAS SECUNDARIAS ====== */
 .page-title {
@@ -979,10 +999,13 @@ body.dark-mode {
     background: #000 !important;
 }
 
+/* Card dark mode styles moved to productos.css */
+/*
 .dark-mode .card {
     background: #1f1f1f !important;
     color: white !important;
 }
+*/
 
 /* TIPOS DE LETRA */
 body.font-arial {
@@ -1259,10 +1282,16 @@ body {
 .btn-admin:active {
     transform: scale(0.97);
 }
+
 /* ============================
    ✨ ANIMACIÓN AL PASAR EL MOUSE EN PRODUCTOS
 ============================ */
+/*
+  ⚠️ ESTILOS MOVIDOS A productos.css
+  El hover dinámico ahora está en el archivo productos.css
+*/
 
+/*
 .card {
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -1271,6 +1300,8 @@ body {
     transform: translateY(-6px) scale(1.03);
     box-shadow: 0 8px 18px rgba(0,0,0,0.25);
 }
+*/
+
 /* ================================
    MODAL DE PRODUCTO GLOBAL
 ================================ */
