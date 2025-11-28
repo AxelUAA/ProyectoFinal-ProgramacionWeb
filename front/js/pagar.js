@@ -39,13 +39,16 @@ function cargarCarrito() {
         carrito.forEach((item, index) => {
             const li = document.createElement("li");
            li.innerHTML = `
-    <span>${item.nombre} - $${item.precio}</span>
+    <div class="producto-info">
+        <span class="producto-nombre">${item.nombre}</span>
+        <span class="producto-precio">$${item.precio}</span>
+    </div>
 
-    <input type="number" 
-           class="input-cantidad" 
-           data-index="${index}" 
-           min="1" 
-           value="${item.cantidad}">
+    <div class="cantidad-controls">
+        <button class="btn-cantidad btn-menos" data-index="${index}">−</button>
+        <span class="cantidad-display">${item.cantidad}</span>
+        <button class="btn-cantidad btn-mas" data-index="${index}">+</button>
+    </div>
 
     <button class="btn-eliminar" data-index="${index}">🗑️</button>
 `;
@@ -61,13 +64,19 @@ function cargarCarrito() {
 
     carritoTotal.textContent = total;
 
-    // Botones para eliminar uno
+    // Botones para eliminar
     document.querySelectorAll(".btn-eliminar").forEach(btn => {
         btn.addEventListener("click", () => eliminarProducto(btn.dataset.index));
     });
-    document.querySelectorAll(".input-cantidad").forEach(input => {
-    input.addEventListener("change", () => actualizarCantidad(input.dataset.index, input.value));
-});
+    
+    // Botones de cantidad
+    document.querySelectorAll(".btn-mas").forEach(btn => {
+        btn.addEventListener("click", () => aumentarCantidad(btn.dataset.index));
+    });
+    
+    document.querySelectorAll(".btn-menos").forEach(btn => {
+        btn.addEventListener("click", () => disminuirCantidad(btn.dataset.index));
+    });
 
 }
 
@@ -103,8 +112,30 @@ function actualizarCantidad(index, nuevaCantidad) {
     cargarResumenCarrito();
 }
 
+// Aumentar cantidad
+function aumentarCantidad(index) {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito[index].cantidad++;
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    cargarCarrito();
+    cargarResumenCarrito();
+}
+
+// Disminuir cantidad
+function disminuirCantidad(index) {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    if (carrito[index].cantidad > 1) {
+        carrito[index].cantidad--;
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+        cargarCarrito();
+        cargarResumenCarrito();
+    }
+}
 
 
+// ============================
+// VACIAR CARRITO
+// ============================
 
 // ============================
 // VACIAR CARRITO
