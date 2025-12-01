@@ -38,10 +38,23 @@ function cargarCarrito() {
         
         carrito.forEach((item, index) => {
             const li = document.createElement("li");
+            
+            // Mostrar precio con descuento si aplica
+            let precioHTML = `<span class="producto-precio">$${item.precio}</span>`;
+            if (item.tieneDescuento && item.precioOriginal) {
+                precioHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <span style="text-decoration: line-through; color: #999; font-size: 12px;">$${item.precioOriginal}</span>
+                        <span class="producto-precio" style="color: #2e8b57;">$${item.precio}</span>
+                        <span style="background: #ff4444; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px;">-${item.descuento}% OFF</span>
+                    </div>
+                `;
+            }
+            
            li.innerHTML = `
     <div class="producto-info">
         <span class="producto-nombre">${item.nombre}</span>
-        <span class="producto-precio">$${item.precio}</span>
+        ${precioHTML}
     </div>
 
     <div class="cantidad-controls">

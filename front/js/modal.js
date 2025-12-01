@@ -4,10 +4,25 @@ function mostrarModal(producto) {
     // Guardar producto actual para el botón "Agregar al carrito"
     window.productoActual = producto;
 
-
     document.getElementById("modal-img").src = "http://localhost:3000/public/img/" + producto.imagen;
     document.getElementById("modal-nombre").textContent = producto.nombre;
-    document.getElementById("modal-precio").textContent = "$" + producto.precio;
+    
+    // Verificar si el producto está en oferta
+    const modalPrecio = document.getElementById("modal-precio");
+    if (estaEnOferta(producto.id)) {
+        const precioOriginal = producto.precio;
+        const precioConDescuento = calcularPrecioOferta(producto.precio, producto.id);
+        const descuento = obtenerDescuento(producto.id);
+        
+        modalPrecio.innerHTML = `
+            <span style="text-decoration: line-through; color: #999; font-size: 16px;">$${precioOriginal}</span>
+            <span style="color: #2e8b57; font-size: 24px; font-weight: bold; margin-left: 10px;">$${precioConDescuento}</span>
+            <span style="background: #ff4444; color: white; padding: 4px 8px; border-radius: 5px; font-size: 12px; margin-left: 10px;">-${descuento}% OFF</span>
+        `;
+    } else {
+        modalPrecio.textContent = "$" + producto.precio;
+    }
+    
     document.getElementById("modal-stock").textContent = "Stock disponible: " + producto.stock;
     document.getElementById("modal-desc").textContent = producto.descripcion || "Sin descripción";
 
@@ -59,6 +74,11 @@ document.addEventListener("DOMContentLoaded", () => {
             let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
             let productoEnCarrito = carrito.find(p => p.id === window.productoActual.id);
+            
+            // Calcular precio con descuento si aplica
+            const precioFinal = estaEnOferta(window.productoActual.id) 
+                ? calcularPrecioOferta(window.productoActual.precio, window.productoActual.id)
+                : window.productoActual.precio;
 
             // 1️⃣ Si el producto ya existe, validar stock
             if (productoEnCarrito) {
@@ -75,9 +95,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 carrito.push({
                     id: window.productoActual.id,
                     nombre: window.productoActual.nombre,
-                    precio: window.productoActual.precio,
+                    precio: precioFinal,
+                    precioOriginal: window.productoActual.precio,
                     imagen: window.productoActual.imagen,
-                    cantidad: 1
+                    cantidad: 1,
+                    tieneDescuento: estaEnOferta(window.productoActual.id),
+                    descuento: estaEnOferta(window.productoActual.id) ? obtenerDescuento(window.productoActual.id) : 0
                 });
             }
 
