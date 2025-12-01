@@ -1399,15 +1399,37 @@ body.dark #modal-close:hover {
   transform: scale(1.03);
 }
 
-.btn-carrito {
-  background: #ff9500;
-  padding: 8px 12px;
+/* CARRITO FLOTANTE */
+.btn-carrito-flotante {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
   color: white;
-  border-radius: 8px;
+  font-size: 24px;
   cursor: pointer;
-  text-decoration: none;
-  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.btn-carrito-flotante:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.btn-carrito-flotante:active {
+  transform: translateY(-1px);
+}
+
 .modal-buttons {
   display: flex;
   flex-direction: column;
