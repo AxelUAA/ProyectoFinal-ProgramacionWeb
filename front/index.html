@@ -8,6 +8,7 @@
   <link rel="icon" type="image/jpeg" href="http://localhost:3000/public/img/logo.jpg">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/productos.css">
+  <link rel="stylesheet" href="css/carousel.css">
 </head>
 
 <body>
@@ -79,7 +80,26 @@
       <!-- TODOS LOS PRODUCTOS -->
       <section id="productos">
         <h3 style="text-align:center; margin-top:20px;">Todos los Productos</h3>
-        <div id="contenedor" class="grid-container"></div>
+        
+        <div class="carousel-wrapper">
+          <button class="carousel-btn carousel-btn-prev" id="carousel-prev">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+          
+          <div class="carousel-container">
+            <div id="contenedor" class="carousel-track"></div>
+          </div>
+          
+          <button class="carousel-btn carousel-btn-next" id="carousel-next">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="carousel-dots" id="carousel-dots"></div>
       </section>
     </div>
   </main>
@@ -174,6 +194,7 @@
   <script src="js/accesibilidad.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="js/cargarProductos.js"></script>
+  <script src="js/carousel.js"></script>
 <script>
   document.getElementById("btnVerCarrito").addEventListener("click", () => {
     window.location.href = "pagar.html";
