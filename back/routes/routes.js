@@ -289,25 +289,7 @@ router.post('/responderComentario', async (req, res) => {
         return res.status(500).json({ message: "Error al enviar la respuesta" });
     }
 });
-//api para verificar si el correo existe en la base de datos
-/*router.get('/verificarCorreo/:correo', (req, res) => {
-    const correo = req.params.correo;
-    const sql = 'SELECT * FROM usuarios WHERE correo = ?';
 
-    db.query(sql, [correo], (err, results) => {
-        if (err) {
-            console.error('Error al verificar el correo:', err);
-            return res.status(500).json({ message: 'Error del servidor' });
-        }
-
-        if (results.length > 0) {
-            return res.json({ exists: true });
-        } else {
-            return res.json({ exists: false });
-        }
-    });
-});
-*/
 router.get('/verificarCorreo/:correo', async (req, res) => {
     const correo = req.params.correo;
     const sql = 'SELECT * FROM usuarios WHERE correo = ?';
