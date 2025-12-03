@@ -331,7 +331,6 @@ btnPagar.addEventListener("click", async (e) => {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
     try {
-
         // 1️⃣ Verificar stock
         const verificar = await fetch("http://localhost:3000/api/sales/verificar-stock", {
             method: "POST",
@@ -369,10 +368,9 @@ btnPagar.addEventListener("click", async (e) => {
             return Swal.fire("Error", pagoFinal.message, "error");
         }
 
-        // 3️⃣ Enviar recibo por correo
+        // 3️⃣ Enviar recibo por correo (si hay token)
         const token = localStorage.getItem('token');
-
-        let envioOk = false;
+        let envioOk = null;
 
         if (token && pagoFinal.ventaId) {
             try {
@@ -386,32 +384,30 @@ btnPagar.addEventListener("click", async (e) => {
                 });
 
                 const dataRecibo = await envioRecibo.json();
-                envioOk = dataRecibo.ok;
-
+                envioOk = !!dataRecibo.ok;
             } catch (error) {
                 envioOk = false;
             }
         }
 
-        // 4️⃣ Limpiar carrito
-        localStorage.removeItem("carrito");
-        localStorage.removeItem("cuponAplicado");
+        // 4️⃣ Mostrar alert de éxito SIEMPRE
+        const mensajeExito = envioOk === true
+            ? "Compra realizada. Ticket enviado a tu correo."
+            : envioOk === false
+                ? "Compra realizada, pero no se pudo enviar el ticket por correo."
+                : "Compra realizada.";
 
-        // 5️⃣ MOSTRAR SOLO EL SWEETALERT FINAL
         await Swal.fire({
-            title: envioOk ? "Ticket enviado correctamente" : "Compra realizada",
-            text: envioOk
-                ? "Tu ticket se envió exitosamente a tu correo."
-                : "Tu compra fue exitosa, pero hubo un problema enviando el ticket.",
-            icon: envioOk ? "success" : "warning",
-            confirmButtonText: "Entendido",
-            confirmButtonColor: "#2e8b57",
-            allowOutsideClick: false,
-            allowEscapeKey: false
+            icon: "success",
+            title: "Éxito",
+            text: mensajeExito,
+            confirmButtonText: "Aceptar"
         });
 
-        // Redirección
-        window.location.href = "index.html";
+        // 5️⃣ Limpiar carrito y redirigir después de que el usuario cierre el alert
+        localStorage.removeItem("carrito");
+        localStorage.removeItem("cuponAplicado");
+        //window.location.href = "index.html";
 
     } catch (error) {
         console.error(error);
