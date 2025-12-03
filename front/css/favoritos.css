@@ -1,0 +1,203 @@
+/* ============================================
+   ESTILOS PARA FAVORITOS
+   ============================================ */
+
+/* Botón de Favoritos en el Header */
+.btn-favoritos {
+  position: relative;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 10px 16px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.btn-favoritos:hover {
+  border-bottom: 2px solid #fff;
+}
+
+.btn-favoritos.visible {
+  display: block;
+}
+
+/* Badge contador de favoritos */
+.favoritos-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #ff4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Botón Agregar a Favoritos en el Modal */
+.btn-add-favorito {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+}
+
+.btn-add-favorito:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-add-favorito:active {
+  transform: translateY(0);
+}
+
+.btn-add-favorito.in-favoritos {
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+}
+
+/* Página de Favoritos */
+.favoritos-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.favoritos-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #333;
+  text-align: center;
+}
+
+.favoritos-empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.favoritos-empty-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.favoritos-empty h3 {
+  font-size: 24px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.favoritos-empty p {
+  color: #999;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.favoritos-empty .btn-explorar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.favoritos-empty .btn-explorar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Grid de productos favoritos */
+.favoritos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+/* Botón eliminar de favoritos en la tarjeta */
+.btn-remove-favorito {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 68, 68, 0.95);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(255, 68, 68, 0.3);
+}
+
+.btn-remove-favorito:hover {
+  transform: scale(1.15);
+  background: rgba(255, 30, 30, 1);
+  box-shadow: 0 4px 12px rgba(255, 68, 68, 0.5);
+}
+
+.btn-remove-favorito:active {
+  transform: scale(0.95);
+}
+
+/* Loading spinner */
+.favoritos-loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .favoritos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .favoritos-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .favoritos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dark Mode para favoritos */
+.dark-mode .favoritos-title {
+  color: #f0f0f0;
+}
+
+.dark-mode .favoritos-empty h3 {
+  color: #ccc;
+}
+
+.dark-mode .favoritos-empty p {
+  color: #999;
+}
