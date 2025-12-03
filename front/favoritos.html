@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contáctanos - SNEAKERCLON5G</title>
+  <title>Mis Favoritos - SNEAKERCLON5G</title>
   <link rel="icon" type="image/jpeg" href="http://localhost:3000/public/img/logo.jpg">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/contacto.css">
+  <link rel="stylesheet" href="css/productos.css">
   <link rel="stylesheet" href="css/favoritos.css">
 </head>
-<body>
 
+<body>
+  <!-- HEADER -->
   <header>
     <div class="header-inner container">
       <div class="logo-area">
@@ -20,6 +21,7 @@
 
       <nav>
         <a href="index.html">Inicio</a>
+
         <div class="dropdown">
           <button class="dropdown-btn">Categorías ▾</button>
           <div class="dropdown-content">
@@ -28,6 +30,7 @@
             <a href="niños.html">Niños</a>
           </div>
         </div>
+
         <a href="nosotros.html">Nosotros</a>
         <a href="contacto.html">Contáctanos</a>
         <a href="faq.html">Preguntas frecuentes</a>
@@ -38,110 +41,35 @@
       </nav>
 
       <div class="user-area" id="user-area"></div>
-      <button id="btnVerCarrito" class="btn-carrito">🛒</button>
+
     </div>
   </header>
 
-  <main>
-    <!-- HERO SECTION -->
-    <section class="contacto-hero">
-      <div class="contacto-hero-content">
-        <h1>Contáctanos</h1>
-        <p>Estamos aquí para ayudarte</p>
-      </div>
-    </section>
+  <!-- CARRITO FLOTANTE -->
+  <button id="btnVerCarrito" class="btn-carrito-flotante">🛒</button>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <section class="contacto-section container">
-      <div class="contacto-grid">
-        
-        <!-- INFORMACIÓN DE CONTACTO -->
-        <div class="contacto-info">
-          <h2>¿Cómo podemos ayudarte?</h2>
-          <p class="contacto-desc">
-            Si tienes dudas sobre el proyecto, te gustaría reportar un problema o hacer una sugerencia,
-            estamos disponibles para atenderte.
-          </p>
-          
-          <div class="info-items">
-            <div class="info-item">
-              <div class="info-icon">📧</div>
-              <div class="info-text">
-                <h4>Email</h4>
-                <p>soporte@sneakerclon5g.com</p>
-              </div>
-            </div>
-            
-            <div class="info-item">
-              <div class="info-icon">📱</div>
-              <div class="info-text">
-                <h4>Redes Sociales</h4>
-                <p>@sneakerclon5g</p>
-              </div>
-            </div>
-            
-            <div class="info-item">
-              <div class="info-icon">⏰</div>
-              <div class="info-text">
-                <h4>Horario</h4>
-                <p>Lun - Vie: 9:00 AM - 6:00 PM</p>
-              </div>
-            </div>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="favoritos-container">
+    <h2 class="favoritos-title">Mis Favoritos</h2>
+    
+    <!-- Loading -->
+    <div id="favoritos-loading" class="favoritos-loading" style="display: none;">
+      Cargando favoritos...
+    </div>
 
-            <div class="info-item">
-              <div class="info-icon">🎓</div>
-              <div class="info-text">
-                <h4>Universidad</h4>
-                <p>Universidad Autónoma de Aguascalientes</p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- Mensaje vacío -->
+    <div id="favoritos-empty" class="favoritos-empty" style="display: none;">
+      <div class="favoritos-empty-icon">♡</div>
+      <h3>No tienes favoritos aún</h3>
+      <p>Explora nuestros productos y guarda tus favoritos aquí</p>
+      <a href="index.html" class="btn-explorar">Explorar productos</a>
+    </div>
 
-        <!-- FORMULARIO -->
-        <div class="contacto-form-container">
-          <h3>Envíanos un mensaje</h3>
-          <form id="contactForm" class="contacto-form">
-            
-            <div class="form-group">
-              <label for="correo">
-                <span class="label-icon">✉️</span>
-                Tu correo electrónico
-              </label>
-              <input 
-                type="email" 
-                id="correo" 
-                name="correo" 
-                placeholder="tucorreo@ejemplo.com" 
-                required
-              >
-            </div>
-
-            <div class="form-group">
-              <label for="comentario">
-                <span class="label-icon">💬</span>
-                Mensaje
-              </label>
-              <textarea 
-                id="comentario" 
-                name="comentario" 
-                rows="6" 
-                placeholder="Cuéntanos en qué podemos ayudarte..."
-                required
-              ></textarea>
-            </div>
-
-            <button type="submit" class="submit-btn">
-              <span>Enviar Mensaje</span>
-              <span class="btn-icon">→</span>
-            </button>
-          </form>
-        </div>
-
-      </div>
-    </section>
+    <!-- Grid de productos -->
+    <div id="favoritos-grid" class="favoritos-grid" style="display: none;"></div>
   </main>
 
+  <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
       <div class="footer-columns">
@@ -168,11 +96,29 @@
           </ul>
         </div>
       </div>
+
       <div class="footer-bottom">
         © 2025 SNEAKERCLON5G. Proyecto de Programación de Sistemas Web.
       </div>
     </div>
   </footer>
+
+  <!-- MODAL PRODUCTO -->
+  <div id="modal-producto">
+    <div class="modal-content">
+      <img id="modal-img">
+      <h2 id="modal-nombre"></h2>
+      <p id="modal-precio" style="font-size:22px; font-weight:bold; color:#2e8b57;"></p>
+      <p id="modal-stock"></p>
+      <p id="modal-desc" style="margin-top:10px; color:#555;"></p>
+
+      <div class="modal-buttons">
+        <button id="modal-close">Cerrar</button>
+        <button id="modal-cart-btn" class="btn-cart">Agregar al carrito</button>
+        <button id="modal-favorito-btn" class="btn-add-favorito">Agregar a Favoritos</button>
+      </div>
+    </div>
+  </div>
 
   <!-- BOTÓN DE ACCESIBILIDAD -->
   <div id="accesibilidad-btn">☰</div>
@@ -180,7 +126,6 @@
   <!-- PANEL DE ACCESIBILIDAD -->
   <div id="accesibilidad-panel">
       <h3>Accesibilidad</h3>
-
       <label>Tamaño de letra:</label>
       <select id="acc-font-size">
           <option value="small">Pequeña</option>
@@ -188,32 +133,39 @@
           <option value="large">Grande</option>
           <option value="xlarge">Extra grande</option>
       </select>
-
       <label>Contraste:</label>
       <select id="acc-contrast">
           <option value="light">Claro</option>
           <option value="dark">Oscuro</option>
       </select>
-
       <label>Tipo de letra:</label>
       <select id="acc-font-family">
           <option value="arial">Arial</option>
           <option value="serif">Serif</option>
           <option value="dyslexic">OpenDyslexic</option>
       </select>
-
       <button id="acc-save">Guardar Preferencias</button>
   </div>
 
+  <!-- JS -->
   <script src="js/auth.js"></script>
+  <script src="js/ofertas.js"></script>
   <script src="js/favoritos.js"></script>
+  <script src="js/modal.js"></script>
   <script src="js/accesibilidad.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="js/contacto.js"></script>
+
   <script>
-  document.getElementById("btnVerCarrito").addEventListener("click", () => {
-    window.location.href = "pagar.html";
-  });
-</script>
+    // Cargar favoritos al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarFavoritos();
+      
+      // Botón del carrito
+      document.getElementById("btnVerCarrito").addEventListener("click", () => {
+        window.location.href = "pagar.html";
+      });
+    });
+  </script>
+
 </body>
 </html>
