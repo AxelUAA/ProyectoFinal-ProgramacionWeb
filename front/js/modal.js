@@ -27,9 +27,10 @@ function mostrarModal(producto) {
     document.getElementById("modal-desc").textContent = producto.descripcion || "Sin descripción";
 
     const btnAgregar = document.getElementById("modal-cart-btn");
+    const btnFavorito = document.getElementById("modal-favorito-btn");
     const estaLogueado = !!localStorage.getItem("currentUserName");
 
-    // === Mostrar u ocultar botón, PERO sin romper el diseño ===
+    // === Mostrar u ocultar botón carrito ===
     if (btnAgregar) {
         if (estaLogueado) {
             btnAgregar.style.visibility = "visible";
@@ -37,10 +38,26 @@ function mostrarModal(producto) {
             btnAgregar.style.padding = "8px 14px";
             btnAgregar.style.marginTop = "12px";
         } else {
-            btnAgregar.style.visibility = "hidden"; // no se ve
-            btnAgregar.style.height = "0px";        // no ocupa lugar
-            btnAgregar.style.padding = "0";         // no empuja nada
-            btnAgregar.style.marginTop = "0";       // sin espacio extra
+            btnAgregar.style.visibility = "hidden";
+            btnAgregar.style.height = "0px";
+            btnAgregar.style.padding = "0";
+            btnAgregar.style.marginTop = "0";
+        }
+    }
+
+    // === Mostrar u ocultar botón favoritos ===
+    if (btnFavorito) {
+        if (estaLogueado) {
+            btnFavorito.style.display = "block";
+            
+            // Verificar si ya está en favoritos
+            if (typeof verificarEnFavoritos === 'function') {
+                verificarEnFavoritos(producto.id).then(enFavoritos => {
+                    actualizarBotonFavorito(producto.id, enFavoritos);
+                });
+            }
+        } else {
+            btnFavorito.style.display = "none";
         }
     }
 
@@ -112,5 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.warn('Botón #modal-cart-btn no encontrado en el DOM. Si el modal aparece sin el botón, añade el HTML del botón o incluye el modal desde una plantilla común.');
     }
 
+    // ===== BOTÓN DE FAVORITOS (inicialmente no hace nada, se configura en mostrarModal) =====
+    // El onclick se asigna dinámicamente en la función actualizarBotonFavorito()
 
 });
