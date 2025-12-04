@@ -1,5 +1,7 @@
 // back/controllers/salesController.js
-const SalesModel = require("../model/SalesModel2");
+const SalesModel2 = require("../model/SalesModel2");
+
+
 const db = require("../db/conexion");
 const pdb = db.promise(); // promesas para consultas ad-hoc
 const PDFDocument = require('pdfkit');
@@ -243,3 +245,96 @@ exports.enviarRecibo = async (req, res) => {
     return res.status(500).json({ ok: false, message: "Error interno procesando recibo" });
   }
 };
+
+//api para suscripcion 
+exports.suscribir = async (req, res) => {
+  try {
+  const correo = req.user.correo; // viene del token JWT
+
+    if (!correo) {
+      return res.status(400).json({ ok: false, message: "Usuario no válido" });
+    }
+
+    const user = await SalesModel2.getUserByCorreo(correo);
+
+    if (!user) {
+      return res.status(404).json({ ok: false, message: "Usuario no encontrado" });
+    }
+
+    if (user.suscrito === 1) {
+      // 👇 IMPORTANTE: este return evita que siga ejecutando
+      return res.json({ ok: false, message: "Ya estás suscrito" });
+    }
+
+    await SalesModel2.suscribirUsuarioPorCorreo(correo);
+
+    // ===========================
+    // 1) CONFIGURAR TRANSPORTER
+    // ===========================
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "alejandro.cuabe@gmail.com",
+        pass: "xhdd ufyb amol xbbs"
+      }
+    });
+
+    // ===========================
+    // 2) RUTA DEL CUPÓN Y LOGO
+    // ===========================
+    const cuponPath = path.join(__dirname, "../public/img/cupon.png");
+    const logoPath = path.join(__dirname, "../public/img/logo.jpg");
+
+    // ===========================
+    // 3) OPCIONES DEL CORREO
+    // ===========================
+    const mailOptions = {
+      from: '"Sneakers Clon 5G" <alejandro.cuabe@gmail.com>',
+      to: correo,
+      subject: "¡Gracias por suscribirte a SNEAKERS CLON 5G!",
+      html: `
+        <div style="text-align:left;">
+          <img src="cid:logoSneakers" alt="Logo" style="width:150px; margin-bottom:20px;" />
+        </div>
+        <h2>Hola ${user.nombre} 👋</h2>
+        <p>Gracias por suscribirte a <b>Sneakers Clon 5G</b>.</p>
+        <p><i>"EL ORIGINAL ERES TÚ"</i></p>
+        <p>Como agradecimiento, aquí tienes un cupón especial:</p>
+        <p><b>🎁 CUPÓN DE DESCUENTO ESPECIAL</b></p>
+        <p>Utilízalo en tu próxima compra.</p>
+        <p>¡Gracias por confiar en nosotros!</p>
+      `,
+      attachments: [
+        {
+          filename: "cupon.png",
+          path: cuponPath,
+        },
+        {
+          filename: "logo.jpg",
+          path: logoPath,
+          cid: "logoSneakers"
+        }
+      ]
+    };
+
+    // ===========================
+    // 4) ENVIAR CORREO
+    // ===========================
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log("Correo de suscripción enviado a:", correo);
+    } catch (mailErr) {
+      console.error("Error al enviar correo de suscripción:", mailErr);
+    }
+
+    // ===========================
+    // 5) RESPUESTA AL FRONT
+    // ===========================
+    return res.json({ ok: true, message: "Suscripción activada correctamente y correo enviado" });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "Error en el servidor" });
+  }
+};
+
