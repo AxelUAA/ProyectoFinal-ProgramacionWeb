@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require('../db/conexion');
 const nodemailer = require('nodemailer');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 //ruta para obtener todos los productos
 
@@ -132,8 +133,11 @@ router.put('/modificarProducto/:id', (req, res) => {
     );
 });
 
+///
+
+//
 // API para registrar un nuevo usuario y enviar correo de bienvenida
-router.post('/registrarUsuario', (req, res) => {
+router.post('/registrarUsuario', async (req, res) => {
     
     const { nombre, correo, id, password } = req.body;
 
@@ -145,10 +149,14 @@ router.post('/registrarUsuario', (req, res) => {
         INSERT INTO usuarios (nombre, correo, id, password, rol) 
         VALUES (?, ?, ?, ?, 'cliente')
     `;
+    // ============================================ Logica de encripatcion 
+    // Hashear la contraseña con bcrypt
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     db.query(
         sql,
-        [nombre, correo, id, password],
+        [nombre, correo, id, hashedPassword],
         async (err, result) => {
             if (err) {
                 console.error("Error al registrar el usuario:", err);

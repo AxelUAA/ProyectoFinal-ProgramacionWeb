@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const fetch = require('node-fetch');
 const db = require('../db/conexion');
+const bcrypt = require('bcryptjs');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'clave_por_defecto';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '60'; // segundos
@@ -105,8 +106,11 @@ exports.login = async (req, res) => {
       user.locked_until = null;
     }
 
-    // Comparar contraseña (aquí texto plano; en producción usar bcrypt)
-    if (user.Contrasena !== password) {
+    // 3. Comparar contraseña usando bcrypt
+    // ============================================ Logica de encripatcion de contrasebas 
+    const passwordOk = await bcrypt.compare(password, user.Contrasena);
+    
+    if (!passwordOk) {
       const newAttempts = (user.failed_attempts || 0) + 1; // Incrementar intentos fallidos
 
       //  Si alcanzó el límite de intentos -> bloqueamos
