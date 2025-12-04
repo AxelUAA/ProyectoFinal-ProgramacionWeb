@@ -302,6 +302,25 @@ nav a:hover {
   z-index: 10;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%; /* Antes 38px - generaba el hueco */
+  left: 0;
+  background-color: #222;
+  min-width: 180px;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Mantener el menú visible mientras el mouse está encima */
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
 
 .dropdown-content a {
   display: block;
