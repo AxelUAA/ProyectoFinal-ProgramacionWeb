@@ -166,6 +166,153 @@ nav a:hover {
   font-size: 13px;
 }
 
+/* ====== RESPONSIVE HEADER ====== */
+@media (max-width: 1400px) {
+  .header-inner {
+    padding: 15px 30px;
+    gap: 30px;
+  }
+  
+  nav {
+    gap: 25px;
+  }
+  
+  nav a {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .header-inner {
+    padding: 12px 20px;
+    gap: 20px;
+  }
+  
+  .logo-area h1 {
+    font-size: 20px;
+    letter-spacing: 1.5px;
+  }
+  
+  .logo-area img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  nav {
+    gap: 15px;
+  }
+  
+  nav a {
+    font-size: 12px;
+    padding: 8px 10px;
+    letter-spacing: 0.8px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #333;
+  }
+  
+  nav a {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  
+  .user-area {
+    order: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 8px 0;
+  }
+  
+  .header-inner {
+    padding: 10px 15px;
+  }
+  
+  .logo-area {
+    gap: 10px;
+  }
+  
+  .logo-area h1 {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+  
+  .logo-area img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  nav {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 8px;
+  }
+  
+  nav a {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+  
+  .dropdown-btn {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+  
+  .user-area {
+    gap: 8px;
+  }
+  
+  .user-name {
+    font-size: 11px;
+  }
+  
+  .btn-login,
+  .btn-logout {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-area h1 {
+    display: none; /* Ocultar texto en móviles muy pequeños */
+  }
+  
+  nav {
+    gap: 5px;
+  }
+  
+  nav a {
+    font-size: 9px;
+    padding: 4px 5px;
+  }
+  
+  .dropdown-btn {
+    font-size: 9px;
+    padding: 4px 5px;
+  }
+  
+  .user-name {
+    display: none; /* Ocultar nombre en móviles */
+  }
+}
+
 /* ====== HERO BANNER ESTILO NIKE ====== */
 .hero-banner {
   position: relative;
