@@ -302,6 +302,25 @@ nav a:hover {
   z-index: 10;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%; /* Antes 38px - generaba el hueco */
+  left: 0;
+  background-color: #222;
+  min-width: 180px;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Mantener el menú visible mientras el mouse está encima */
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
 
 .dropdown-content a {
   display: block;
@@ -1804,4 +1823,33 @@ body.dark #modal-close:hover {
   width: 250px;
   display: none;
   box-shadow: 0 0 10px #0003;
+}
+/* ================================
+   MODO OSCURO PARA PANEL DE ACCESIBILIDAD
+================================ */
+body.dark-mode #accesibilidad-panel {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+    border: 1px solid #444;
+}
+
+body.dark-mode #accesibilidad-panel h3,
+body.dark-mode #accesibilidad-panel label {
+    color: #ffffff !important;
+}
+
+body.dark-mode #accesibilidad-panel select {
+    background: #333 !important;
+    color: #fff !important;
+    border: 1px solid #555 !important;
+}
+
+body.dark-mode #accesibilidad-panel button {
+    background: #444 !important;
+    color: #fff !important;
+    border: 1px solid #666 !important;
+}
+
+body.dark-mode #accesibilidad-btn {
+    background: #000 !important;
 }
