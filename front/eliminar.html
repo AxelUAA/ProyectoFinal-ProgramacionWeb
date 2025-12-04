@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Eliminar Producto</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<h2 class="page-title">Eliminar Producto</h2>
+
+<div class="form-container">
+  <form id="formEliminar">
+    <label>ID del producto:</label>
+    <input type="number" name="id" required>
+
+    <button type="submit">Eliminar producto</button>
+    <button type="button" id="back">Regresar</button>
+  </form>
+</div>
+<script>
+  document.getElementById("btnVerCarrito").addEventListener("click", () => {
+    window.location.href = "pagar.html";
+  });
+</script>
+
+
+</body>
+
+
+<script src="js/eliminar.js"></script>
+
+
+</html>

@@ -1,0 +1,166 @@
+<!-- front/mujer.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tenis para Mujer - SNEAKERCLON5G</title>
+  <link rel="icon" type="image/jpeg" href="http://localhost:3000/public/img/logo.jpg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/mujer.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner container">
+      <div class="logo-area">
+        <img src="http://localhost:3000/public/img/logo.jpg" alt="Logo SNEAKERCLON5G">
+        <h1>SNEAKERCLON5G</h1>
+      </div>
+
+      <nav>
+        <a href="index.html">Inicio</a>
+        <div class="dropdown">
+          <button class="dropdown-btn">Categorías ▾</button>
+          <div class="dropdown-content">
+            <a href="hombre.html">Hombre</a>
+            <a href="mujer.html">Mujer</a>
+            <a href="niños.html">Niños</a>
+          </div>
+        </div>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contáctanos</a>
+        <a href="faq.html">Preguntas frecuentes</a>
+      </nav>
+
+      <div class="user-area" id="user-area"></div>
+       <button id="btnVerCarrito" class="btn-carrito">🛒</button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="container">
+    <h2 class="page-title">Tenis para Mujer</h2>
+
+    <!-- FILTRO DE PRECIOS -->
+    <div class="filtro-precios">
+      <h4>Filtrar por precio</h4>
+      <div class="filtro-inputs">
+        <div class="input-group">
+          <label for="precioMin">Mínimo: $<span id="valorMin">0</span></label>
+          <input type="range" id="precioMin" min="0" max="5000" step="100" value="0">
+        </div>
+        <div class="input-group">
+          <label for="precioMax">Máximo: $<span id="valorMax">5000</span></label>
+          <input type="range" id="precioMax" min="0" max="5000" step="100" value="5000">
+        </div>
+        <button id="btnFiltrar" class="btn-filtrar">Aplicar filtro</button>
+        <button id="btnLimpiar" class="btn-limpiar">Limpiar filtro</button>
+      </div>
+    </div>
+
+    <section>
+      <div id="contenedor" class="grid-container"></div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>Acerca de</h4>
+          <ul>
+            <li><a href="nosotros.html">Nuestra historia</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="faq.html">Ayuda</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Atención al cliente</h4>
+          <ul>
+            <li>Envíos y devoluciones</li>
+            <li>Política de privacidad</li>
+            <li>Términos y condiciones</li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <ul>
+            <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2025 SNEAKERCLON5G. Proyecto de Programación de Sistemas Web.
+      </div>
+    </div>
+  </footer>
+
+<!-- MODAL UNIVERSAL PARA PRODUCTOS -->
+<div id="modal-producto">
+  <div class="modal-content">
+    <img id="modal-img">
+    <h2 id="modal-nombre"></h2>
+    <p id="modal-precio"></p>
+    <p id="modal-stock"></p>
+    <p id="modal-desc" style="margin-top:10px; color:#555"></p>
+
+    <button id="modal-close">Cerrar</button>
+<button id="modal-cart-btn" class="btn-cart">🛒 Agregar al carrito</button>
+
+  </div>
+</div>
+
+  <!-- BOTÓN DE ACCESIBILIDAD -->
+  <div id="accesibilidad-btn">☰</div>
+
+  <!-- PANEL DE ACCESIBILIDAD -->
+  <div id="accesibilidad-panel">
+      <h3>Accesibilidad</h3>
+
+      <label>Tamaño de letra:</label>
+      <select id="acc-font-size">
+          <option value="small">Pequeña</option>
+          <option value="medium">Normal</option>
+          <option value="large">Grande</option>
+          <option value="xlarge">Extra grande</option>
+      </select>
+
+      <label>Contraste:</label>
+      <select id="acc-contrast">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+      </select>
+
+      <label>Tipo de letra:</label>
+      <select id="acc-font-family">
+          <option value="arial">Arial</option>
+          <option value="serif">Serif</option>
+          <option value="dyslexic">OpenDyslexic</option>
+      </select>
+
+      <button id="acc-save">Guardar Preferencias</button>
+  </div>
+
+
+  <!-- JS -->
+  <script src="js/auth.js"></script>
+  <script src="js/ofertas.js"></script> <!-- 🔥 ARCHIVO DE OFERTAS -->
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/modal.js"></script>
+ <script src="js/mujer.js"></script>
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+  document.getElementById("btnVerCarrito").addEventListener("click", () => {
+    window.location.href = "pagar.html";
+  });
+</script>
+
+</body>
+</html>

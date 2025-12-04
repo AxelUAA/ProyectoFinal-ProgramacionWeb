@@ -1,32 +1,44 @@
-    const express = require('express');
-    const cors = require('cors');
-    const dotenv = require('dotenv');
-    const path = require('path');
+// server.js
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const path = require('path');
 
-    //importar las rutas
+const routes = require('./routes/routes');      // productos, etc.
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const salesRoutes = require('./routes/salesRoutes');
+const salesRoutes2 = require('./routes/salesRoutes2');
+// variables de entorno
+dotenv.config();
 
-    const routes = require('./routes/routes');
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-    //cargar variables de entorno
-    dotenv.config();
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-    //crear la aplicacion de express
-    const app = express();
-    const PORT = process.env.PORT || 3000;
+//Middleware para servir archivos estáticos (front-end)
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
-    //middlewares
-    app.use(cors());
-    app.use(express.json());
+// Rutas generales de la API (productos, carrito, etc.)
+app.use('/api', routes);
 
-    /*configurar las rutas para decir que todo lo que venga del archivo 
-    de rutas tiene que comenzar con /api */
-    app.use('/api', routes);
+// Rutas de autenticación (login y registro)
+app.use('/api/auth', authRoutes);
 
-    //hacemos publica la carpeta front
-    //app.use(express.static(path.join(__dirname, '../front')));
+// Rutas de usuario (protegidas con JWT/middleware)
+app.use('/api/users', userRoutes);
 
-    //levantar el servidor
-    app.listen(PORT, ()=>{
-        console.log(`Servidor back corriendo en http://localhost:${PORT}`);
-        console.log(`El front vive en `);
-    });
+app.use('/api/graficas', salesRoutes); // Gráficas de ventas
+
+app.use("/api/sales", salesRoutes2); // Rutas de ventas: verificar stock y pagar
+
+// Servidor encendido
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🔑 Login:  POST http://localhost:${PORT}/api/auth/login`);
+  console.log(`🛡 Perfil: GET  http://localhost:${PORT}/api/users/perfil (requiere Bearer token)`);
+  console.log(`El front vive en http://localhost:5500/front/index.html`);
+});

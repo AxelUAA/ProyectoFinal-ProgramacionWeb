@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Modificar Producto</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<h2 class="page-title">Modificar Producto</h2>
+
+<div class="form-container">
+  <form id="formModificar">
+    <!-- Campo para saber CUÁL producto modificar -->
+    <label>ID del producto a modificar:</label>
+    <input type="number" name="id" placeholder="Ej: 40" required>
+
+    <!-- Campos con los NUEVOS datos -->
+    <label>Nuevo nombre:</label>
+    <input type="text" name="nombre" required>
+
+    <label>Nueva descripción:</label>
+    <textarea name="descripcion" required></textarea>
+
+    <label>Nuevo precio:</label>
+    <input type="number" name="precio" required>
+
+    <label>Nuevo stock:</label>
+    <input type="number" name="stock" required>
+
+    <label>Nueva Imagen (nombre archivo):</label>
+    <input type="text" name="imagen" required>
+
+    <label>Nueva categoría (1,2,3):</label>
+    <input type="number" name="categoria" required>
+
+    <button type="submit" class="btn-modificar">Modificar producto</button>
+    <button type="button" id="back">Regresar</button>
+  </form>
+</div>
+
+<script src="js/modificar.js"></script>
+<script>
+  document.getElementById("btnVerCarrito").addEventListener("click", () => {
+    window.location.href = "pagar.html";
+  });
+</script>
+</body>
+</html>

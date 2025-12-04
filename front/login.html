@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - SNEAKERCLON5G</title>
+  <link rel="icon" type="image/jpeg" href="http://localhost:3000/public/img/logo.jpg">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner container">
+      <div class="logo-area">
+        <img src="http://localhost:3000/public/img/logo.jpg" alt="Logo">
+        <h1>SNEAKERCLON5G</h1>
+      </div>
+
+      <nav>
+        <a href="index.html">Inicio</a>
+        <div class="dropdown">
+          <button class="dropdown-btn">Categorías ▾</button>
+          <div class="dropdown-content">
+            <a href="hombre.html">Hombre</a>
+            <a href="mujer.html">Mujer</a>
+            <a href="ninos.html">Niños</a>
+          </div>
+        </div>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contáctanos</a>
+        <a href="faq.html">Preguntas frecuentes</a>
+      </nav>
+
+      <div class="user-area" id="user-area"></div>
+    </div>
+  </header>
+
+  <!-- LOGIN -->
+  <main class="login-page">
+    <div class="login-container">
+      
+      <div class="login-header">
+        <h2>Bienvenido</h2>
+        <p>Inicia sesión para continuar</p>
+      </div>
+
+      <div class="login-error" id="loginError"></div>
+
+      <form id="loginForm" class="login-form">
+        
+        <div class="form-group">
+          <label for="correo">
+            <span class="label-icon">📧</span>
+            Correo electrónico
+          </label>
+          <input type="email" id="correo" placeholder="tucorreo@ejemplo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">
+            <span class="label-icon">🔒</span>
+            Contraseña
+          </label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <!-- CAPTCHA -->
+        <div class="captcha-container">
+          <div class="g-recaptcha" 
+               data-sitekey="6LcBohQsAAAAAMk6ZBVfQd_sOhxd-kP7bBGLBtI9"
+               name="g-recaptcha-response">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <span>Iniciar Sesión</span>
+          <span class="btn-arrow">→</span>
+        </button>
+
+        <div class="login-actions">
+          <button type="button" class="btn-link" id="btnCambiarPass">
+            Cambiar contraseña
+          </button>
+          <button type="button" class="btn-link" id="btnRegistrar">
+            Crear cuenta nueva
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+  
+  <!-- ============================
+          FOOTER
+  ============================ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-columns">
+
+      <div class="footer-col">
+        <h4>Acerca de</h4>
+        <ul>
+          <li><a href="nosotros.html">Nuestra historia</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="faq.html">Ayuda</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Atención al cliente</h4>
+        <ul>
+          <li>Envíos y devoluciones</li>
+          <li>Política de privacidad</li>
+          <li>Términos y condiciones</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Síguenos</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2025 SNEAKERCLON5G. Proyecto de Programación Web.
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts de autenticación / sesión general (si ya lo usas en tu proyecto) -->
+  <script src="js/auth.js"></script>
+
+  <!-- Nuevo script específico de la página de login -->
+  <script src="js/login.js"></script>
+
+  <!-- ACCESIBILIDAD -->
+  <div id="accesibilidad-btn">☰</div>
+
+  <div id="accesibilidad-panel">
+    <h3>Accesibilidad</h3>
+
+    <label>Tamaño de letra:</label>
+    <select id="acc-font-size">
+      <option value="small">Pequeña</option>
+      <option value="medium">Normal</option>
+      <option value="large">Grande</option>
+      <option value="xlarge">Extra grande</option>
+    </select>
+
+    <label>Contraste:</label>
+    <select id="acc-contrast">
+      <option value="light">Claro</option>
+      <option value="dark">Oscuro</option>
+    </select>
+
+    <label>Tipo de letra:</label>
+    <select id="acc-font-family">
+      <option value="arial">Arial</option>
+      <option value="serif">Serif</option>
+      <option value="dyslexic">OpenDyslexic</option>
+    </select>
+
+    <button id="acc-save">Guardar Preferencias</button>
+  </div>
+
+  <script src="js/accesibilidad.js"></script>
+  
+   <!-- captcha google -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script>
+  document.getElementById("btnVerCarrito").addEventListener("click", () => {
+    window.location.href = "pagar.html";
+  });
+</script>
+
+</body>
+</html>

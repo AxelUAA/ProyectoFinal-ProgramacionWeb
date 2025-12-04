@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contáctanos - SNEAKERCLON5G</title>
+  <link rel="icon" type="image/jpeg" href="http://localhost:3000/public/img/logo.jpg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/contacto.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-inner container">
+      <div class="logo-area">
+        <img src="http://localhost:3000/public/img/logo.jpg" alt="Logo SNEAKERCLON5G">
+        <h1>SNEAKERCLON5G</h1>
+      </div>
+
+      <nav>
+        <a href="index.html">Inicio</a>
+        <div class="dropdown">
+          <button class="dropdown-btn">Categorías ▾</button>
+          <div class="dropdown-content">
+            <a href="hombre.html">Hombre</a>
+            <a href="mujer.html">Mujer</a>
+            <a href="niños.html">Niños</a>
+          </div>
+        </div>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contáctanos</a>
+        <a href="faq.html">Preguntas frecuentes</a>
+      </nav>
+
+      <div class="user-area" id="user-area"></div>
+      <button id="btnVerCarrito" class="btn-carrito">🛒</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="contacto-hero">
+      <div class="contacto-hero-content">
+        <h1>Contáctanos</h1>
+        <p>Estamos aquí para ayudarte</p>
+      </div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <section class="contacto-section container">
+      <div class="contacto-grid">
+        
+        <!-- INFORMACIÓN DE CONTACTO -->
+        <div class="contacto-info">
+          <h2>¿Cómo podemos ayudarte?</h2>
+          <p class="contacto-desc">
+            Si tienes dudas sobre el proyecto, te gustaría reportar un problema o hacer una sugerencia,
+            estamos disponibles para atenderte.
+          </p>
+          
+          <div class="info-items">
+            <div class="info-item">
+              <div class="info-icon">📧</div>
+              <div class="info-text">
+                <h4>Email</h4>
+                <p>soporte@sneakerclon5g.com</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <div class="info-icon">📱</div>
+              <div class="info-text">
+                <h4>Redes Sociales</h4>
+                <p>@sneakerclon5g</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <div class="info-icon">⏰</div>
+              <div class="info-text">
+                <h4>Horario</h4>
+                <p>Lun - Vie: 9:00 AM - 6:00 PM</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon">🎓</div>
+              <div class="info-text">
+                <h4>Universidad</h4>
+                <p>Universidad Autónoma de Aguascalientes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORMULARIO -->
+        <div class="contacto-form-container">
+          <h3>Envíanos un mensaje</h3>
+          <form id="contactForm" class="contacto-form">
+            
+            <div class="form-group">
+              <label for="correo">
+                <span class="label-icon">✉️</span>
+                Tu correo electrónico
+              </label>
+              <input 
+                type="email" 
+                id="correo" 
+                name="correo" 
+                placeholder="tucorreo@ejemplo.com" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="comentario">
+                <span class="label-icon">💬</span>
+                Mensaje
+              </label>
+              <textarea 
+                id="comentario" 
+                name="comentario" 
+                rows="6" 
+                placeholder="Cuéntanos en qué podemos ayudarte..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <span>Enviar Mensaje</span>
+              <span class="btn-icon">→</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>Acerca de</h4>
+          <ul>
+            <li><a href="nosotros.html">Nuestra historia</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="faq.html">Ayuda</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Atención al cliente</h4>
+          <ul>
+            <li>Envíos y devoluciones</li>
+            <li>Política de privacidad</li>
+            <li>Términos y condiciones</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <ul>
+            <li><a href="https://www.instagram.com/sneakerclon5g/" target="_blank">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 SNEAKERCLON5G. Proyecto de Programación de Sistemas Web.
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOTÓN DE ACCESIBILIDAD -->
+  <div id="accesibilidad-btn">☰</div>
+
+  <!-- PANEL DE ACCESIBILIDAD -->
+  <div id="accesibilidad-panel">
+      <h3>Accesibilidad</h3>
+
+      <label>Tamaño de letra:</label>
+      <select id="acc-font-size">
+          <option value="small">Pequeña</option>
+          <option value="medium">Normal</option>
+          <option value="large">Grande</option>
+          <option value="xlarge">Extra grande</option>
+      </select>
+
+      <label>Contraste:</label>
+      <select id="acc-contrast">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+      </select>
+
+      <label>Tipo de letra:</label>
+      <select id="acc-font-family">
+          <option value="arial">Arial</option>
+          <option value="serif">Serif</option>
+          <option value="dyslexic">OpenDyslexic</option>
+      </select>
+
+      <button id="acc-save">Guardar Preferencias</button>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="js/contacto.js"></script>
+  <script>
+  document.getElementById("btnVerCarrito").addEventListener("click", () => {
+    window.location.href = "pagar.html";
+  });
+</script>
+</body>
+</html>
