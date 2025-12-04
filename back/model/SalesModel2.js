@@ -70,3 +70,13 @@ exports.getVenta = async (id) => {
     const [rows] = await pdb.query(sql, [id]);
     return rows[0];
 };
+exports.getUserByCorreo = async (correo) => {
+  const [rows] = await pdb.query(
+    "SELECT id, nombre, correo, suscrito FROM usuarios WHERE correo = ?",
+    [correo]
+  );
+  return rows[0];
+};
+exports.suscribirUsuarioPorCorreo = async (correo) => {
+  await pdb.query("UPDATE usuarios SET suscrito = 1 WHERE correo = ?", [correo]);
+};
