@@ -7,12 +7,40 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+/* Responsive font-size base para manejar zoom */
+@media (max-width: 1600px) {
+  html { font-size: 15px; }
+}
+
+@media (max-width: 1400px) {
+  html { font-size: 14px; }
+}
+
+@media (max-width: 1200px) {
+  html { font-size: 13px; }
+}
+
+@media (max-width: 992px) {
+  html { font-size: 12px; }
+}
+
+@media (max-width: 768px) {
+  html { font-size: 11px; }
+}
+
+@media (max-width: 576px) {
+  html { font-size: 10px; }
 }
 
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f9;
   color: #333;
+  min-width: 320px;
+  overflow-x: hidden;
 }
 
 /* ====== LAYOUT GENERAL ====== */
@@ -20,60 +48,221 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  width: 100%;
+}
+
+@media (max-width: 1400px) {
+  .container {
+    max-width: 1100px;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 720px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 540px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    max-width: 100%;
+    padding: 8px;
+  }
 }
 
 /* ====== HEADER ====== */
 header {
   background-color: #111;
   color: #fff;
-  padding: 8px 0;
+  padding: 0.75rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  width: 100%;
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 30px;
-  gap: 40px;
+  padding: 1rem 2rem;
+  gap: 2rem;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .logo-area {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
   flex-shrink: 0;
 }
 
 .logo-area img {
-  width: 50px;
-  height: 50px;
+  width: 3.5rem;
+  height: 3.5rem;
   object-fit: contain;
 }
 
 .logo-area h1 {
-  font-size: 22px;
-  letter-spacing: 2px;
+  font-size: 1.5rem;
+  letter-spacing: 0.15rem;
   white-space: nowrap;
+  font-weight: 700;
 }
 
 /* NAVBAR */
 nav {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
   flex-grow: 1;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 nav a {
   color: #fff;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 0.95rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 8px 12px;
+  letter-spacing: 0.08rem;
+  padding: 0.6rem 1rem;
   border-bottom: 2px solid transparent;
   transition: all 0.3s;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+nav a:hover {
+  border-bottom-color: #9333ea;
+  color: #a855f7;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 0.95rem;
+  color: #a855f7;
+  font-weight: 500;
+}
+
+/* Responsive Header Adjustments */
+@media (max-width: 1400px) {
+  .header-inner {
+    padding: 1rem 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  nav {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .header-inner {
+    padding: 0.8rem 1rem;
+    gap: 1rem;
+  }
+  
+  .logo-area h1 {
+    font-size: 1.3rem;
+  }
+  
+  nav {
+    gap: 1.2rem;
+  }
+  
+  nav a {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  
+  nav {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .logo-area h1 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-inner {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .logo-area img {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .logo-area h1 {
+    font-size: 1rem;
+  }
+  
+  nav a {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .user-name {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-inner {
+    padding: 0.5rem;
+  }
+  
+  .logo-area h1 {
+    display: none;
+  }
+  
+  nav {
+    gap: 0.5rem;
+  }
+  
+  nav a {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .user-name {
+    display: none;
+  }
 }
 
 nav a:hover {
@@ -159,6 +348,153 @@ nav a:hover {
 
 .user-name {
   font-size: 13px;
+}
+
+/* ====== RESPONSIVE HEADER ====== */
+@media (max-width: 1400px) {
+  .header-inner {
+    padding: 15px 30px;
+    gap: 30px;
+  }
+  
+  nav {
+    gap: 25px;
+  }
+  
+  nav a {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .header-inner {
+    padding: 12px 20px;
+    gap: 20px;
+  }
+  
+  .logo-area h1 {
+    font-size: 20px;
+    letter-spacing: 1.5px;
+  }
+  
+  .logo-area img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  nav {
+    gap: 15px;
+  }
+  
+  nav a {
+    font-size: 12px;
+    padding: 8px 10px;
+    letter-spacing: 0.8px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #333;
+  }
+  
+  nav a {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  
+  .user-area {
+    order: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 8px 0;
+  }
+  
+  .header-inner {
+    padding: 10px 15px;
+  }
+  
+  .logo-area {
+    gap: 10px;
+  }
+  
+  .logo-area h1 {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+  
+  .logo-area img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  nav {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 8px;
+  }
+  
+  nav a {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+  
+  .dropdown-btn {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+  
+  .user-area {
+    gap: 8px;
+  }
+  
+  .user-name {
+    font-size: 11px;
+  }
+  
+  .btn-login,
+  .btn-logout {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-area h1 {
+    display: none; /* Ocultar texto en móviles muy pequeños */
+  }
+  
+  nav {
+    gap: 5px;
+  }
+  
+  nav a {
+    font-size: 9px;
+    padding: 4px 5px;
+  }
+  
+  .dropdown-btn {
+    font-size: 9px;
+    padding: 4px 5px;
+  }
+  
+  .user-name {
+    display: none; /* Ocultar nombre en móviles */
+  }
 }
 
 /* ====== HERO BANNER ESTILO NIKE ====== */
@@ -1399,15 +1735,37 @@ body.dark #modal-close:hover {
   transform: scale(1.03);
 }
 
-.btn-carrito {
-  background: #ff9500;
-  padding: 8px 12px;
+/* CARRITO FLOTANTE */
+.btn-carrito-flotante {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
   color: white;
-  border-radius: 8px;
+  font-size: 24px;
   cursor: pointer;
-  text-decoration: none;
-  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.btn-carrito-flotante:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.btn-carrito-flotante:active {
+  transform: translateY(-1px);
+}
+
 .modal-buttons {
   display: flex;
   flex-direction: column;

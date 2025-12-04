@@ -297,25 +297,7 @@ router.post('/responderComentario', async (req, res) => {
         return res.status(500).json({ message: "Error al enviar la respuesta" });
     }
 });
-//api para verificar si el correo existe en la base de datos
-/*router.get('/verificarCorreo/:correo', (req, res) => {
-    const correo = req.params.correo;
-    const sql = 'SELECT * FROM usuarios WHERE correo = ?';
 
-    db.query(sql, [correo], (err, results) => {
-        if (err) {
-            console.error('Error al verificar el correo:', err);
-            return res.status(500).json({ message: 'Error del servidor' });
-        }
-
-        if (results.length > 0) {
-            return res.json({ exists: true });
-        } else {
-            return res.json({ exists: false });
-        }
-    });
-});
-*/
 router.get('/verificarCorreo/:correo', async (req, res) => {
     const correo = req.params.correo;
     const sql = 'SELECT * FROM usuarios WHERE correo = ?';
@@ -459,6 +441,92 @@ router.put('/actualizarPassword', (req, res) => {
         }
 
         return res.json({ message: 'Contraseña actualizada correctamente' });
+    });
+});
+
+// ============================================
+// RUTAS WISHLIST (FAVORITOS)
+// ============================================
+
+// Obtener favoritos de un usuario
+router.get('/wishlist/:userId', (req, res) => {
+    const userId = req.params.userId;
+    
+    const query = `
+        SELECT w.id, w.id_producto, w.fecha_agregado,
+               p.nombre, p.precio, p.imagen, p.descripcion, p.stock
+        FROM wishlist w
+        INNER JOIN productos p ON w.id_producto = p.id
+        WHERE w.id_usuario = ?
+        ORDER BY w.fecha_agregado DESC
+    `;
+    
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener wishlist:', err);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+        res.json(results);
+    });
+});
+
+// Agregar producto a favoritos
+router.post('/wishlist', (req, res) => {
+    const { id_usuario, id_producto } = req.body;
+    
+    if (!id_usuario || !id_producto) {
+        return res.status(400).json({ message: 'Usuario y producto son obligatorios' });
+    }
+    
+    const query = 'INSERT INTO wishlist (id_usuario, id_producto) VALUES (?, ?)';
+    
+    db.query(query, [id_usuario, id_producto], (err, result) => {
+        if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ message: 'El producto ya está en favoritos' });
+            }
+            console.error('Error al agregar a wishlist:', err);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+        res.status(201).json({ 
+            message: 'Producto agregado a favoritos',
+            id: result.insertId 
+        });
+    });
+});
+
+// Eliminar producto de favoritos
+router.delete('/wishlist/:userId/:productId', (req, res) => {
+    const { userId, productId } = req.params;
+    
+    const query = 'DELETE FROM wishlist WHERE id_usuario = ? AND id_producto = ?';
+    
+    db.query(query, [userId, productId], (err, result) => {
+        if (err) {
+            console.error('Error al eliminar de wishlist:', err);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Producto no encontrado en favoritos' });
+        }
+        
+        res.json({ message: 'Producto eliminado de favoritos' });
+    });
+});
+
+// Contar favoritos de un usuario
+router.get('/wishlist/:userId/count', (req, res) => {
+    const userId = req.params.userId;
+    
+    const query = 'SELECT COUNT(*) as total FROM wishlist WHERE id_usuario = ?';
+    
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error al contar wishlist:', err);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+        res.json({ count: results[0].total });
     });
 });
 

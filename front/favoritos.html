@@ -1,18 +1,16 @@
-<!-- front/niños.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tenis para Niños - SNEAKERCLON5G</title>
+  <title>Mis Favoritos - SNEAKERCLON5G</title>
   <link rel="icon" type="image/jpeg" href="http://localhost:3000/public/img/logo.jpg">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/niños.css">
+  <link rel="stylesheet" href="css/productos.css">
   <link rel="stylesheet" href="css/favoritos.css">
 </head>
 
 <body>
-
   <!-- HEADER -->
   <header>
     <div class="header-inner container">
@@ -23,6 +21,7 @@
 
       <nav>
         <a href="index.html">Inicio</a>
+
         <div class="dropdown">
           <button class="dropdown-btn">Categorías ▾</button>
           <div class="dropdown-content">
@@ -31,6 +30,7 @@
             <a href="niños.html">Niños</a>
           </div>
         </div>
+
         <a href="nosotros.html">Nosotros</a>
         <a href="contacto.html">Contáctanos</a>
         <a href="faq.html">Preguntas frecuentes</a>
@@ -41,37 +41,33 @@
       </nav>
 
       <div class="user-area" id="user-area"></div>
-       
+
     </div>
   </header>
+  
 
-   <!-- CARRITO FLOTANTE -->
+  <!-- CARRITO FLOTANTE -->
   <button id="btnVerCarrito" class="btn-carrito-flotante">🛒</button>
 
-  <!-- CONTENIDO -->
-  <main class="container">
-    <h2 class="page-title">Tenis para Niños</h2>
-
-    <!-- FILTRO DE PRECIOS -->
-    <div class="filtro-precios">
-      <h4>Filtrar por precio</h4>
-      <div class="filtro-inputs">
-        <div class="input-group">
-          <label for="precioMin">Mínimo: $<span id="valorMin">0</span></label>
-          <input type="range" id="precioMin" min="0" max="5000" step="100" value="0">
-        </div>
-        <div class="input-group">
-          <label for="precioMax">Máximo: $<span id="valorMax">5000</span></label>
-          <input type="range" id="precioMax" min="0" max="5000" step="100" value="5000">
-        </div>
-        <button id="btnFiltrar" class="btn-filtrar">Aplicar filtro</button>
-        <button id="btnLimpiar" class="btn-limpiar">Limpiar filtro</button>
-      </div>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="favoritos-container">
+    <h2 class="favoritos-title">Mis Favoritos</h2>
+    
+    <!-- Loading -->
+    <div id="favoritos-loading" class="favoritos-loading" style="display: none;">
+      Cargando favoritos...
     </div>
 
-    <section>
-      <div id="contenedor" class="grid-container"></div>
-    </section>
+    <!-- Mensaje vacío -->
+    <div id="favoritos-empty" class="favoritos-empty" style="display: none;">
+      <div class="favoritos-empty-icon">♡</div>
+      <h3>No tienes favoritos aún</h3>
+      <p>Explora nuestros productos y guarda tus favoritos aquí</p>
+      <a href="index.html" class="btn-explorar">Explorar productos</a>
+    </div>
+
+    <!-- Grid de productos -->
+    <div id="favoritos-grid" class="favoritos-grid" style="display: none;"></div>
   </main>
 
   <!-- FOOTER -->
@@ -86,7 +82,6 @@
             <li><a href="faq.html">Ayuda</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>Atención al cliente</h4>
           <ul>
@@ -95,7 +90,6 @@
             <li>Términos y condiciones</li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>Síguenos</h4>
           <ul>
@@ -110,27 +104,29 @@
     </div>
   </footer>
 
-  <!-- MODAL -->
+  <!-- MODAL PRODUCTO -->
   <div id="modal-producto">
     <div class="modal-content">
       <img id="modal-img">
       <h2 id="modal-nombre"></h2>
-      <p id="modal-precio" style="font-size:22px; font-weight:bold; color:#2e8b57"></p>
+      <p id="modal-precio" style="font-size:22px; font-weight:bold; color:#2e8b57;"></p>
       <p id="modal-stock"></p>
-      <p id="modal-desc"></p>
-      <button id="modal-close">Cerrar</button>
-     <button id="modal-cart-btn" class="btn-cart">🛒 Agregar al carrito</button>
+      <p id="modal-desc" style="margin-top:10px; color:#555;"></p>
 
+      <div class="modal-buttons">
+        <button id="modal-close">Cerrar</button>
+        <button id="modal-cart-btn" class="btn-cart">Agregar al carrito</button>
+        <button id="modal-favorito-btn" class="btn-add-favorito">Agregar a Favoritos</button>
+      </div>
     </div>
   </div>
-  
+
   <!-- BOTÓN DE ACCESIBILIDAD -->
   <div id="accesibilidad-btn">☰</div>
 
   <!-- PANEL DE ACCESIBILIDAD -->
   <div id="accesibilidad-panel">
       <h3>Accesibilidad</h3>
-
       <label>Tamaño de letra:</label>
       <select id="acc-font-size">
           <option value="small">Pequeña</option>
@@ -138,37 +134,39 @@
           <option value="large">Grande</option>
           <option value="xlarge">Extra grande</option>
       </select>
-
       <label>Contraste:</label>
       <select id="acc-contrast">
           <option value="light">Claro</option>
           <option value="dark">Oscuro</option>
       </select>
-
       <label>Tipo de letra:</label>
       <select id="acc-font-family">
           <option value="arial">Arial</option>
           <option value="serif">Serif</option>
           <option value="dyslexic">OpenDyslexic</option>
       </select>
-
       <button id="acc-save">Guardar Preferencias</button>
   </div>
 
   <!-- JS -->
   <script src="js/auth.js"></script>
-  <script src="js/ofertas.js"></script> <!-- 🔥 ARCHIVO DE OFERTAS -->
+  <script src="js/ofertas.js"></script>
   <script src="js/favoritos.js"></script>
-  <script src="js/accesibilidad.js"></script>
-  <script src="js/niños.js"></script>
   <script src="js/modal.js"></script>
-
+  <script src="js/accesibilidad.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <script>
-  document.getElementById("btnVerCarrito").addEventListener("click", () => {
-    window.location.href = "pagar.html";
-  });
-</script>
+    // Cargar favoritos al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarFavoritos();
+      
+      // Botón del carrito
+      document.getElementById("btnVerCarrito").addEventListener("click", () => {
+        window.location.href = "pagar.html";
+      });
+    });
+  </script>
 
 </body>
 </html>
