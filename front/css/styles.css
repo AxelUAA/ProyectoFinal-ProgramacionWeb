@@ -34,16 +34,16 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 40px;
-  gap: 50px;
-  max-width: 1400px;
+  padding: 18px 30px;
+  gap: 25px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .logo-area {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 15px;
   flex-shrink: 0;
 }
 
@@ -54,8 +54,8 @@ header {
 }
 
 .logo-area h1 {
-  font-size: 24px;
-  letter-spacing: 2.5px;
+  font-size: 22px;
+  letter-spacing: 2px;
   white-space: nowrap;
   font-weight: 700;
 }
@@ -64,21 +64,23 @@ header {
 nav {
   display: flex;
   align-items: center;
-  gap: 35px;
+  gap: 28px;
   flex-grow: 1;
   justify-content: center;
+  flex-wrap: nowrap;
 }
 
 nav a {
   color: #fff;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  padding: 10px 16px;
+  letter-spacing: 1px;
+  padding: 8px 14px;
   border-bottom: 2px solid transparent;
   transition: all 0.3s;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 nav a:hover {
