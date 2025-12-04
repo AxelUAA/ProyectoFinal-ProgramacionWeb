@@ -24,10 +24,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         const result = await response.json();
         if(response.ok){
-            alert("Producto agregado correctamente");
+        Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: "Producto agregado correctamente",
+            confrimButtonText: "Aceptar"
+        });
             form.reset();
         }else{
-            alert("Error al agregar el producto: " + result.error);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: result.message || "Error al agregar el producto",
+                confirmButtonText:"Aceptar"
+            });
         }
     }catch(err){
         console.error("Error al agregar el producto:", err);

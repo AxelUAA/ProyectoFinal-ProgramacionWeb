@@ -46,11 +46,19 @@ function programarExpiracion(segundos) {
 function guardarSesionJWT(token, expiresIn, user) {
     if (!token || !expiresIn) return;
 
+    console.log('Guardando sesión JWT:', { token: token ? 'presente' : 'ausente', expiresIn, user });
+
     const expTimestamp = Date.now() + expiresIn * 1000;
 
     localStorage.setItem('token', token);
     localStorage.setItem('token_exp', expTimestamp.toString());
 
+    if (user?.id) {
+        localStorage.setItem('currentUserId', user.id);
+        console.log('✅ ID guardado:', user.id);
+    } else {
+        console.warn('⚠️ No se encontró user.id en:', user);
+    }
     if (user?.nombre) localStorage.setItem('currentUserName', user.nombre);
     if (user?.correo) localStorage.setItem('currentUserEmail', user.correo);
     if (user?.rol)    localStorage.setItem('currentUserRol', user.rol);
@@ -62,6 +70,7 @@ function guardarSesionJWT(token, expiresIn, user) {
 function limpiarSesionStorage() {
     localStorage.removeItem('token');
     localStorage.removeItem('token_exp');
+    localStorage.removeItem('currentUserId');
     localStorage.removeItem('currentUserName');
     localStorage.removeItem('currentUserEmail');
     localStorage.removeItem('currentUserRol');

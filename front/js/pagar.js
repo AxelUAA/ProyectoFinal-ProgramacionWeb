@@ -38,10 +38,23 @@ function cargarCarrito() {
         
         carrito.forEach((item, index) => {
             const li = document.createElement("li");
+            
+            // Mostrar precio con descuento si aplica
+            let precioHTML = `<span class="producto-precio">$${item.precio}</span>`;
+            if (item.tieneDescuento && item.precioOriginal) {
+                precioHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <span style="text-decoration: line-through; color: #999; font-size: 12px;">$${item.precioOriginal}</span>
+                        <span class="producto-precio" style="color: #2e8b57;">$${item.precio}</span>
+                        <span style="background: #ff4444; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px;">-${item.descuento}% OFF</span>
+                    </div>
+                `;
+            }
+            
            li.innerHTML = `
     <div class="producto-info">
         <span class="producto-nombre">${item.nombre}</span>
-        <span class="producto-precio">$${item.precio}</span>
+        ${precioHTML}
     </div>
 
     <div class="cantidad-controls">
@@ -281,20 +294,19 @@ metodoBtns.forEach(btn => {
     });
 });
 
-
-
 // ======================================================
 // ====================== Pagar =========================
 // ======================================================
 
-btnPagar.addEventListener("click", async () => {
+btnPagar.addEventListener("click", async (e) => { 
+    e.preventDefault();
 
     if (!metodoSeleccionado) {
         return Swal.fire({ icon: "warning", title: "Selecciona un método de pago" });
     }
 
-    // Validar envío
-        const camposEnvio = ["envNombre", "envDireccion", "envCiudad", "envCP", "envTel", "envPais"];
+    // Validar datos de envío
+    const camposEnvio = ["envNombre", "envDireccion", "envCiudad", "envCP", "envTel", "envPais"];
     for (const id of camposEnvio) {
         if (document.getElementById(id).value.trim() === "") {
             return Swal.fire({
@@ -305,7 +317,7 @@ btnPagar.addEventListener("click", async () => {
         }
     }
 
-    // Validación de tarjeta
+    // Validar tarjeta si aplica
     if (metodoSeleccionado === "tarjeta") {
         const numero = document.getElementById("numeroTarjeta").value.trim();
         const cvv = document.getElementById("cvv").value.trim();
@@ -318,61 +330,90 @@ btnPagar.addEventListener("click", async () => {
     // Obtener carrito
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    // 1️⃣ Verificar stock en servidor
-    const verificar = await fetch("http://localhost:3000/api/sales/verificar-stock", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ carrito })
-    });
+    try {
+        // 1️⃣ Verificar stock
+        const verificar = await fetch("http://localhost:3000/api/sales/verificar-stock", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ carrito })
+        });
+        const respuesta = await verificar.json();
 
-    const respuesta = await verificar.json();
+        if (!respuesta.ok) {
+            return Swal.fire("Stock insuficiente", respuesta.message, "error");
+        }
 
-    if (!respuesta.ok) {
-        return Swal.fire("Stock insuficiente", respuesta.message, "error");
-    }
+        // 2️⃣ Procesar pago
+        const pagar = await fetch("http://localhost:3000/api/sales/pagar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                carrito,
+                metodo: metodoSeleccionado,
+                envio: {
+                    nombre: document.getElementById("envNombre").value,
+                    direccion: document.getElementById("envDireccion").value,
+                    ciudad: document.getElementById("envCiudad").value,
+                    cp: document.getElementById("envCP").value,
+                    tel: document.getElementById("envTel").value,
+                    pais: document.getElementById("envPais").value
+                },
+                coupon: localStorage.getItem('cuponAplicado') || null
+            })
+        });
 
-    // 2️⃣ Procesar pago
-    const pagar = await fetch("http://localhost:3000/api/sales/pagar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            carrito,
-            metodo: metodoSeleccionado,
-            envio: {
-                nombre: document.getElementById("envNombre").value,
-                direccion: document.getElementById("envDireccion").value,
-                ciudad: document.getElementById("envCiudad").value,
-                cp: document.getElementById("envCP").value,
-                tel: document.getElementById("envTel").value,
-                pais: document.getElementById("envPais").value
+        const pagoFinal = await pagar.json();
+
+        if (!pagoFinal.ok) {
+            return Swal.fire("Error", pagoFinal.message, "error");
+        }
+
+        // 3️⃣ Enviar recibo por correo (si hay token)
+        const token = localStorage.getItem('token');
+        let envioOk = null;
+
+        if (token && pagoFinal.ventaId) {
+            try {
+                const envioRecibo = await fetch("http://localhost:3000/api/sales/enviarRecibo", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ ventaId: pagoFinal.ventaId })
+                });
+
+                const dataRecibo = await envioRecibo.json();
+                envioOk = !!dataRecibo.ok;
+            } catch (error) {
+                envioOk = false;
             }
-            ,
-            coupon: localStorage.getItem('cuponAplicado') || null
-        })
-    });
+        }
 
-    const pagoFinal = await pagar.json();
+        // 4️⃣ Mostrar alert de éxito SIEMPRE
+        const mensajeExito = envioOk === true
+            ? "Compra realizada. Ticket enviado a tu correo."
+            : envioOk === false
+                ? "Compra realizada, pero no se pudo enviar el ticket por correo."
+                : "Compra realizada.";
 
-    if (!pagoFinal.ok) {
-        return Swal.fire("Error", pagoFinal.message, "error");
+        await Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: mensajeExito,
+            confirmButtonText: "Aceptar"
+        });
+
+        // 5️⃣ Limpiar carrito y redirigir después de que el usuario cierre el alert
+        localStorage.removeItem("carrito");
+        localStorage.removeItem("cuponAplicado");
+        //window.location.href = "index.html";
+
+    } catch (error) {
+        console.error(error);
+        Swal.fire("Error", "Ocurrió un error de conexión con el servidor", "error");
     }
-
-    // 3️⃣ Limpiar carrito
-    localStorage.removeItem("carrito");
-    localStorage.removeItem('cuponAplicado');
-
-    Swal.fire({
-        icon: "success",
-        title: "Compra completada",
-        text: "Gracias por tu compra!"
-    }).then(() => {
-        window.location.href = "index.html";
-    });
-
 });
-
-
-
 
 // ============================
 // INICIALIZAR

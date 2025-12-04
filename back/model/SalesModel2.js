@@ -18,10 +18,55 @@ exports.sumarVentaCategoria = async (categoria, cantidad) => {
 };
 
 exports.crearVenta = async (venta) => {
-  const [result] = await pdb.query(
-    `INSERT INTO ventas (nombre, direccion, ciudad, cp, telefono, metodo_pago, fecha)
-     VALUES (?, ?, ?, ?, ?, ?, NOW())`,
-    [venta.nombre, venta.direccion, venta.ciudad, venta.cp, venta.telefono, venta.metodo_pago]
-  );
-  return result.insertId;
+    // La consulta SQL debe coincidir exactamente con las columnas de tu imagen
+    const sql = `
+        INSERT INTO ventas 
+        (nombre, direccion, ciudad, cp, telefono, pais, metodo_pago, subtotal, descuento, impuestos, envio, total_final, fecha) 
+        VALUES 
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+    `;
+    
+    // El orden del array debe coincidir con el orden de los signos de interrogación (?) de arriba
+    const [result] = await pdb.query(sql, [
+        venta.nombre, 
+        venta.direccion, 
+        venta.ciudad, 
+        venta.cp, 
+        venta.telefono,
+        venta.pais,
+        venta.metodo_pago,
+        venta.subtotal,
+        venta.descuento,
+        venta.impuestos,
+        venta.envio,
+        venta.total_final 
+    ]);
+    
+    return result.insertId;
+};
+//funcion GETVENTA
+exports.getVenta = async (id) => {
+    // Usamos 'total_final AS total' para que en el controlador puedas usar venta.total
+    const sql = `
+        SELECT 
+            id, 
+            nombre, 
+            direccion, 
+            ciudad, 
+            cp, 
+            telefono, 
+            pais,
+            metodo_pago, 
+            subtotal, 
+            descuento, 
+            impuestos, 
+            envio, 
+            total_final AS total,  
+            fecha 
+        FROM ventas 
+        WHERE id = ?
+    `;
+    
+    const [rows] = await pdb.query(sql, [id]);
+    return rows[0];
 };
