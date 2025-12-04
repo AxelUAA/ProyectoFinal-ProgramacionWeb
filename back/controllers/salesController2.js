@@ -2,6 +2,8 @@
 const SalesModel2 = require("../model/SalesModel2");
 
 
+const SalesModel = SalesModel2;
+
 const db = require("../db/conexion");
 const pdb = db.promise(); // promesas para consultas ad-hoc
 const PDFDocument = require('pdfkit');
