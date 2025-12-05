@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
       Swal.fire({
         icon: 'success',
         title: 'Bienvenido',
-        text: 'Inicio de sesión exitoso. Tu sesión durará 1 minuto.',
+        text: 'Inicio de sesión exitoso.',
         timer: 1500,
         showConfirmButton: false
       }).then(() => {
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 🔥 Botón "Cambiar contraseña" — AHORA REDIRIGE A cambiar.html
+  // 🔥 Botón "Recuperar contraseña" — >REDIRIGE A cambiar.html
   if (btnCambiarPass) {
     btnCambiarPass.addEventListener('click', () => {
       window.location.href = "cambiar.html";
@@ -104,3 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+// Boton suscripcion
+if(btnSuscripcion){
+  btnSuscripcion.addEventListener('click', () => {
+    Swal.fire({
+                icon: "success",
+                title: "Gracias por suscribirte a SNEAKERCLON5G",
+                confirmButtonText:"Aceptar"
+            });
+  })
+  
+}
