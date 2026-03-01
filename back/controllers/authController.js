@@ -180,3 +180,4 @@ exports.login = async (req, res) => {
     });
   }
 };
+// ruta para suscribir a un usuario 

@@ -5,6 +5,9 @@ const db = require('../db/conexion');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const authMiddleware = require("../middleware/authMiddleware");
+const salesController2 = require("../controllers/salesController2");
+
 
 //ruta para obtener todos los productos
 
@@ -179,42 +182,34 @@ router.post('/registrarUsuario', async (req, res) => {
             });
 
             // ===========================
-            // 2) RUTA DEL CUPÓN
+            // 2) RUTA DEL LOGO
             // ===========================
-            const cuponPath = path.join(__dirname, "../public/img/cupon.png");
             const logoPath = path.join(__dirname, "../public/img/logo.jpg");
 
             // ===========================
             // 3) OPCIONES DEL CORREO
             // ===========================
-            const mailOptions = {
-                from: '"Sneakers Clon 5G" <alejandro.cuabe@gmail.com>',
-                to: correo,
-                subject: "¡Bienvenido a SNEAKERS CLON 5G!",
-                html: `
-                    <div style="text-align:left;">
-                    <img src="cid:logoSneakers" alt="Logo" style="width:150px; margin-bottom:20px;" />
-                    </div>
-                    <h2>Hola ${nombre} 👋</h2>
-                    <p>Gracias por registrarte en <b>Sneakers Clon 5G</b>.</p>
-                    <p>EL ORIGINAL ERES TÚ</p>
-                    <p>Aquí tienes un cupón especial de bienvenida:</p>
-                    <p><b>🎁 CUPÓN DE DESCUENTO ESPECIAL</b></p>
-                    <p>Utilízalo en tu próxima compra.</p>
-                    <p>¡Gracias por confiar en nosotros!</p>
-                `,
-                attachments: [
-                    {
-                        filename: "cupon.png",
-                        path: cuponPath,
-                    },
-                    {
-                        filename: "logo.jpg",
-                        path: logoPath,
-                        cid: "logoSneakers"
-                    }
-                ]
-            };
+        const mailOptions = {
+            from: '"Sneakers Clon 5G" <alejandro.cuabe@gmail.com>',
+            to: correo,
+            subject: "¡Bienvenido a SNEAKERCLON5G!",
+            html: `
+                <div style="text-align:left;">
+                <img src="cid:logoSneakers" alt="Logo" style="width:150px; margin-bottom:20px;" />
+                </div>
+                <h2>Hola ${nombre} 👋</h2>
+                <p>Gracias por registrarte a <b>SNEAKERCLON5G</b>.</p>
+                <p><b>EL ORIGINAL ERES TÚ</b></p>
+                <p>¡Gracias por unirte a nosotros!</p>
+            `,
+        attachments: [
+            {
+                filename: "logo.jpg",
+                path: logoPath,
+                cid: "logoSneakers"
+            }
+        ]
+    };
 
             // ===========================
             // 4) ENVIAR CORREO
@@ -236,6 +231,8 @@ router.post('/registrarUsuario', async (req, res) => {
         }
     );
 });
+//API para suscribir un usuario 
+
 
 // API para responder un comentario y enviar correo
 router.post('/responderComentario', async (req, res) => {
@@ -529,5 +526,5 @@ router.get('/wishlist/:userId/count', (req, res) => {
         res.json({ count: results[0].total });
     });
 });
-
+//api para suscripcion a la pagina
 module.exports = router;
